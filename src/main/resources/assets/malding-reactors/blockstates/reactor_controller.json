@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "malding-reactors:block/reactor_controller",
+      "y": 90
+    },"facing=north": {
+      "model": "malding-reactors:block/reactor_controller"
+    },"facing=south": {
+      "model": "malding-reactors:block/reactor_controller_on",
+      "y": 180
+    },"facing=west": {
+      "model": "malding-reactors:block/reactor_controller_on",
+      "y": 270
+    }
+  }
+}
