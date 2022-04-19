@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "MaldingReactors",
+  "id": "malding-reactors",
   "version": "${version}",
   "name": "MaldingReactors",
   "description": "Big Reactors for Fabric",
