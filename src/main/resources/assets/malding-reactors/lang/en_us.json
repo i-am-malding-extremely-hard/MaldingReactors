@@ -1,4 +1,8 @@
 {
   "block.malding-reactors.reactor_casing":"Malding Reactor Casing",
-  "block.malding-reactors.reactor_controller":"Malding Reactor Controller"
+  "block.malding-reactors.reactor_controller":"Malding Reactor Controller",
+  "block.malding-reactors.fuel_rod":"Malding Fuel Rod",
+  "block.malding-reactors.fuel_rod_full":"Malding Fuel Rod (Full)",
+  "block.malding-reactors.fuel_rod_casing":"Malding Fuel Rod Casing",
+  "item.malding-reactors.fuel":"Seething Fuel"
 }
