@@ -136,37 +136,6 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
 
     //--------------------------------------------------------------------------------------------------------------
 
-    private static final String VARIANT_KEY = "Variant";
-    private static final String TANK_AMOUNT_KEY = "Amount";
-
-    public static void writeTankInfoToNbt(NbtCompound nbtCompound, SingleVariantStorage<FluidVariant> tank, @Nullable String nbtKey){
-        if(nbtKey != null) {
-            NbtCompound tankTag = new NbtCompound();
-
-            tankTag.put(VARIANT_KEY, tank.getResource().toNbt());
-            tankTag.putLong(TANK_AMOUNT_KEY, tank.getAmount());
-
-            nbtCompound.put(nbtKey, tankTag);
-        }else{
-            nbtCompound.put(VARIANT_KEY, tank.getResource().toNbt());
-            nbtCompound.putLong(TANK_AMOUNT_KEY, tank.getAmount());
-        }
-    }
-
-    public static void readTankInfoFromNbt(NbtCompound nbtCompound, SingleVariantStorage<FluidVariant> tank, @Nullable String nbtKey){
-        if(nbtKey != null) {
-            NbtCompound tankTag = (NbtCompound) nbtCompound.get(nbtKey);
-
-            if(tankTag != null) {
-                tank.amount = tankTag.getLong(TANK_AMOUNT_KEY);
-                tank.variant = FluidVariant.fromNbt((NbtCompound) tankTag.get(VARIANT_KEY));
-            }
-        }else {
-            tank.amount = nbtCompound.getLong(TANK_AMOUNT_KEY);
-            tank.variant = FluidVariant.fromNbt((NbtCompound) nbtCompound.get(VARIANT_KEY));
-        }
-    }
-
     @Override
     public boolean isController() {
         return true;
