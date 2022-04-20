@@ -79,7 +79,7 @@ public class ReactorItemPort extends BlockWithEntity {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(Properties.FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(Properties.FACING, ctx.getPlayerLookDirection().getOpposite());
     }
 
     @Override

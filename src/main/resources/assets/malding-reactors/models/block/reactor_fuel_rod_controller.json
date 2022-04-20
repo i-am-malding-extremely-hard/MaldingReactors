@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "malding-reactors:block/fuel_rod_casing",
+	"side": "malding-reactors:block/reactor_casing"
+  }
+}

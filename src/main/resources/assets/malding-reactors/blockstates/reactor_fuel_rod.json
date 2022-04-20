@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "has_fuel=true": {
+      "model": "malding-reactors:block/reactor_fuel_rod"
+    },
+    "has_fuel=false": {
+      "model": "malding-reactors:block/reactor_fuel_rod_full"
+    }
+  }
+}

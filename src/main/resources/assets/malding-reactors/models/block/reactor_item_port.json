@@ -1,0 +1,7 @@
+{
+  "parent": "malding-reactors:block/single_face_block",
+  "textures": {
+    "main": "malding-reactors:block/reactor_port",
+    "port": "malding-reactors:block/reactor_port_2"
+  }
+}

@@ -22,8 +22,8 @@ public class ReactorItemPortBlockEntity extends ReactorComponentBlockEntity impl
     public static final String FUEL_SLOT_KEY = "FuelSlot";
     public static final String WASTE_SLOT_KEY = "WasteSlot";
 
-    public final SimpleInventory fuelSlot = new SimpleInventory(0);
-    public final SimpleInventory wasteSlot = new SimpleInventory(0);
+    public final SimpleInventory fuelSlot = new SimpleInventory(1);
+    public final SimpleInventory wasteSlot = new SimpleInventory(1);
 
     public ReactorItemPortBlockEntity(BlockPos pos, BlockState state) {
         super(AllBlockEntities.REACTOR_ITEM_PORT, pos, state);

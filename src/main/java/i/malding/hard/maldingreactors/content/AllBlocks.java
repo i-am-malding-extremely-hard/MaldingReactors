@@ -2,6 +2,8 @@ package i.malding.hard.maldingreactors.content;
 
 import i.malding.hard.maldingreactors.MaldingReactors;
 import i.malding.hard.maldingreactors.content.reactor.ReactorController;
+import i.malding.hard.maldingreactors.content.reactor.ReactorFuelRod;
+import i.malding.hard.maldingreactors.content.reactor.ReactorFuelRodController;
 import i.malding.hard.maldingreactors.content.reactor.ReactorItemPort;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.registration.reflect.BlockRegistryContainer;
@@ -27,8 +29,8 @@ public class AllBlocks implements BlockRegistryContainer {
     public static Block REACTOR_CASING = new Block(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
     public static Block REACTOR_GLASS_CASING = new GlassBlock(FabricBlockSettings.copy(Blocks.GLASS));
 
-    public static Block REACTOR_FUEL_ROD = new Block(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
-    public static Block REACTOR_FUEL_ROD_CONTROLLER = new Block(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
+    public static Block REACTOR_FUEL_ROD = new ReactorFuelRod(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
+    public static Block REACTOR_FUEL_ROD_CONTROLLER = new ReactorFuelRodController(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
 
     public static Block REACTOR_CONTROLLER = new ReactorController(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
     public static Block REACTOR_ITEM_PORT = new ReactorItemPort(FabricBlockSettings.copy(Blocks.IRON_BLOCK));

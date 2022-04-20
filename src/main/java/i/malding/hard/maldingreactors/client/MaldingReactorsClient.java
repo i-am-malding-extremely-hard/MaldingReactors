@@ -22,8 +22,11 @@ public class MaldingReactorsClient implements ClientModInitializer {
         registerScreens();
 
         FluidRenderHandlerRegistry.INSTANCE.register(AllFluids.COOLANT.still(), AllFluids.COOLANT.flowing(), new UpsideDownFluidRenderer(0x00FFFF));
-        FluidRenderHandlerRegistry.INSTANCE.register(AllFluids.YELLORIUM.still(), AllFluids.YELLORIUM.flowing(), SimpleFluidRenderHandler.coloredWater(0xFFFF00));
         FluidRenderHandlerRegistry.INSTANCE.register(AllFluids.STEAM.still(), AllFluids.STEAM.flowing(), new UpsideDownFluidRenderer(0xFFFFFF));
+
+        FluidRenderHandlerRegistry.INSTANCE.register(AllFluids.YELLORIUM.still(), AllFluids.YELLORIUM.flowing(), SimpleFluidRenderHandler.coloredWater(0xFFFF00));
+        FluidRenderHandlerRegistry.INSTANCE.register(AllFluids.CYANITE.still(), AllFluids.CYANITE.flowing(), SimpleFluidRenderHandler.coloredWater(0x273ff5));
+
 
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(),
                 AllFluids.STEAM.still(), AllFluids.STEAM.flowing());
