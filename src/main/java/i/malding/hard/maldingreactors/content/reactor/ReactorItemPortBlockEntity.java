@@ -13,6 +13,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
@@ -26,6 +27,11 @@ public class ReactorItemPortBlockEntity extends ReactorComponentBlockEntity impl
 
     public ReactorItemPortBlockEntity(BlockPos pos, BlockState state) {
         super(MaldingBlockEntities.REACTOR_ITEM_PORT, pos, state);
+    }
+
+    @Override
+    public void tick(World world, BlockPos pos, BlockState state) {
+
     }
 
     @Override

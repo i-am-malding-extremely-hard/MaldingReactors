@@ -14,6 +14,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -38,6 +39,11 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorComponentBlockEn
 
         nbt.putInt(REACTION_RATE_KEY, reactionRate);
         this.writeFuelRodPositions(nbt);
+    }
+
+    @Override
+    public void tick(World world, BlockPos pos, BlockState state) {
+
     }
 
     @Override

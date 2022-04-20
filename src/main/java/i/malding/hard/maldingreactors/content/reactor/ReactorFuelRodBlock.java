@@ -33,11 +33,13 @@ public class ReactorFuelRodBlock extends BlockWithEntity {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return ((world1, pos, state1, blockEntity) -> ((ReactorFuelRodBlockEntity) blockEntity).tick());
+        return ((world1, pos, state1, blockEntity) -> ((ReactorFuelRodBlockEntity) blockEntity).tick(world1, pos, state1));
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(HAS_FUEL);
     }
+
+
 }

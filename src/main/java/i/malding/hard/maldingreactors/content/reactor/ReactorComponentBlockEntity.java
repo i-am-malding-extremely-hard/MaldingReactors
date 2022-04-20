@@ -10,6 +10,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
@@ -31,6 +32,8 @@ public abstract class ReactorComponentBlockEntity extends BlockEntity {
     public BlockPos getControllerPos() {
         return controllerPos;
     }
+
+    public void tick(World world, BlockPos pos, BlockState state){}
 
     @Override
     public void readNbt(NbtCompound nbt) {

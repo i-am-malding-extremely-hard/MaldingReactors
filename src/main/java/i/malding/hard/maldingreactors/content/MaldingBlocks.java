@@ -1,10 +1,7 @@
 package i.malding.hard.maldingreactors.content;
 
 import i.malding.hard.maldingreactors.MaldingReactors;
-import i.malding.hard.maldingreactors.content.reactor.ReactorControllerBlock;
-import i.malding.hard.maldingreactors.content.reactor.ReactorFuelRodBlock;
-import i.malding.hard.maldingreactors.content.reactor.ReactorFuelRodControllerBlock;
-import i.malding.hard.maldingreactors.content.reactor.ReactorItemPortBlock;
+import i.malding.hard.maldingreactors.content.reactor.*;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.registration.reflect.BlockRegistryContainer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -34,6 +31,7 @@ public class MaldingBlocks implements BlockRegistryContainer {
 
     public static Block REACTOR_CONTROLLER = new ReactorControllerBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
     public static Block REACTOR_ITEM_PORT = new ReactorItemPortBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
+    public static Block REACTOR_POWER_PORT = new ReactorPowerPortBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
 
     @Tab(1)
     public static Block YELLORITE_ORE = new OreBlock(FabricBlockSettings.copy(Blocks.IRON_ORE));
