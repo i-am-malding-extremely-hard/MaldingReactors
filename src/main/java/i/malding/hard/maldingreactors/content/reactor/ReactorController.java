@@ -75,7 +75,7 @@ public class ReactorController extends Block implements BlockEntityProvider {
                 int count = stack.getCount();
                 long insertableUnits = count * FluidConstants.INGOT;
 
-                long allowedInsertable = fuelTank.
+//                long allowedInsertable = fuelTank.
 
             }
 

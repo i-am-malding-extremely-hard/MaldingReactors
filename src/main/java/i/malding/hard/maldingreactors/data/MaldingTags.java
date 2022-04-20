@@ -15,8 +15,8 @@ public class MaldingTags {
 
     //-------------------------------------------
 
-    private static TagKey<Block> createMaldingBlockTag(String nameSpace){
-        return createBlockTag(MaldingReactors.asResource(nameSpace));
+    private static TagKey<Block> createMaldingBlockTag(String path){
+        return createBlockTag(MaldingReactors.asResource(path));
     }
 
     private static TagKey<Block> createBlockTag(Identifier identifier){
@@ -26,11 +26,12 @@ public class MaldingTags {
     //-------------------------------------------
 
     public static final TagKey<Item> REACTOR_FUEL = createMaldingItemTag("Reactor Fuel");
+    public static final TagKey<Item> RESOURCES_TAB = createMaldingItemTag("Resources Tab");
 
     //-------------------------------------------
 
-    private static TagKey<Item> createMaldingItemTag(String nameSpace){
-        return createItemTag(MaldingReactors.asResource(nameSpace));
+    private static TagKey<Item> createMaldingItemTag(String path){
+        return createItemTag(MaldingReactors.asResource(path));
     }
 
     private static TagKey<Item> createItemTag(Identifier identifier){

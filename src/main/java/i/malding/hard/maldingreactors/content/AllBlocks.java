@@ -23,11 +23,13 @@ import java.lang.reflect.Field;
 
 public class AllBlocks implements BlockRegistryContainer {
 
+    @Tab(0)
     public static Block REACTOR_CASING = new Block(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
     public static Block REACTOR_GLASS_CASING = new GlassBlock(FabricBlockSettings.copy(Blocks.GLASS));
     public static Block REACTOR_CONTROLLER = new ReactorController(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
     public static Block REACTOR_ITEM_PORT = new ReactorItemPort(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
 
+    @Tab(1)
     public static Block YELLORITE_ORE = new OreBlock(FabricBlockSettings.copy(Blocks.IRON_ORE));
 
     @Override
