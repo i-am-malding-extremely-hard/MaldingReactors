@@ -1,6 +1,6 @@
 package i.malding.hard.maldingreactors.content.fluids;
 
-import i.malding.hard.maldingreactors.content.AllFluids;
+import i.malding.hard.maldingreactors.content.MaldingFluids;
 import me.alphamode.star.world.fluids.StarFluid;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
@@ -17,22 +17,22 @@ public abstract class SteamFluid extends StarFluid {
 
     @Override
     public Fluid getFlowing() {
-        return AllFluids.STEAM.flowing();
+        return MaldingFluids.STEAM.flowing();
     }
 
     @Override
     public Fluid getStill() {
-        return AllFluids.STEAM.still();
+        return MaldingFluids.STEAM.still();
     }
 
     @Override
     public Item getBucketItem() {
-        return AllFluids.STEAM.bucket();
+        return MaldingFluids.STEAM.bucket();
     }
 
     @Override
     protected BlockState toBlockState(FluidState state) {
-        return AllFluids.STEAM.block().getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
+        return MaldingFluids.STEAM.block().getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
     }
 
     public static class Flowing extends SteamFluid {

@@ -1,15 +1,12 @@
 package i.malding.hard.maldingreactors;
 
 import i.malding.hard.maldingreactors.content.*;
-import i.malding.hard.maldingreactors.content.worldgen.AllFeatures;
+import i.malding.hard.maldingreactors.content.worldgen.MaldingFeatures;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.network.OwoNetChannel;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-
-import static i.malding.hard.maldingreactors.content.reactor.ReactorController.MultiBlockUpdatePacket;
 
 public class MaldingReactors implements ModInitializer {
 
@@ -21,11 +18,11 @@ public class MaldingReactors implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        FieldRegistrationHandler.register(AllBlocks.class, MaldingReactors.REACTORS_ID, false);
-        FieldRegistrationHandler.register(AllBlockEntities.class, MaldingReactors.REACTORS_ID, false);
-        FieldRegistrationHandler.register(AllItems.class, MaldingReactors.REACTORS_ID, false);
-        FieldRegistrationHandler.processSimple(AllFluids.class, false);
-        FieldRegistrationHandler.processSimple(AllFeatures.class, false);
+        FieldRegistrationHandler.register(MaldingBlocks.class, MaldingReactors.REACTORS_ID, false);
+        FieldRegistrationHandler.register(MaldingBlockEntities.class, MaldingReactors.REACTORS_ID, false);
+        FieldRegistrationHandler.register(MaldingItems.class, MaldingReactors.REACTORS_ID, false);
+        FieldRegistrationHandler.processSimple(MaldingFluids.class, false);
+        FieldRegistrationHandler.processSimple(MaldingFeatures.class, false);
         REACTORS_TAB.initialize();
 
         registerNetworkPackets();

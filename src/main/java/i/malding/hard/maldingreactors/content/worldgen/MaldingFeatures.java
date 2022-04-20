@@ -1,7 +1,7 @@
 package i.malding.hard.maldingreactors.content.worldgen;
 
 import i.malding.hard.maldingreactors.MaldingReactors;
-import i.malding.hard.maldingreactors.content.AllBlocks;
+import i.malding.hard.maldingreactors.content.MaldingBlocks;
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.gen.YOffset;
@@ -13,9 +13,9 @@ import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class AllFeatures implements SimpleFieldProcessingSubject<OreEntry> {
+public class MaldingFeatures implements SimpleFieldProcessingSubject<OreEntry> {
     public static OreEntry YELLORITE_ORE = new OreEntry(
-            new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, AllBlocks.YELLORITE_ORE.getDefaultState(), 3)),
+            new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, MaldingBlocks.YELLORITE_ORE.getDefaultState(), 3)),
             configuredFeature ->
                     new PlacedFeature(RegistryEntry.of(configuredFeature),
                             List.of(CountPlacementModifier.of(3), // number of veins per chunk

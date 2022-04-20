@@ -1,7 +1,7 @@
 package i.malding.hard.maldingreactors.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import i.malding.hard.maldingreactors.client.AllTextures;
+import i.malding.hard.maldingreactors.client.MaldingTextures;
 import i.malding.hard.maldingreactors.content.handlers.ReactorItemPortScreenHandler;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
@@ -18,7 +18,7 @@ public class ReactorItemPortScreen extends HandledScreen<ReactorItemPortScreenHa
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, AllTextures.REACTOR_BACKGROUND);
+        RenderSystem.setShaderTexture(0, MaldingTextures.REACTOR_BACKGROUND);
         drawTexture(matrices, this.x, this.y, 0, 0, backgroundWidth, backgroundHeight);
     }
 }

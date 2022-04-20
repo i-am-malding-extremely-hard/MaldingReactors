@@ -1,12 +1,11 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
-import i.malding.hard.maldingreactors.content.AllFluids;
-import i.malding.hard.maldingreactors.content.AllItems;
+import i.malding.hard.maldingreactors.content.MaldingFluids;
+import i.malding.hard.maldingreactors.content.MaldingItems;
 import i.malding.hard.maldingreactors.data.MaldingTags;
 import me.alphamode.star.transfer.FluidTank;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -14,8 +13,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -33,10 +30,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ReactorItemPort extends BlockWithEntity {
+public class ReactorItemPortBlock extends BlockWithEntity {
     public static final DirectionProperty FACING = Properties.FACING;
 
-    public ReactorItemPort(Settings settings) {
+    public ReactorItemPortBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(Properties.FACING, Direction.NORTH));
     }
@@ -112,15 +109,15 @@ public class ReactorItemPort extends BlockWithEntity {
                 long amountOfDropletsFromStack = stackCount * FluidConstants.INGOT;
 
                 try (Transaction t = Transaction.openOuter()) {
-                    long amountAllowedInsertable = wasteTank.simulateInsert(FluidVariant.of(AllFluids.YELLORIUM.still()), amountOfDropletsFromStack, t);
+                    long amountAllowedInsertable = wasteTank.simulateInsert(FluidVariant.of(MaldingFluids.YELLORIUM.still()), amountOfDropletsFromStack, t);
 
                     if (amountAllowedInsertable > 0) {
-                        long actuallyInsertable = fuelTank.simulateInsert(FluidVariant.of(AllFluids.YELLORIUM.still()), amountAllowedInsertable, t);
+                        long actuallyInsertable = fuelTank.simulateInsert(FluidVariant.of(MaldingFluids.YELLORIUM.still()), amountAllowedInsertable, t);
 
                         int amountUsed = MathHelper.floor(actuallyInsertable / (float) FluidConstants.INGOT);
 
                         if (actuallyInsertable > 0 && amountUsed > 0) {
-                            fuelTank.insert(FluidVariant.of(AllFluids.YELLORIUM.still()), amountUsed * FluidConstants.INGOT, t);
+                            fuelTank.insert(FluidVariant.of(MaldingFluids.YELLORIUM.still()), amountUsed * FluidConstants.INGOT, t);
 
                             stack.decrement(amountUsed);
                             player.setStackInHand(hand, stack);
@@ -146,14 +143,14 @@ public class ReactorItemPort extends BlockWithEntity {
             FluidTank wasteTank = controller.getWasteTank();
 
             try (Transaction t = Transaction.openOuter()) {
-                long amountOfWasteExtractable = wasteTank.simulateExtract(FluidVariant.of(AllFluids.CYANITE.still()), wasteTank.getCapacity(), t);
+                long amountOfWasteExtractable = wasteTank.simulateExtract(FluidVariant.of(MaldingFluids.CYANITE.still()), wasteTank.getCapacity(), t);
 
                 int cyaniteCount = MathHelper.floor(amountOfWasteExtractable / (float) FluidConstants.INGOT);
 
-                long amountOfWasteExtracted = wasteTank.extract(FluidVariant.of(AllFluids.CYANITE.still()), cyaniteCount * FluidConstants.INGOT, t);
+                long amountOfWasteExtracted = wasteTank.extract(FluidVariant.of(MaldingFluids.CYANITE.still()), cyaniteCount * FluidConstants.INGOT, t);
 
                 if (amountOfWasteExtracted != 0 && cyaniteCount != 0) {
-                    ItemStack stack = AllItems.CYANITE_INGOT.getDefaultStack();
+                    ItemStack stack = MaldingItems.CYANITE_INGOT.getDefaultStack();
 
                     stack.setCount(cyaniteCount);
 

@@ -6,7 +6,7 @@ import net.minecraft.screen.ScreenHandler;
 
 public class ReactorScreenHandler extends ScreenHandler {
     public ReactorScreenHandler(int syncId, PlayerInventory inv) {
-        super(AllScreenHandlerTypes.REACTOR_CONTROLLER, syncId);
+        super(MaldingScreenHandlers.REACTOR_CONTROLLER, syncId);
     }
 
     @Override

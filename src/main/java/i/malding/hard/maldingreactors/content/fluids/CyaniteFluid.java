@@ -1,6 +1,6 @@
 package i.malding.hard.maldingreactors.content.fluids;
 
-import i.malding.hard.maldingreactors.content.AllFluids;
+import i.malding.hard.maldingreactors.content.MaldingFluids;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
@@ -11,22 +11,22 @@ import net.minecraft.state.property.Properties;
 public abstract class CyaniteFluid extends MaldingFluid {
     @Override
     public Fluid getFlowing() {
-        return AllFluids.CYANITE.flowing();
+        return MaldingFluids.CYANITE.flowing();
     }
 
     @Override
     public Fluid getStill() {
-        return AllFluids.CYANITE.still();
+        return MaldingFluids.CYANITE.still();
     }
 
     @Override
     public Item getBucketItem() {
-        return AllFluids.CYANITE.bucket();
+        return MaldingFluids.CYANITE.bucket();
     }
 
     @Override
     protected BlockState toBlockState(FluidState state) {
-        return AllFluids.CYANITE.block().getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
+        return MaldingFluids.CYANITE.block().getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
     }
 
     public static class Flowing extends CyaniteFluid {

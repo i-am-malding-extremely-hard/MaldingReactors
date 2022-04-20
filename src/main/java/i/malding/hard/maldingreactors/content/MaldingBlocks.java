@@ -1,10 +1,10 @@
 package i.malding.hard.maldingreactors.content;
 
 import i.malding.hard.maldingreactors.MaldingReactors;
-import i.malding.hard.maldingreactors.content.reactor.ReactorController;
-import i.malding.hard.maldingreactors.content.reactor.ReactorFuelRod;
-import i.malding.hard.maldingreactors.content.reactor.ReactorFuelRodController;
-import i.malding.hard.maldingreactors.content.reactor.ReactorItemPort;
+import i.malding.hard.maldingreactors.content.reactor.ReactorControllerBlock;
+import i.malding.hard.maldingreactors.content.reactor.ReactorFuelRodBlock;
+import i.malding.hard.maldingreactors.content.reactor.ReactorFuelRodControllerBlock;
+import i.malding.hard.maldingreactors.content.reactor.ReactorItemPortBlock;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.registration.reflect.BlockRegistryContainer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -23,17 +23,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 
-public class AllBlocks implements BlockRegistryContainer {
+public class MaldingBlocks implements BlockRegistryContainer {
 
     @Tab(0)
     public static Block REACTOR_CASING = new Block(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
     public static Block REACTOR_GLASS_CASING = new GlassBlock(FabricBlockSettings.copy(Blocks.GLASS));
 
-    public static Block REACTOR_FUEL_ROD = new ReactorFuelRod(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
-    public static Block REACTOR_FUEL_ROD_CONTROLLER = new ReactorFuelRodController(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
+    public static Block REACTOR_FUEL_ROD = new ReactorFuelRodBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
+    public static Block REACTOR_FUEL_ROD_CONTROLLER = new ReactorFuelRodControllerBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
 
-    public static Block REACTOR_CONTROLLER = new ReactorController(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
-    public static Block REACTOR_ITEM_PORT = new ReactorItemPort(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
+    public static Block REACTOR_CONTROLLER = new ReactorControllerBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
+    public static Block REACTOR_ITEM_PORT = new ReactorItemPortBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
 
     @Tab(1)
     public static Block YELLORITE_ORE = new OreBlock(FabricBlockSettings.copy(Blocks.IRON_ORE));

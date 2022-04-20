@@ -23,7 +23,7 @@ public class ReactorItemPortScreenHandler extends ScreenHandler {
     }
 
     public ReactorItemPortScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context, SimpleInventory fuelSlot, SimpleInventory wasteSlot) {
-        super(AllScreenHandlerTypes.REACTOR_ITEM_PORT, syncId);
+        super(MaldingScreenHandlers.REACTOR_ITEM_PORT, syncId);
 
         this.context = context;
 

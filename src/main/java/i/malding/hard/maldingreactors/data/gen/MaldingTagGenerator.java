@@ -1,7 +1,5 @@
 package i.malding.hard.maldingreactors.data.gen;
 
-import i.malding.hard.maldingreactors.content.AllBlocks;
-import i.malding.hard.maldingreactors.content.AllItems;
 import i.malding.hard.maldingreactors.data.MaldingTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -11,8 +9,8 @@ import net.minecraft.item.Item;
 import net.minecraft.tag.TagKey;
 import org.jetbrains.annotations.Nullable;
 
-import static i.malding.hard.maldingreactors.content.AllItems.*;
-import static i.malding.hard.maldingreactors.content.AllBlocks.*;
+import static i.malding.hard.maldingreactors.content.MaldingItems.*;
+import static i.malding.hard.maldingreactors.content.MaldingBlocks.*;
 
 public class MaldingTagGenerator {
 

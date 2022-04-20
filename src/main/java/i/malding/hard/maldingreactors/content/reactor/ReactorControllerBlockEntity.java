@@ -1,20 +1,15 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
-import i.malding.hard.maldingreactors.content.AllFluids;
 import i.malding.hard.maldingreactors.content.handlers.ReactorScreenHandler;
-import i.malding.hard.maldingreactors.content.AllBlockEntities;
+import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import i.malding.hard.maldingreactors.multiblock.ReactorMultiblock;
 import io.wispforest.owo.ops.WorldOps;
 import me.alphamode.star.transfer.FluidTank;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -22,12 +17,10 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.util.math.MathHelper;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
@@ -48,7 +41,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
     private boolean isMultiBlock = false;
 
     public ReactorControllerBlockEntity(BlockPos pos, BlockState state) {
-        super(AllBlockEntities.REACTOR_CONTROLLER, pos, state);
+        super(MaldingBlockEntities.REACTOR_CONTROLLER, pos, state);
     }
 
     public void tick() {

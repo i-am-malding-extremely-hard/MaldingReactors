@@ -1,6 +1,6 @@
 package i.malding.hard.maldingreactors.content.fluids;
 
-import i.malding.hard.maldingreactors.content.AllFluids;
+import i.malding.hard.maldingreactors.content.MaldingFluids;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
@@ -11,22 +11,22 @@ import net.minecraft.state.property.Properties;
 public abstract class YelloriumFluid extends MaldingFluid {
     @Override
     public Fluid getFlowing() {
-        return AllFluids.YELLORIUM.flowing();
+        return MaldingFluids.YELLORIUM.flowing();
     }
 
     @Override
     public Fluid getStill() {
-        return AllFluids.YELLORIUM.still();
+        return MaldingFluids.YELLORIUM.still();
     }
 
     @Override
     public Item getBucketItem() {
-        return AllFluids.YELLORIUM.bucket();
+        return MaldingFluids.YELLORIUM.bucket();
     }
 
     @Override
     protected BlockState toBlockState(FluidState state) {
-        return AllFluids.YELLORIUM.block().getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
+        return MaldingFluids.YELLORIUM.block().getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
     }
 
     public static class Flowing extends YelloriumFluid {

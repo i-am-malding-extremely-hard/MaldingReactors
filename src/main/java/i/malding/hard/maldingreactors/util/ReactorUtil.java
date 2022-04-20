@@ -1,8 +1,7 @@
 package i.malding.hard.maldingreactors.util;
 
 import com.google.common.collect.Lists;
-import i.malding.hard.maldingreactors.content.AllBlocks;
-import i.malding.hard.maldingreactors.content.reactor.ReactorController;
+import i.malding.hard.maldingreactors.content.MaldingBlocks;
 import i.malding.hard.maldingreactors.content.reactor.ReactorControllerBlockEntity;
 import i.malding.hard.maldingreactors.data.MaldingTags;
 import net.minecraft.block.BlockState;
@@ -95,7 +94,7 @@ public class ReactorUtil {
     }
 
     public static boolean isCasing(BlockState state) {
-        return state.isOf(AllBlocks.REACTOR_CASING) || state.isOf(Blocks.REDSTONE_BLOCK);
+        return state.isOf(MaldingBlocks.REACTOR_CASING) || state.isOf(Blocks.REDSTONE_BLOCK);
     }
 
     public static boolean isReactorBlock(BlockState state) {

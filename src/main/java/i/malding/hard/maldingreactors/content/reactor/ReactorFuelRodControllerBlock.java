@@ -7,9 +7,9 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
-public class ReactorFuelRodController extends BlockWithEntity {
+public class ReactorFuelRodControllerBlock extends BlockWithEntity {
 
-    public ReactorFuelRodController(Settings settings) {
+    public ReactorFuelRodControllerBlock(Settings settings) {
         super(settings);
     }
 

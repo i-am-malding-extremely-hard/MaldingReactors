@@ -1,7 +1,7 @@
 package i.malding.hard.maldingreactors.content;
 
 import i.malding.hard.maldingreactors.MaldingReactors;
-import i.malding.hard.maldingreactors.content.fluids.Coolant;
+import i.malding.hard.maldingreactors.content.fluids.CoolantFluid;
 import i.malding.hard.maldingreactors.content.fluids.CyaniteFluid;
 import i.malding.hard.maldingreactors.content.fluids.SteamFluid;
 import i.malding.hard.maldingreactors.content.fluids.YelloriumFluid;
@@ -10,13 +10,13 @@ import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 
 import java.lang.reflect.Field;
 
-public class AllFluids implements SimpleFieldProcessingSubject<FluidInfo> {
+public class MaldingFluids implements SimpleFieldProcessingSubject<FluidInfo> {
 
     public static final FluidInfo YELLORIUM = new FluidInfo(new YelloriumFluid.Still(), new YelloriumFluid.Flowing());
     public static final FluidInfo CYANITE = new FluidInfo(new CyaniteFluid.Still(), new CyaniteFluid.Flowing());
 
     public static final FluidInfo STEAM = new FluidInfo(new SteamFluid.Still(), new SteamFluid.Flowing());
-    public static final FluidInfo COOLANT = new FluidInfo(new Coolant.Still(), new Coolant.Flowing());
+    public static final FluidInfo COOLANT = new FluidInfo(new CoolantFluid.Still(), new CoolantFluid.Flowing());
 
     @Override
     public Class<FluidInfo> getTargetFieldType() {

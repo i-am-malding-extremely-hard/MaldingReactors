@@ -1,22 +1,14 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
-import i.malding.hard.maldingreactors.content.AllFluids;
-import i.malding.hard.maldingreactors.data.MaldingTags;
 import i.malding.hard.maldingreactors.util.ReactorUtil;
 import io.wispforest.owo.network.ClientAccess;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
@@ -26,13 +18,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("UnstableApiUsage")
-public class ReactorController extends Block implements BlockEntityProvider {
-    public ReactorController(Settings settings) {
+public class ReactorControllerBlock extends BlockWithEntity {
+    public ReactorControllerBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(Properties.FACING, Direction.NORTH));
     }
@@ -64,6 +55,11 @@ public class ReactorController extends Block implements BlockEntityProvider {
     }
 
     @Override
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
+    }
+
+    @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ReactorControllerBlockEntity controllerBlock = ((ReactorControllerBlockEntity) world.getBlockEntity(pos));
 
@@ -76,11 +72,16 @@ public class ReactorController extends Block implements BlockEntityProvider {
 
         ReactorControllerBlockEntity controllerBlockEntity = (ReactorControllerBlockEntity) world.getBlockEntity(pos);
 
+        final var factory = state.createScreenHandlerFactory(world, pos);
+        if (factory != null && player instanceof ServerPlayerEntity serverPlayer) {
+            serverPlayer.openHandledScreen(factory);
+        }
+
         if (controllerBlockEntity != null && controllerBlockEntity.isMultiBlockStructure()) {
             if (player.shouldCancelInteraction()) {
-                return ReactorItemPort.extractWasteAmount(world, pos, player);
+                return ReactorItemPortBlock.extractWasteAmount(world, pos, player);
             } else {
-                return ReactorItemPort.insertFuelAmount(world, pos, player, hand);
+                return ReactorItemPortBlock.insertFuelAmount(world, pos, player, hand);
             }
         }
 

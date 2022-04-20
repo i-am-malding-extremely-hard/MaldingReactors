@@ -1,12 +1,11 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
 import i.malding.hard.maldingreactors.content.handlers.ReactorItemPortScreenHandler;
-import i.malding.hard.maldingreactors.content.AllBlockEntities;
+import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -26,7 +25,7 @@ public class ReactorItemPortBlockEntity extends ReactorComponentBlockEntity impl
     public final SimpleInventory wasteSlot = new SimpleInventory(1);
 
     public ReactorItemPortBlockEntity(BlockPos pos, BlockState state) {
-        super(AllBlockEntities.REACTOR_ITEM_PORT, pos, state);
+        super(MaldingBlockEntities.REACTOR_ITEM_PORT, pos, state);
     }
 
     @Override

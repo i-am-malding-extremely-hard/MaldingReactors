@@ -6,17 +6,15 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ReactorFuelRod extends BlockWithEntity {
+public class ReactorFuelRodBlock extends BlockWithEntity {
 
     public static BooleanProperty HAS_FUEL = BooleanProperty.of("has_fuel");
 
-    public ReactorFuelRod(Settings settings) {
+    public ReactorFuelRodBlock(Settings settings) {
         super(settings);
 
         this.setDefaultState(this.getDefaultState().with(HAS_FUEL, false));
