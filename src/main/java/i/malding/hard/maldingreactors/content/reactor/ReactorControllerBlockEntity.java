@@ -34,7 +34,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
     private final FluidTank wasteTank = new FluidTank(FluidConstants.BUCKET * 8);
 
     private EnergyStorage energyStorage = new SimpleEnergyStorage(4000 * 50, 0, Long.MAX_VALUE);
-    private int coreHeat, castingHeat;
+    private int coreHeat, casingHeat;
 
     private static final String MULTIBLOCK_CHECK_KEY = "IsMultiBlock";
 
@@ -103,8 +103,8 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
     }
 
     @Override
-    public int getCastingHeat() {
-        return castingHeat;
+    public int getCasingHeat() {
+        return casingHeat;
     }
 
     public void setMultiBlockCheck(boolean result) {

@@ -12,5 +12,5 @@ public interface ReactorMultiblock extends ReactorPart {
 
     int getCoreHeat();
 
-    int getCastingHeat();
+    int getCasingHeat();
 }
