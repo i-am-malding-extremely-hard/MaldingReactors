@@ -39,7 +39,7 @@ public class ReactorItemPortBlockEntity extends ReactorComponentBlockEntity impl
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
-       super.writeNbt(nbt);
+        super.writeNbt(nbt);
 
         fuelSlot.setStack(0, ItemStack.fromNbt((NbtCompound) nbt.get(FUEL_SLOT_KEY)));
         wasteSlot.setStack(0, ItemStack.fromNbt((NbtCompound) nbt.get(WASTE_SLOT_KEY)));

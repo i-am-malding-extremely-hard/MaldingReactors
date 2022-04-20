@@ -17,11 +17,11 @@ public class ReactorFuelRodControllerScreenHandler extends ScreenHandler {
 
     private final ScreenHandlerContext context;
 
-    public ReactorFuelRodControllerScreenHandler(int syncId, PlayerInventory inventory){
+    public ReactorFuelRodControllerScreenHandler(int syncId, PlayerInventory inventory) {
         this(syncId, ScreenHandlerContext.EMPTY);
     }
 
-    public ReactorFuelRodControllerScreenHandler(int syncId, ScreenHandlerContext context){
+    public ReactorFuelRodControllerScreenHandler(int syncId, ScreenHandlerContext context) {
         super(AllScreenHandlerTypes.REACTOR_ROD_CONTROLLER, syncId);
 
         this.context = context;

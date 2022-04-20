@@ -19,8 +19,8 @@ public class AllFeatures implements SimpleFieldProcessingSubject<OreEntry> {
             configuredFeature ->
                     new PlacedFeature(RegistryEntry.of(configuredFeature),
                             List.of(CountPlacementModifier.of(3), // number of veins per chunk
-                            SquarePlacementModifier.of(), // spreading horizontally
-                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(32))))
+                                    SquarePlacementModifier.of(), // spreading horizontally
+                                    HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(32))))
     );
 
     @Override

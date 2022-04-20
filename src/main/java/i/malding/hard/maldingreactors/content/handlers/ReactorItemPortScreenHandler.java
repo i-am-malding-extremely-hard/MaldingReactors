@@ -18,11 +18,11 @@ public class ReactorItemPortScreenHandler extends ScreenHandler {
 
     private final ScreenHandlerContext context;
 
-    public ReactorItemPortScreenHandler(int syncId, PlayerInventory playerInventory){
+    public ReactorItemPortScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(syncId, playerInventory, ScreenHandlerContext.EMPTY, new SimpleInventory(1), new SimpleInventory(1));
     }
 
-    public ReactorItemPortScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context, SimpleInventory fuelSlot, SimpleInventory wasteSlot){
+    public ReactorItemPortScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context, SimpleInventory fuelSlot, SimpleInventory wasteSlot) {
         super(AllScreenHandlerTypes.REACTOR_ITEM_PORT, syncId);
 
         this.context = context;
@@ -30,7 +30,7 @@ public class ReactorItemPortScreenHandler extends ScreenHandler {
         this.fuelSlot = fuelSlot;
         this.wasteSlot = wasteSlot;
 
-        this.addSlot(new ValidatingSlot(this.fuelSlot, 0, 0,0,
+        this.addSlot(new ValidatingSlot(this.fuelSlot, 0, 0, 0,
                 stack -> stack.isIn(MaldingTags.REACTOR_FUEL)));
 
         this.addSlot(new Slot(this.fuelSlot, 0, 0, 0));
@@ -49,10 +49,10 @@ public class ReactorItemPortScreenHandler extends ScreenHandler {
         this.context.run((world, blockPos) -> {
             ReactorItemPortBlockEntity itemPort = (ReactorItemPortBlockEntity) world.getBlockEntity(blockPos);
 
-            if(itemPort != null) {
+            if (itemPort != null) {
                 itemPort.fuelSlot.setStack(0, this.fuelSlot.getStack(0));
                 itemPort.wasteSlot.setStack(0, this.wasteSlot.getStack(0));
-            }else{
+            } else {
                 this.dropInventory(player, this.fuelSlot);
                 this.dropInventory(player, this.wasteSlot);
             }

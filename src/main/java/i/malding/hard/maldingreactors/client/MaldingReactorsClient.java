@@ -32,7 +32,7 @@ public class MaldingReactorsClient implements ClientModInitializer {
                 AllFluids.STEAM.still(), AllFluids.STEAM.flowing());
     }
 
-    public void registerScreens(){
+    public void registerScreens() {
         HandledScreens.register(AllScreenHandlerTypes.REACTOR_CONTROLLER, ReactorScreen::new);
         HandledScreens.register(AllScreenHandlerTypes.REACTOR_ITEM_PORT, ReactorItemPortScreen::new);
         HandledScreens.register(AllScreenHandlerTypes.REACTOR_ROD_CONTROLLER, ReactorFuelRodControllerScreen::new);

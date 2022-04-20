@@ -60,21 +60,21 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorComponentBlockEn
         return new ReactorFuelRodControllerScreenHandler(syncId, ScreenHandlerContext.create(this.world, this.pos));
     }
 
-    public void writeFuelRodPositions(NbtCompound nbt){
+    public void writeFuelRodPositions(NbtCompound nbt) {
         NbtList list = new NbtList();
 
-        for(BlockPos pos : adjourningFuelRods){
+        for (BlockPos pos : adjourningFuelRods) {
             list.add(NbtHelper.fromBlockPos(pos));
         }
 
         nbt.put(ADJOURNING_FUEL_RODS_KEY, list);
     }
 
-    public void readFuelRodPositions(NbtCompound nbt){
+    public void readFuelRodPositions(NbtCompound nbt) {
         NbtList list = nbt.getList(ADJOURNING_FUEL_RODS_KEY, NbtList.COMPOUND_TYPE);
         Set<BlockPos> adjoiningFuelRods = new HashSet<>();
 
-        for(NbtElement compound : list){
+        for (NbtElement compound : list) {
             adjoiningFuelRods.add(NbtHelper.toBlockPos((NbtCompound) compound));
         }
 

@@ -24,7 +24,7 @@ public class ReactorUtil {
         BlockPos.Mutable pos = new BlockPos.Mutable(controllerPos.getX(), controllerPos.getY(), controllerPos.getZ());
         for (int i = 0; i < MAX_REACTOR_SIZE; i++) {
             pos.setY(pos.getY() - 1);
-            if(isCasing(world.getBlockState(pos))) {
+            if (isCasing(world.getBlockState(pos))) {
                 facing = facing.rotateYClockwise();
                 Pair<BlockPos, BlockPos> ends = getRow(world, pos, facing);
 
@@ -34,27 +34,27 @@ public class ReactorUtil {
                     current.add(findRowEnd(world, current.get(j), facing));
                     world.setBlockState(current.get(j), Blocks.REDSTONE_BLOCK.getDefaultState());
                 }
-                if(ends.getLeft().equals(current.get(current.size() - 1)))
-                for (int height = 0; height < MAX_REACTOR_SIZE; height++) {
-                    if(!(isCasing(world.getBlockState(current.get(0).offset(Direction.UP, height)))
-                            && isCasing(world.getBlockState(current.get(1).offset(Direction.UP, height)))
-                            && isCasing(world.getBlockState(current.get(2).offset(Direction.UP, height)))
-                            && isCasing(world.getBlockState(current.get(3).offset(Direction.UP, height))))) {
-                        world.setBlockState(current.get(0).offset(Direction.UP, height - 1), Blocks.REDSTONE_BLOCK.getDefaultState());
-                        world.setBlockState(current.get(1).offset(Direction.UP, height - 1), Blocks.REDSTONE_BLOCK.getDefaultState());
-                        world.setBlockState(current.get(2).offset(Direction.UP, height - 1), Blocks.REDSTONE_BLOCK.getDefaultState());
-                        world.setBlockState(current.get(3).offset(Direction.UP, height - 1), Blocks.REDSTONE_BLOCK.getDefaultState());
-                        for (int j = 0; j < 4; j++) {
-                            facing = facing.rotateYClockwise();
-                            current.add(findRowEnd(world, current.get(j), facing));
-                            world.setBlockState(current.get(j), Blocks.REDSTONE_BLOCK.getDefaultState());
+                if (ends.getLeft().equals(current.get(current.size() - 1)))
+                    for (int height = 0; height < MAX_REACTOR_SIZE; height++) {
+                        if (!(isCasing(world.getBlockState(current.get(0).offset(Direction.UP, height)))
+                                && isCasing(world.getBlockState(current.get(1).offset(Direction.UP, height)))
+                                && isCasing(world.getBlockState(current.get(2).offset(Direction.UP, height)))
+                                && isCasing(world.getBlockState(current.get(3).offset(Direction.UP, height))))) {
+                            world.setBlockState(current.get(0).offset(Direction.UP, height - 1), Blocks.REDSTONE_BLOCK.getDefaultState());
+                            world.setBlockState(current.get(1).offset(Direction.UP, height - 1), Blocks.REDSTONE_BLOCK.getDefaultState());
+                            world.setBlockState(current.get(2).offset(Direction.UP, height - 1), Blocks.REDSTONE_BLOCK.getDefaultState());
+                            world.setBlockState(current.get(3).offset(Direction.UP, height - 1), Blocks.REDSTONE_BLOCK.getDefaultState());
+                            for (int j = 0; j < 4; j++) {
+                                facing = facing.rotateYClockwise();
+                                current.add(findRowEnd(world, current.get(j), facing));
+                                world.setBlockState(current.get(j), Blocks.REDSTONE_BLOCK.getDefaultState());
+                            }
+                            ((ReactorControllerBlockEntity) world.getBlockEntity(controllerPos)).setMultiBlockCheck(true);
+
+                            return true;
                         }
-                        ((ReactorControllerBlockEntity)world.getBlockEntity(controllerPos)).setMultiBlockCheck(true);
 
-                        return true;
                     }
-
-                }
                 break;
             }
         }
@@ -65,7 +65,7 @@ public class ReactorUtil {
         BlockPos pos = new BlockPos.Mutable(startPos.getX(), startPos.getY(), startPos.getZ());
         for (int i = 0; i < MAX_REACTOR_SIZE; i++) {
             pos = pos.offset(direction, 1);
-            if(!isCasing(world.getBlockState(pos))) {
+            if (!isCasing(world.getBlockState(pos))) {
                 return pos.offset(direction.getOpposite(), 1);
             }
         }
@@ -78,7 +78,7 @@ public class ReactorUtil {
         BlockPos pos = new BlockPos.Mutable(startPos.getX(), startPos.getY(), startPos.getZ());
         for (int i = 0; i < MAX_REACTOR_SIZE; i++) {
             pos = pos.offset(direction, 1);
-            if(!isCasing(world.getBlockState(pos))) {
+            if (!isCasing(world.getBlockState(pos))) {
                 start = pos.offset(direction, -1);
                 end = start;
                 break;
@@ -86,7 +86,7 @@ public class ReactorUtil {
         }
         for (int i = 0; i < MAX_REACTOR_SIZE; i++) {
             end = end.offset(direction.getOpposite(), 1);
-            if(!isCasing(world.getBlockState(end))) {
+            if (!isCasing(world.getBlockState(end))) {
                 end = end.offset(direction.getOpposite(), -1);
                 break;
             }
@@ -98,7 +98,7 @@ public class ReactorUtil {
         return state.isOf(AllBlocks.REACTOR_CASING) || state.isOf(Blocks.REDSTONE_BLOCK);
     }
 
-    public static boolean isReactorBlock(BlockState state){
+    public static boolean isReactorBlock(BlockState state) {
         return state.isIn(MaldingTags.BASE_REACTOR_BLOCKS);
     }
 }

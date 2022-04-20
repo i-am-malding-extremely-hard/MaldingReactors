@@ -55,7 +55,7 @@ public class AllBlocks implements BlockRegistryContainer {
 
         if (field.isAnnotationPresent(Tab.class)) {
             tab = field.getAnnotation(Tab.class).value();
-        } else{
+        } else {
             tab = cachedTab;
         }
 

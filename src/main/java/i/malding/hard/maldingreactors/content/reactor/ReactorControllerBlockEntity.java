@@ -24,6 +24,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.util.math.MathHelper;
@@ -94,7 +95,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
         return fuelTank;
     }
 
-    public FluidTank getWasteTank(){
+    public FluidTank getWasteTank() {
         return wasteTank;
     }
 
@@ -113,11 +114,11 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
         return castingHeat;
     }
 
-    public void setMultiBlockCheck(boolean result){
+    public void setMultiBlockCheck(boolean result) {
         this.isMultiBlock = result;
     }
 
-    public boolean isMultiBlockStructure(){
+    public boolean isMultiBlockStructure() {
         return this.isMultiBlock;
     }
 

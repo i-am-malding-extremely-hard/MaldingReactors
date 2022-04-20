@@ -56,12 +56,12 @@ public class ReactorItemPort extends BlockWithEntity {
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ReactorItemPortBlockEntity portBlockEntity = (ReactorItemPortBlockEntity) world.getBlockEntity(pos);
 
-        if(portBlockEntity != null && portBlockEntity.isFullMultipartStructure()) {
+        if (portBlockEntity != null && portBlockEntity.isFullMultipartStructure()) {
             BlockPos controllerPos = portBlockEntity.getControllerPos();
 
-            if(player.shouldCancelInteraction()) {
+            if (player.shouldCancelInteraction()) {
                 return extractWasteAmount(world, controllerPos, player);
-            }else {
+            } else {
                 return insertFuelAmount(world, portBlockEntity.getControllerPos(), player, hand);
             }
         }
@@ -97,10 +97,10 @@ public class ReactorItemPort extends BlockWithEntity {
         builder.add(FACING);
     }
 
-    public static ActionResult insertFuelAmount(World world, BlockPos controllerPos, PlayerEntity player, Hand hand){
+    public static ActionResult insertFuelAmount(World world, BlockPos controllerPos, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getStackInHand(hand);
 
-        if(stack.isIn(MaldingTags.REACTOR_FUEL)) {
+        if (stack.isIn(MaldingTags.REACTOR_FUEL)) {
             if (!world.isClient) {
                 ReactorControllerBlockEntity controller = (ReactorControllerBlockEntity) world.getBlockEntity(controllerPos);
 
@@ -139,7 +139,7 @@ public class ReactorItemPort extends BlockWithEntity {
         return ActionResult.PASS;
     }
 
-    public static ActionResult extractWasteAmount(World world, BlockPos controllerPos, PlayerEntity player){
+    public static ActionResult extractWasteAmount(World world, BlockPos controllerPos, PlayerEntity player) {
         ReactorControllerBlockEntity controller = (ReactorControllerBlockEntity) world.getBlockEntity(controllerPos);
 
         if (!world.isClient) {

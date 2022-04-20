@@ -39,7 +39,7 @@ public abstract class ReactorComponentBlockEntity extends BlockEntity {
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
-        if(isFullMultipartStructure()) {
+        if (isFullMultipartStructure()) {
             nbt.put(CONTROLLER_POS_KEY, NbtHelper.fromBlockPos(this.getControllerPos()));
         }
     }
@@ -63,7 +63,7 @@ public abstract class ReactorComponentBlockEntity extends BlockEntity {
         super.markDirty();
     }
 
-    public boolean isFullMultipartStructure(){
+    public boolean isFullMultipartStructure() {
         return this.getControllerPos() != null;
     }
 }

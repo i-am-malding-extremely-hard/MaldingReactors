@@ -15,11 +15,11 @@ public class MaldingTags {
 
     //-------------------------------------------
 
-    private static TagKey<Block> createMaldingBlockTag(String path){
+    private static TagKey<Block> createMaldingBlockTag(String path) {
         return createBlockTag(MaldingReactors.asResource(path));
     }
 
-    private static TagKey<Block> createBlockTag(Identifier identifier){
+    private static TagKey<Block> createBlockTag(Identifier identifier) {
         return TagKey.of(Registry.BLOCK_KEY, identifier);
     }
 
@@ -29,11 +29,11 @@ public class MaldingTags {
 
     //-------------------------------------------
 
-    private static TagKey<Item> createMaldingItemTag(String path){
+    private static TagKey<Item> createMaldingItemTag(String path) {
         return createItemTag(MaldingReactors.asResource(path));
     }
 
-    private static TagKey<Item> createItemTag(Identifier identifier){
+    private static TagKey<Item> createItemTag(Identifier identifier) {
         return TagKey.of(Registry.ITEM_KEY, identifier);
     }
 }

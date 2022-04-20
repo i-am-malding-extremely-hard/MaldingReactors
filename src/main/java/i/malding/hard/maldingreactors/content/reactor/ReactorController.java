@@ -65,9 +65,9 @@ public class ReactorController extends Block implements BlockEntityProvider {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        ReactorControllerBlockEntity controllerBlock = ((ReactorControllerBlockEntity)world.getBlockEntity(pos));
+        ReactorControllerBlockEntity controllerBlock = ((ReactorControllerBlockEntity) world.getBlockEntity(pos));
 
-        if(!world.isClient && hand == Hand.MAIN_HAND && !controllerBlock.isMultiBlockStructure()) {
+        if (!world.isClient && hand == Hand.MAIN_HAND && !controllerBlock.isMultiBlockStructure()) {
             boolean isMultipart = ReactorUtil.checkReactorStructure(state, pos, world);
 
             controllerBlock.setMultiBlockCheck(true);
@@ -76,10 +76,10 @@ public class ReactorController extends Block implements BlockEntityProvider {
 
         ReactorControllerBlockEntity controllerBlockEntity = (ReactorControllerBlockEntity) world.getBlockEntity(pos);
 
-        if(controllerBlockEntity != null && controllerBlockEntity.isMultiBlockStructure()) {
-            if(player.shouldCancelInteraction()) {
+        if (controllerBlockEntity != null && controllerBlockEntity.isMultiBlockStructure()) {
+            if (player.shouldCancelInteraction()) {
                 return ReactorItemPort.extractWasteAmount(world, pos, player);
-            }else {
+            } else {
                 return ReactorItemPort.insertFuelAmount(world, pos, player, hand);
             }
         }
@@ -92,12 +92,12 @@ public class ReactorController extends Block implements BlockEntityProvider {
         return ((world1, pos, state1, blockEntity) -> ((ReactorControllerBlockEntity) blockEntity).tick());
     }
 
-    public record MultiBlockUpdatePacket(BlockPos pos, boolean isMultiPart){
+    public record MultiBlockUpdatePacket(BlockPos pos, boolean isMultiPart) {
 
-        public static void setContollersMultipartState(MultiBlockUpdatePacket packet, ClientAccess access){
+        public static void setContollersMultipartState(MultiBlockUpdatePacket packet, ClientAccess access) {
             ReactorControllerBlockEntity controllerBlockEntity = (ReactorControllerBlockEntity) access.runtime().world.getBlockEntity(packet.pos());
 
-            if(controllerBlockEntity != null){
+            if (controllerBlockEntity != null) {
                 controllerBlockEntity.setMultiBlockCheck(packet.isMultiPart());
             }
         }

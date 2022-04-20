@@ -35,7 +35,7 @@ public class MaldingReactors implements ModInitializer {
         return new Identifier(REACTORS_ID, path.toLowerCase().replace(' ', '_'));
     }
 
-    public static void registerNetworkPackets(){
+    public static void registerNetworkPackets() {
         //MAIN.registerClientbound(MultiBlockUpdatePacket.class, MultiBlockUpdatePacket::setContollersMultipartState);
     }
 }
