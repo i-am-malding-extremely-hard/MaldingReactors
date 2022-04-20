@@ -1,5 +1,6 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
+import i.malding.hard.maldingreactors.data.MaldingTags;
 import i.malding.hard.maldingreactors.util.ReactorUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
@@ -9,6 +10,7 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
@@ -26,7 +28,6 @@ public class ReactorController extends Block implements BlockEntityProvider {
         super(settings);
         setDefaultState(getDefaultState().with(Properties.FACING, Direction.NORTH));
     }
-
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
@@ -58,6 +59,15 @@ public class ReactorController extends Block implements BlockEntityProvider {
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(!world.isClient && hand == Hand.MAIN_HAND)
             ReactorUtil.checkReactorStructure(state, pos, world);
+
+        ItemStack stack = player.getStackInHand(hand);
+
+        if(player.getStackInHand(hand).isIn(MaldingTags.REACTOR_FUEL)){
+            int count = stack.getCount();
+
+
+        }
+
         return super.onUse(state, world, pos, player, hand, hit);
     }
 

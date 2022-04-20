@@ -2,6 +2,7 @@ package i.malding.hard.maldingreactors.content;
 
 import i.malding.hard.maldingreactors.MaldingReactors;
 import i.malding.hard.maldingreactors.content.reactor.ReactorController;
+import i.malding.hard.maldingreactors.content.reactor.ReactorItemPort;
 import io.wispforest.owo.registration.reflect.BlockRegistryContainer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -15,6 +16,7 @@ public class AllBlocks implements BlockRegistryContainer {
     public static Block REACTOR_CASING = new Block(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
     public static Block REACTOR_GLASS_CASING = new GlassBlock(FabricBlockSettings.copy(Blocks.GLASS));
     public static Block REACTOR_CONTROLLER = new ReactorController(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
+    public static Block REACTOR_ITEM_PORT = new ReactorItemPort(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
 
     public static Block YELLORITE_ORE = new OreBlock(FabricBlockSettings.copy(Blocks.IRON_ORE));
 
