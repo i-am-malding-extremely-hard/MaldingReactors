@@ -6,5 +6,6 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
 
 public class AllItems implements ItemRegistryContainer {
-    public static final Item YELLORIUM = new Item(new OwoItemSettings().tab(1));
+    public static final Item YELLORIUM_INGOT = new Item(new OwoItemSettings().tab(1));
+    public static final Item CYANITE_INGOT = new Item(new OwoItemSettings().tab(1));
 }

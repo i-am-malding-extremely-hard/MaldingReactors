@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "malding-reactors:reactor_controller",
+    "malding-reactors:reactor_item_port",
+    "malding-reactors:reactor_casing",
+    "malding-reactors:reactor_glass_casing"
+  ]
+}

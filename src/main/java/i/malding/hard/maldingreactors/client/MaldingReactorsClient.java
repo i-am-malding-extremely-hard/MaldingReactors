@@ -1,5 +1,6 @@
 package i.malding.hard.maldingreactors.client;
 
+import i.malding.hard.maldingreactors.client.screen.ReactorFuelRodControllerScreen;
 import i.malding.hard.maldingreactors.client.screen.ReactorItemPortScreen;
 import i.malding.hard.maldingreactors.client.screen.ReactorScreen;
 import i.malding.hard.maldingreactors.content.AllFluids;
@@ -31,5 +32,6 @@ public class MaldingReactorsClient implements ClientModInitializer {
     public void registerScreens(){
         HandledScreens.register(AllScreenHandlerTypes.REACTOR_CONTROLLER, ReactorScreen::new);
         HandledScreens.register(AllScreenHandlerTypes.REACTOR_ITEM_PORT, ReactorItemPortScreen::new);
+        HandledScreens.register(AllScreenHandlerTypes.REACTOR_ROD_CONTROLLER, ReactorFuelRodControllerScreen::new);
     }
 }

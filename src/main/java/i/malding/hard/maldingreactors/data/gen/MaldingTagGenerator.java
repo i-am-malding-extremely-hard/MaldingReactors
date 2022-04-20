@@ -1,5 +1,6 @@
 package i.malding.hard.maldingreactors.data.gen;
 
+import i.malding.hard.maldingreactors.content.AllBlocks;
 import i.malding.hard.maldingreactors.content.AllItems;
 import i.malding.hard.maldingreactors.data.MaldingTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -10,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.tag.TagKey;
 import org.jetbrains.annotations.Nullable;
 
+import static i.malding.hard.maldingreactors.content.AllItems.*;
 import static i.malding.hard.maldingreactors.content.AllBlocks.*;
 
 public class MaldingTagGenerator {
@@ -23,9 +25,7 @@ public class MaldingTagGenerator {
         @Override
         protected void generateTags() {
             tag(MaldingTags.REACTOR_FUEL)
-                    .add(AllItems.YELLORIUM);
-            tag(MaldingTags.RESOURCES_TAB)
-                    .add(YELLORITE_ORE.asItem());
+                    .add(YELLORIUM_INGOT);
         }
 
         // Yarn is bad

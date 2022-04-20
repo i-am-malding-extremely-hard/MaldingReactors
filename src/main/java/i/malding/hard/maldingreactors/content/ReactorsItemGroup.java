@@ -13,7 +13,7 @@ public class ReactorsItemGroup extends OwoItemGroup {
     @Override
     protected void setup() {
         addTab(Icon.of(AllBlocks.YELLORITE_ORE), "reactors", null);
-        addTab(Icon.of(AllItems.YELLORIUM), "resources", null);
+        addTab(Icon.of(AllItems.YELLORIUM_INGOT), "resources", null);
     }
 
     @Override

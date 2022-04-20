@@ -10,6 +10,7 @@ public class AllScreenHandlerTypes implements AutoRegistryContainer<ScreenHandle
 
     public static final ScreenHandlerType<ReactorScreenHandler> REACTOR_CONTROLLER = new ScreenHandlerType<>(ReactorScreenHandler::new);
     public static final ScreenHandlerType<ReactorItemPortScreenHandler> REACTOR_ITEM_PORT = new ScreenHandlerType<>(ReactorItemPortScreenHandler::new);
+    public static final ScreenHandlerType<ReactorFuelRodControllerScreenHandler> REACTOR_ROD_CONTROLLER = new ScreenHandlerType<>(ReactorFuelRodControllerScreenHandler::new);
 
     @Override
     public Registry<ScreenHandlerType<?>> getRegistry() {

@@ -1,10 +1,13 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
+import i.malding.hard.maldingreactors.content.AllFluids;
 import i.malding.hard.maldingreactors.data.MaldingTags;
 import i.malding.hard.maldingreactors.util.ReactorUtil;
+import io.wispforest.owo.network.ClientAccess;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -23,9 +26,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("UnstableApiUsage")
 public class ReactorController extends Block implements BlockEntityProvider {
     public ReactorController(Settings settings) {
         super(settings);
@@ -60,25 +65,23 @@ public class ReactorController extends Block implements BlockEntityProvider {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(!world.isClient && hand == Hand.MAIN_HAND)
-            ReactorUtil.checkReactorStructure(state, pos, world);
+        ReactorControllerBlockEntity controllerBlock = ((ReactorControllerBlockEntity)world.getBlockEntity(pos));
 
-        ItemStack stack = player.getStackInHand(hand);
+        if(!world.isClient && hand == Hand.MAIN_HAND && !controllerBlock.isMultiBlockStructure()) {
+            boolean isMultipart = ReactorUtil.checkReactorStructure(state, pos, world);
 
+            controllerBlock.setMultiBlockCheck(true);
+            controllerBlock.markDirty();
+        }
 
-        if(player.getStackInHand(hand).isIn(MaldingTags.REACTOR_FUEL)){
-            ReactorControllerBlockEntity controllerBlockEntity = (ReactorControllerBlockEntity) world.getBlockEntity(pos);
+        ReactorControllerBlockEntity controllerBlockEntity = (ReactorControllerBlockEntity) world.getBlockEntity(pos);
 
-            if(controllerBlockEntity != null && controllerBlockEntity.isMultiBlockStructure()) {
-                SingleVariantStorage<FluidVariant> fuelTank = controllerBlockEntity.getFuel();
-
-                int count = stack.getCount();
-                long insertableUnits = count * FluidConstants.INGOT;
-
-//                long allowedInsertable = fuelTank.
-
+        if(controllerBlockEntity != null && controllerBlockEntity.isMultiBlockStructure()) {
+            if(player.shouldCancelInteraction()) {
+                return ReactorItemPort.extractWasteAmount(world, pos, player);
+            }else {
+                return ReactorItemPort.insertFuelAmount(world, pos, player, hand);
             }
-
         }
 
         return super.onUse(state, world, pos, player, hand, hit);
@@ -87,5 +90,16 @@ public class ReactorController extends Block implements BlockEntityProvider {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return ((world1, pos, state1, blockEntity) -> ((ReactorControllerBlockEntity) blockEntity).tick());
+    }
+
+    public record MultiBlockUpdatePacket(BlockPos pos, boolean isMultiPart){
+
+        public static void setContollersMultipartState(MultiBlockUpdatePacket packet, ClientAccess access){
+            ReactorControllerBlockEntity controllerBlockEntity = (ReactorControllerBlockEntity) access.runtime().world.getBlockEntity(packet.pos());
+
+            if(controllerBlockEntity != null){
+                controllerBlockEntity.setMultiBlockCheck(packet.isMultiPart());
+            }
+        }
     }
 }

@@ -18,6 +18,9 @@
     ],
     "main": [
       "i.malding.hard.maldingreactors.MaldingReactors"
+    ],
+    "fabric-datagen": [
+        "i.malding.hard.maldingreactors.data.gen.MaldingDataGenerator"
     ]
   },
   "mixins": [

@@ -50,8 +50,8 @@ public class ReactorItemPortScreenHandler extends ScreenHandler {
             ReactorItemPortBlockEntity itemPort = (ReactorItemPortBlockEntity) world.getBlockEntity(blockPos);
 
             if(itemPort != null) {
-                itemPort.fuelSlot = this.fuelSlot;
-                itemPort.wasteSlot = this.wasteSlot;
+                itemPort.fuelSlot.setStack(0, this.fuelSlot.getStack(0));
+                itemPort.wasteSlot.setStack(0, this.wasteSlot.getStack(0));
             }else{
                 this.dropInventory(player, this.fuelSlot);
                 this.dropInventory(player, this.wasteSlot);

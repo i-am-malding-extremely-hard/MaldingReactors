@@ -26,7 +26,6 @@ public class MaldingTags {
     //-------------------------------------------
 
     public static final TagKey<Item> REACTOR_FUEL = createMaldingItemTag("Reactor Fuel");
-    public static final TagKey<Item> RESOURCES_TAB = createMaldingItemTag("Resources Tab");
 
     //-------------------------------------------
 

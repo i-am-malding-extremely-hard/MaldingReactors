@@ -6,7 +6,7 @@ import team.reborn.energy.api.EnergyStorage;
 
 @SuppressWarnings("UnstableApiUsage")
 public interface ReactorMultiblock {
-    SingleVariantStorage<FluidVariant> getFuel();
+    SingleVariantStorage<FluidVariant> getFuelTank();
 
     EnergyStorage getEnergyStorage();
 

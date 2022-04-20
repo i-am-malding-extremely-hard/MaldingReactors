@@ -40,7 +40,8 @@ public class ReactorUtil {
                             && isCasing(world.getBlockState(current.get(1).offset(Direction.UP, height)))
                             && isCasing(world.getBlockState(current.get(2).offset(Direction.UP, height)))
                             && isCasing(world.getBlockState(current.get(3).offset(Direction.UP, height))))) {
-                        ((ReactorControllerBlockEntity)world.getBlockEntity(controllerPos)).setMultiBlockCheck(true);
+
+                        return true;
                     }
 
                 }
