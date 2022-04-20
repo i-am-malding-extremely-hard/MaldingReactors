@@ -3,6 +3,7 @@ package i.malding.hard.maldingreactors.client;
 import i.malding.hard.maldingreactors.client.screen.ReactorFuelRodControllerScreen;
 import i.malding.hard.maldingreactors.client.screen.ReactorItemPortScreen;
 import i.malding.hard.maldingreactors.client.screen.ReactorScreen;
+import i.malding.hard.maldingreactors.content.MaldingBlocks;
 import i.malding.hard.maldingreactors.content.MaldingFluids;
 import i.malding.hard.maldingreactors.content.handlers.MaldingScreenHandlers;
 import me.alphamode.star.client.renderers.UpsideDownFluidRenderer;
@@ -30,6 +31,8 @@ public class MaldingReactorsClient implements ClientModInitializer {
 
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(),
                 MaldingFluids.STEAM.still(), MaldingFluids.STEAM.flowing());
+
+        BlockRenderLayerMap.INSTANCE.putBlock(MaldingBlocks.REACTOR_GLASS, RenderLayer.getTranslucent());
     }
 
     public void registerScreens() {

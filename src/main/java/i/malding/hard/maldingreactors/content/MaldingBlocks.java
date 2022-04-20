@@ -27,7 +27,7 @@ public class MaldingBlocks implements BlockRegistryContainer {
 
     @Tab(0)
     public static Block REACTOR_CASING = new Block(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
-    public static Block REACTOR_GLASS_CASING = new GlassBlock(FabricBlockSettings.copy(Blocks.GLASS));
+    public static Block REACTOR_GLASS = new GlassBlock(FabricBlockSettings.copy(Blocks.GLASS));
 
     public static Block REACTOR_FUEL_ROD = new ReactorFuelRodBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
     public static Block REACTOR_FUEL_ROD_CONTROLLER = new ReactorFuelRodControllerBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));

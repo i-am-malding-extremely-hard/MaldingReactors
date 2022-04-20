@@ -44,7 +44,7 @@ public class MaldingTagGenerator {
                     .add(REACTOR_CONTROLLER,
                             REACTOR_ITEM_PORT,
                             REACTOR_CASING,
-                            REACTOR_GLASS_CASING);
+                            REACTOR_GLASS);
         }
 
         // Yarn is bad

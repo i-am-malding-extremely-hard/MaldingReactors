@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "malding-reactors:block/reactor_glass"
+  }
+}
