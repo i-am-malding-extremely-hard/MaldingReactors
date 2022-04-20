@@ -2,6 +2,9 @@ package i.malding.hard.maldingreactors.content.reactor;
 
 import i.malding.hard.maldingreactors.data.MaldingTags;
 import i.malding.hard.maldingreactors.util.ReactorUtil;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -62,9 +65,19 @@ public class ReactorController extends Block implements BlockEntityProvider {
 
         ItemStack stack = player.getStackInHand(hand);
 
-        if(player.getStackInHand(hand).isIn(MaldingTags.REACTOR_FUEL)){
-            int count = stack.getCount();
 
+        if(player.getStackInHand(hand).isIn(MaldingTags.REACTOR_FUEL)){
+            ReactorControllerBlockEntity controllerBlockEntity = (ReactorControllerBlockEntity) world.getBlockEntity(pos);
+
+            if(controllerBlockEntity != null && controllerBlockEntity.isMultiBlockStructure()) {
+                SingleVariantStorage<FluidVariant> fuelTank = controllerBlockEntity.getFuel();
+
+                int count = stack.getCount();
+                long insertableUnits = count * FluidConstants.INGOT;
+
+                long allowedInsertable = fuelTank.
+
+            }
 
         }
 

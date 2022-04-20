@@ -2,6 +2,8 @@ package i.malding.hard.maldingreactors.util;
 
 import com.google.common.collect.Lists;
 import i.malding.hard.maldingreactors.content.AllBlocks;
+import i.malding.hard.maldingreactors.content.reactor.ReactorController;
+import i.malding.hard.maldingreactors.content.reactor.ReactorControllerBlockEntity;
 import i.malding.hard.maldingreactors.data.MaldingTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -38,7 +40,7 @@ public class ReactorUtil {
                             && isCasing(world.getBlockState(current.get(1).offset(Direction.UP, height)))
                             && isCasing(world.getBlockState(current.get(2).offset(Direction.UP, height)))
                             && isCasing(world.getBlockState(current.get(3).offset(Direction.UP, height))))) {
-
+                        ((ReactorControllerBlockEntity)world.getBlockEntity(controllerPos)).setMultiBlockCheck(true);
                     }
 
                 }
