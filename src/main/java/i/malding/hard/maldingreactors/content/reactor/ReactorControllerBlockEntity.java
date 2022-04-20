@@ -136,4 +136,14 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
             tank.variant = FluidVariant.fromNbt((NbtCompound) nbtCompound.get(VARIANT_KEY));
         }
     }
+
+    @Override
+    public boolean isController() {
+        return true;
+    }
+
+    @Override
+    public BlockPos getControllerPos() {
+        return pos;
+    }
 }
