@@ -40,6 +40,16 @@ public class ReactorUtil {
                             && isCasing(world.getBlockState(current.get(1).offset(Direction.UP, height)))
                             && isCasing(world.getBlockState(current.get(2).offset(Direction.UP, height)))
                             && isCasing(world.getBlockState(current.get(3).offset(Direction.UP, height))))) {
+                        world.setBlockState(current.get(0).offset(Direction.UP, height - 1), Blocks.REDSTONE_BLOCK.getDefaultState());
+                        world.setBlockState(current.get(1).offset(Direction.UP, height - 1), Blocks.REDSTONE_BLOCK.getDefaultState());
+                        world.setBlockState(current.get(2).offset(Direction.UP, height - 1), Blocks.REDSTONE_BLOCK.getDefaultState());
+                        world.setBlockState(current.get(3).offset(Direction.UP, height - 1), Blocks.REDSTONE_BLOCK.getDefaultState());
+                        for (int j = 0; j < 4; j++) {
+                            facing = facing.rotateYClockwise();
+                            current.add(findRowEnd(world, current.get(j), facing));
+                            world.setBlockState(current.get(j), Blocks.REDSTONE_BLOCK.getDefaultState());
+                        }
+                        ((ReactorControllerBlockEntity)world.getBlockEntity(controllerPos)).setMultiBlockCheck(true);
 
                         return true;
                     }
