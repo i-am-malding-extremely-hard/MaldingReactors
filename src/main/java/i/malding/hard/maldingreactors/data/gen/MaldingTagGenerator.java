@@ -9,8 +9,8 @@ import net.minecraft.item.Item;
 import net.minecraft.tag.TagKey;
 import org.jetbrains.annotations.Nullable;
 
-import static i.malding.hard.maldingreactors.content.MaldingItems.*;
 import static i.malding.hard.maldingreactors.content.MaldingBlocks.*;
+import static i.malding.hard.maldingreactors.content.MaldingItems.COPIUM_INGOT;
 
 public class MaldingTagGenerator {
 

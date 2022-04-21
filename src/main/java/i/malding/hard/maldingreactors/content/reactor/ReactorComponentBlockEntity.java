@@ -33,7 +33,7 @@ public abstract class ReactorComponentBlockEntity extends BlockEntity {
         return controllerPos;
     }
 
-    public void tick(World world, BlockPos pos, BlockState state){}
+    public void tick(World world, BlockPos pos, BlockState state) {}
 
     @Override
     public void readNbt(NbtCompound nbt) {

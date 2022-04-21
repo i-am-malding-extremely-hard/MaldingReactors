@@ -60,6 +60,6 @@ public class ReactorPowerPortBlock extends BlockWithEntity {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (world1, pos, state1, blockEntity) -> ((ReactorPowerPortBlockEntity)blockEntity).tick(world1, pos, state1);
+        return (world1, pos, state1, blockEntity) -> ((ReactorPowerPortBlockEntity) blockEntity).tick(world1, pos, state1);
     }
 }

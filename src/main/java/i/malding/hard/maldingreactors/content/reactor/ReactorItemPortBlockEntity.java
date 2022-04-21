@@ -1,7 +1,7 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
-import i.malding.hard.maldingreactors.content.handlers.ReactorItemPortScreenHandler;
 import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
+import i.malding.hard.maldingreactors.content.handlers.ReactorItemPortScreenHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

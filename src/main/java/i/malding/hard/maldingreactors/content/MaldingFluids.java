@@ -2,9 +2,9 @@ package i.malding.hard.maldingreactors.content;
 
 import i.malding.hard.maldingreactors.MaldingReactors;
 import i.malding.hard.maldingreactors.content.fluids.CoolantFluid;
+import i.malding.hard.maldingreactors.content.fluids.CopiumFluid;
 import i.malding.hard.maldingreactors.content.fluids.MaldingCopiumFluid;
 import i.malding.hard.maldingreactors.content.fluids.SteamFluid;
-import i.malding.hard.maldingreactors.content.fluids.CopiumFluid;
 import i.malding.hard.maldingreactors.util.FluidInfo;
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 

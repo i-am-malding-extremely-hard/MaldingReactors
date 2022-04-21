@@ -2,7 +2,10 @@ package i.malding.hard.maldingreactors.content.reactor;
 
 import i.malding.hard.maldingreactors.util.ReactorUtil;
 import io.wispforest.owo.network.ClientAccess;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
