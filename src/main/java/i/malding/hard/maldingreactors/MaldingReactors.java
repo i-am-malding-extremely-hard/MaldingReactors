@@ -13,11 +13,10 @@ import java.util.Locale;
 
 public class MaldingReactors implements ModInitializer {
 
-    public static final OwoItemGroup GROUP = new ReactorsItemGroup();
-
     public static final String REACTORS_ID = "malding-reactors";
 
-    public static final OwoNetChannel MAIN = OwoNetChannel.create(asResource("main"));
+    public static final OwoItemGroup GROUP = new ReactorsItemGroup();
+    public static final OwoNetChannel CHANNEL = OwoNetChannel.create(asResource("main"));
 
     @Override
     public void onInitialize() {
@@ -37,6 +36,6 @@ public class MaldingReactors implements ModInitializer {
     }
 
     public static void registerNetworkPackets() {
-        //MAIN.registerClientbound(MultiBlockUpdatePacket.class, MultiBlockUpdatePacket::setContollersMultipartState);
+        //MAIN.registerClientbound(MultiBlockUpdatePacket.class, MultiBlockUpdatePacket::setControllersMultipartState);
     }
 }

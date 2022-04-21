@@ -32,6 +32,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("UnstableApiUsage")
 public class ReactorItemPortBlock extends BlockWithEntity {
     public static final DirectionProperty FACING = Properties.FACING;
 
@@ -54,7 +55,7 @@ public class ReactorItemPortBlock extends BlockWithEntity {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (world1, pos, state1, blockEntity) -> ((ReactorItemPortBlockEntity)blockEntity).tick(world1, pos, state1);
+        return (world1, pos, state1, blockEntity) -> ((ReactorItemPortBlockEntity) blockEntity).tick(world1, pos, state1);
     }
 
     @Override
@@ -107,7 +108,9 @@ public class ReactorItemPortBlock extends BlockWithEntity {
 
         if (stack.isIn(MaldingTags.REACTOR_FUEL)) {
             if (!world.isClient) {
-                ReactorControllerBlockEntity controller = (ReactorControllerBlockEntity) world.getBlockEntity(controllerPos);
+                if (!(world.getBlockEntity(controllerPos) instanceof ReactorControllerBlockEntity controller)) {
+                    return ActionResult.PASS;
+                }
 
                 FluidTank fuelTank = controller.getFuelTank();
                 FluidTank wasteTank = controller.getWasteTank();
@@ -145,7 +148,7 @@ public class ReactorItemPortBlock extends BlockWithEntity {
     }
 
     public static ActionResult extractWasteAmount(World world, BlockPos controllerPos, PlayerEntity player) {
-        ReactorControllerBlockEntity controller = (ReactorControllerBlockEntity) world.getBlockEntity(controllerPos);
+        if (!(world.getBlockEntity(controllerPos) instanceof ReactorControllerBlockEntity controller)) return ActionResult.PASS;
 
         if (!world.isClient) {
             FluidTank wasteTank = controller.getWasteTank();
@@ -153,14 +156,14 @@ public class ReactorItemPortBlock extends BlockWithEntity {
             try (Transaction t = Transaction.openOuter()) {
                 long amountOfWasteExtractable = wasteTank.simulateExtract(FluidVariant.of(MaldingFluids.MALDING_COPIUM.still()), wasteTank.getCapacity(), t);
 
-                int cyaniteCount = MathHelper.floor(amountOfWasteExtractable / (float) FluidConstants.INGOT);
+                int maldingCopium = MathHelper.floor(amountOfWasteExtractable / (float) FluidConstants.INGOT);
 
-                long amountOfWasteExtracted = wasteTank.extract(FluidVariant.of(MaldingFluids.MALDING_COPIUM.still()), cyaniteCount * FluidConstants.INGOT, t);
+                long amountOfWasteExtracted = wasteTank.extract(FluidVariant.of(MaldingFluids.MALDING_COPIUM.still()), maldingCopium * FluidConstants.INGOT, t);
 
-                if (amountOfWasteExtracted != 0 && cyaniteCount != 0) {
+                if (amountOfWasteExtracted != 0 && maldingCopium != 0) {
                     ItemStack stack = MaldingItems.MALDING_COPIUM_INGOT.getDefaultStack();
 
-                    stack.setCount(cyaniteCount);
+                    stack.setCount(maldingCopium);
 
                     player.getInventory().offerOrDrop(stack);
 

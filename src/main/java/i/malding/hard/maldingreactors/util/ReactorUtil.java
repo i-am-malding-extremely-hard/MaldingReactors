@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ReactorUtil {
 
-    public static int MAX_REACTOR_SIZE = 100;
+    public static final int MAX_REACTOR_SIZE = 100;
 
     public static boolean checkReactorStructure(BlockState controllerState, BlockPos controllerPos, World world) {
         Direction facing = controllerState.get(Properties.FACING);

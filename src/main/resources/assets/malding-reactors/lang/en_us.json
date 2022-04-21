@@ -8,8 +8,8 @@
   "block.malding-reactors.fuel_rod_casing": "Malding Fuel Rod Casing",
   "block.malding-reactors.reactor_item_port": "Malding Reactor Item Port",
 
-  "itemGroup.malding-reactors.reactors_item_group.tab.reactors": "Malding Reactor Parts",
-  "itemGroup.malding-reactors.reactors_item_group.tab.resources": "Malding Resources",
+  "itemGroup.malding-reactors.main.tab.reactor_parts": "Malding Reactor Parts",
+  "itemGroup.malding-reactors.main.tab.resources": "Malding Resources",
 
   "item.malding-reactors.copium_ingot": "Copium Ingot",
   "item.malding-reactors.copium_bucket": "Coping Bucket",

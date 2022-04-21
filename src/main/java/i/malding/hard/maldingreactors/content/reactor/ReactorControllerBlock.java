@@ -21,7 +21,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("UnstableApiUsage")
 public class ReactorControllerBlock extends BlockWithEntity {
     public ReactorControllerBlock(Settings settings) {
         super(settings);
@@ -95,7 +94,7 @@ public class ReactorControllerBlock extends BlockWithEntity {
 
     public record MultiBlockUpdatePacket(BlockPos pos, boolean isMultiPart) {
 
-        public static void setContollersMultipartState(MultiBlockUpdatePacket packet, ClientAccess access) {
+        public static void setControllersMultipartState(MultiBlockUpdatePacket packet, ClientAccess access) {
             ReactorControllerBlockEntity controllerBlockEntity = (ReactorControllerBlockEntity) access.runtime().world.getBlockEntity(packet.pos());
 
             if (controllerBlockEntity != null) {
