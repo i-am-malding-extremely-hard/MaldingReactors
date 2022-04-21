@@ -33,7 +33,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
     private final FluidTank fuelTank = new FluidTank(FluidConstants.BUCKET * 8);
     private final FluidTank wasteTank = new FluidTank(FluidConstants.BUCKET * 8);
 
-    private EnergyStorage energyStorage = new SimpleEnergyStorage(4000 * 50, 0, Long.MAX_VALUE);
+    private final EnergyStorage energyStorage = new SimpleEnergyStorage(4000 * 50, 0, Long.MAX_VALUE);
     private int coreHeat, casingHeat;
 
     private static final String MULTIBLOCK_CHECK_KEY = "IsMultiBlock";

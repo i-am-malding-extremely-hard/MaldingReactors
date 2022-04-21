@@ -1,6 +1,7 @@
 package i.malding.hard.maldingreactors;
 
 import i.malding.hard.maldingreactors.content.*;
+import i.malding.hard.maldingreactors.content.handlers.MaldingScreenHandlers;
 import i.malding.hard.maldingreactors.content.worldgen.MaldingFeatures;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.network.OwoNetChannel;
@@ -21,6 +22,7 @@ public class MaldingReactors implements ModInitializer {
         FieldRegistrationHandler.register(MaldingBlocks.class, MaldingReactors.REACTORS_ID, false);
         FieldRegistrationHandler.register(MaldingBlockEntities.class, MaldingReactors.REACTORS_ID, false);
         FieldRegistrationHandler.register(MaldingItems.class, MaldingReactors.REACTORS_ID, false);
+        FieldRegistrationHandler.register(MaldingScreenHandlers.class, MaldingReactors.REACTORS_ID, false);
         FieldRegistrationHandler.processSimple(MaldingFluids.class, false);
         FieldRegistrationHandler.processSimple(MaldingFeatures.class, false);
         REACTORS_TAB.initialize();
