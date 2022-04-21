@@ -117,15 +117,15 @@ public class ReactorItemPortBlock extends BlockWithEntity {
                 long amountOfDropletsFromStack = stackCount * FluidConstants.INGOT;
 
                 try (Transaction t = Transaction.openOuter()) {
-                    long amountAllowedInsertable = wasteTank.simulateInsert(FluidVariant.of(MaldingFluids.YELLORIUM.still()), amountOfDropletsFromStack, t);
+                    long amountAllowedInsertable = wasteTank.simulateInsert(FluidVariant.of(MaldingFluids.COPIUM.still()), amountOfDropletsFromStack, t);
 
                     if (amountAllowedInsertable > 0) {
-                        long actuallyInsertable = fuelTank.simulateInsert(FluidVariant.of(MaldingFluids.YELLORIUM.still()), amountAllowedInsertable, t);
+                        long actuallyInsertable = fuelTank.simulateInsert(FluidVariant.of(MaldingFluids.COPIUM.still()), amountAllowedInsertable, t);
 
                         int amountUsed = MathHelper.floor(actuallyInsertable / (float) FluidConstants.INGOT);
 
                         if (actuallyInsertable > 0 && amountUsed > 0) {
-                            fuelTank.insert(FluidVariant.of(MaldingFluids.YELLORIUM.still()), amountUsed * FluidConstants.INGOT, t);
+                            fuelTank.insert(FluidVariant.of(MaldingFluids.COPIUM.still()), amountUsed * FluidConstants.INGOT, t);
 
                             stack.decrement(amountUsed);
                             player.setStackInHand(hand, stack);
@@ -151,14 +151,14 @@ public class ReactorItemPortBlock extends BlockWithEntity {
             FluidTank wasteTank = controller.getWasteTank();
 
             try (Transaction t = Transaction.openOuter()) {
-                long amountOfWasteExtractable = wasteTank.simulateExtract(FluidVariant.of(MaldingFluids.CYANITE.still()), wasteTank.getCapacity(), t);
+                long amountOfWasteExtractable = wasteTank.simulateExtract(FluidVariant.of(MaldingFluids.MALDING_COPIUM.still()), wasteTank.getCapacity(), t);
 
                 int cyaniteCount = MathHelper.floor(amountOfWasteExtractable / (float) FluidConstants.INGOT);
 
-                long amountOfWasteExtracted = wasteTank.extract(FluidVariant.of(MaldingFluids.CYANITE.still()), cyaniteCount * FluidConstants.INGOT, t);
+                long amountOfWasteExtracted = wasteTank.extract(FluidVariant.of(MaldingFluids.MALDING_COPIUM.still()), cyaniteCount * FluidConstants.INGOT, t);
 
                 if (amountOfWasteExtracted != 0 && cyaniteCount != 0) {
-                    ItemStack stack = MaldingItems.CYANITE_INGOT.getDefaultStack();
+                    ItemStack stack = MaldingItems.MALDING_COPIUM_INGOT.getDefaultStack();
 
                     stack.setCount(cyaniteCount);
 

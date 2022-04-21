@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "malding-reactors:item/malding_copium_bucket"
+  }
+}

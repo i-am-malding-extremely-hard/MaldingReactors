@@ -23,7 +23,7 @@ public class MaldingTagGenerator {
         @Override
         protected void generateTags() {
             tag(MaldingTags.REACTOR_FUEL)
-                    .add(YELLORIUM_INGOT);
+                    .add(COPIUM_INGOT);
         }
 
         // Yarn is bad

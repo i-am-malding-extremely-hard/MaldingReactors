@@ -25,9 +25,8 @@ public class MaldingReactorsClient implements ClientModInitializer {
         FluidRenderHandlerRegistry.INSTANCE.register(MaldingFluids.COOLANT.still(), MaldingFluids.COOLANT.flowing(), new UpsideDownFluidRenderer(0x00FFFF));
         FluidRenderHandlerRegistry.INSTANCE.register(MaldingFluids.STEAM.still(), MaldingFluids.STEAM.flowing(), new UpsideDownFluidRenderer(0xFFFFFF));
 
-        FluidRenderHandlerRegistry.INSTANCE.register(MaldingFluids.YELLORIUM.still(), MaldingFluids.YELLORIUM.flowing(), SimpleFluidRenderHandler.coloredWater(0xFFFF00));
-        FluidRenderHandlerRegistry.INSTANCE.register(MaldingFluids.CYANITE.still(), MaldingFluids.CYANITE.flowing(), SimpleFluidRenderHandler.coloredWater(0x273ff5));
-
+        FluidRenderHandlerRegistry.INSTANCE.register(MaldingFluids.COPIUM.still(), MaldingFluids.COPIUM.flowing(), SimpleFluidRenderHandler.coloredWater(0x921c36));
+        FluidRenderHandlerRegistry.INSTANCE.register(MaldingFluids.MALDING_COPIUM.still(), MaldingFluids.MALDING_COPIUM.flowing(), SimpleFluidRenderHandler.coloredWater(0x49396d));
 
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(),
                 MaldingFluids.STEAM.still(), MaldingFluids.STEAM.flowing());

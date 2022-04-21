@@ -12,8 +12,8 @@ public class ReactorsItemGroup extends OwoItemGroup {
 
     @Override
     protected void setup() {
-        addTab(Icon.of(MaldingBlocks.YELLORITE_ORE), "reactors", null);
-        addTab(Icon.of(MaldingItems.YELLORIUM_INGOT), "resources", null);
+        addTab(Icon.of(MaldingBlocks.COPIUM_ORE), "reactors", null);
+        addTab(Icon.of(MaldingItems.COPIUM_INGOT), "resources", null);
     }
 
     @Override
