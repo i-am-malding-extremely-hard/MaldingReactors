@@ -8,28 +8,28 @@ import net.minecraft.item.Item;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 
-public abstract class CyaniteFluid extends MaldingFluid {
+public abstract class CopiumFluid extends MaldingFluid {
     @Override
     public Fluid getFlowing() {
-        return MaldingFluids.CYANITE.flowing();
+        return MaldingFluids.COPIUM.flowing();
     }
 
     @Override
     public Fluid getStill() {
-        return MaldingFluids.CYANITE.still();
+        return MaldingFluids.COPIUM.still();
     }
 
     @Override
     public Item getBucketItem() {
-        return MaldingFluids.CYANITE.bucket();
+        return MaldingFluids.COPIUM.bucket();
     }
 
     @Override
     protected BlockState toBlockState(FluidState state) {
-        return MaldingFluids.CYANITE.block().getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
+        return MaldingFluids.COPIUM.block().getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
     }
 
-    public static class Flowing extends CyaniteFluid {
+    public static class Flowing extends CopiumFluid {
         @Override
         protected void appendProperties(StateManager.Builder<Fluid, FluidState> builder) {
             super.appendProperties(builder);
@@ -47,7 +47,7 @@ public abstract class CyaniteFluid extends MaldingFluid {
         }
     }
 
-    public static class Still extends CyaniteFluid {
+    public static class Still extends CopiumFluid {
         @Override
         public int getLevel(FluidState fluidState) {
             return 8;

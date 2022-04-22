@@ -16,6 +16,7 @@ public class MaldingScreenHandlers implements AutoRegistryContainer<ScreenHandle
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Class<ScreenHandlerType<?>> getTargetFieldType() {
         return (Class<ScreenHandlerType<?>>) (Object) ScreenHandlerType.class;
     }

@@ -1,8 +1,18 @@
 {
-  "block.malding-reactors.reactor_casing":"Malding Reactor Casing",
-  "block.malding-reactors.reactor_controller":"Malding Reactor Controller",
-  "block.malding-reactors.fuel_rod":"Malding Fuel Rod",
-  "block.malding-reactors.fuel_rod_full":"Malding Fuel Rod (Full)",
-  "block.malding-reactors.fuel_rod_casing":"Malding Fuel Rod Casing",
-  "item.malding-reactors.fuel":"Seething Fuel"
+  "block.malding-reactors.reactor_casing": "Malding Reactor Casing",
+  "block.malding-reactors.reactor_glass": "Malding Reactor Glass",
+  "block.malding-reactors.reactor_controller": "Malding Reactor Controller",
+  "block.malding-reactors.reactor_fuel_rod": "Malding Fuel Rod",
+  "block.malding-reactors.reactor_fuel_rod_controller": "Malding Fuel Rod Controller",
+  "block.malding-reactors.reactor_fuel_rod_full": "Malding Fuel Rod (Full)",
+  "block.malding-reactors.fuel_rod_casing": "Malding Fuel Rod Casing",
+  "block.malding-reactors.reactor_item_port": "Malding Reactor Item Port",
+
+  "itemGroup.malding-reactors.main.tab.reactor_parts": "Malding Reactor Parts",
+  "itemGroup.malding-reactors.main.tab.resources": "Malding Resources",
+
+  "item.malding-reactors.copium_ingot": "Copium Ingot",
+  "item.malding-reactors.copium_bucket": "Coping Bucket",
+  "item.malding-reactors.malding_copium_ingot": "Malding Copium Ingot",
+  "item.malding-reactors.malding_copium_bucket": "Malding & Coping Bucket"
 }

@@ -7,13 +7,13 @@ import net.minecraft.item.ItemStack;
 
 public class ReactorsItemGroup extends OwoItemGroup {
     public ReactorsItemGroup() {
-        super(MaldingReactors.asResource("Reactors Item Group"));
+        super(MaldingReactors.asResource("main"));
     }
 
     @Override
     protected void setup() {
-        addTab(Icon.of(MaldingBlocks.YELLORITE_ORE), "reactors", null);
-        addTab(Icon.of(MaldingItems.YELLORIUM_INGOT), "resources", null);
+        addTab(Icon.of(MaldingBlocks.COPIUM_ORE), "reactor_parts", null);
+        addTab(Icon.of(MaldingItems.COPIUM_INGOT), "resources", null);
     }
 
     @Override

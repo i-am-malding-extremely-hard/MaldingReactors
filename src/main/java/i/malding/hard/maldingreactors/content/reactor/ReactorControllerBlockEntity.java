@@ -1,7 +1,7 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
-import i.malding.hard.maldingreactors.content.handlers.ReactorScreenHandler;
 import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
+import i.malding.hard.maldingreactors.content.handlers.ReactorScreenHandler;
 import i.malding.hard.maldingreactors.multiblock.ReactorMultiblock;
 import i.malding.hard.maldingreactors.util.ReactorValidator;
 import io.wispforest.owo.ops.WorldOps;
@@ -19,11 +19,11 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-
-import javax.annotation.Nullable;
-
+import org.jetbrains.annotations.NotNull;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
+
+import javax.annotation.Nullable;
 
 @SuppressWarnings("UnstableApiUsage")
 public class ReactorControllerBlockEntity extends BlockEntity implements ReactorMultiblock, NamedScreenHandlerFactory {
@@ -34,7 +34,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
     private final FluidTank fuelTank = new FluidTank(FluidConstants.BUCKET * 8);
     private final FluidTank wasteTank = new FluidTank(FluidConstants.BUCKET * 8);
 
-    private EnergyStorage energyStorage = new SimpleEnergyStorage(4000 * 50, 0, Long.MAX_VALUE);
+    private final EnergyStorage energyStorage = new SimpleEnergyStorage(4000 * 50, 0, Long.MAX_VALUE);
     private int coreHeat, casingHeat;
 
     private static final String MULTIBLOCK_CHECK_KEY = "IsMultiBlock";
@@ -86,13 +86,12 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
 
     @Override
     public void markDirty() {
-        WorldOps.updateIfOnServer(this.world, this.pos);
-
         super.markDirty();
+        WorldOps.updateIfOnServer(this.world, this.pos);
     }
 
     @Override
-    public FluidTank getFuelTank() {
+    public @NotNull FluidTank getFuelTank() {
         return fuelTank;
     }
 
@@ -101,7 +100,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
     }
 
     @Override
-    public EnergyStorage getEnergyStorage() {
+    public @NotNull EnergyStorage getEnergyStorage() {
         return energyStorage;
     }
 

@@ -1,4 +1,4 @@
-package i.malding.hard.maldingreactors.client.screen;
+package i.malding.hard.maldingreactors.client.ui.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import i.malding.hard.maldingreactors.client.MaldingTextures;

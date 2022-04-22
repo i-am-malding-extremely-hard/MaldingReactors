@@ -9,8 +9,8 @@ import net.minecraft.item.Item;
 import net.minecraft.tag.TagKey;
 import org.jetbrains.annotations.Nullable;
 
-import static i.malding.hard.maldingreactors.content.MaldingItems.*;
 import static i.malding.hard.maldingreactors.content.MaldingBlocks.*;
+import static i.malding.hard.maldingreactors.content.MaldingItems.COPIUM_INGOT;
 
 public class MaldingTagGenerator {
 
@@ -23,7 +23,7 @@ public class MaldingTagGenerator {
         @Override
         protected void generateTags() {
             tag(MaldingTags.REACTOR_FUEL)
-                    .add(YELLORIUM_INGOT);
+                    .add(COPIUM_INGOT);
         }
 
         // Yarn is bad

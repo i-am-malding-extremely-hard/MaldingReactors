@@ -10,7 +10,6 @@ import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -45,6 +44,6 @@ public class FluidInfo {
         still = Registry.register(Registry.FLUID, id, still);
         flowing = Registry.register(Registry.FLUID, id + "_flowing", flowing);
         block = Registry.register(Registry.BLOCK, id + "_fluid", new FluidBlock((FlowableFluid) still, FabricBlockSettings.copy(Blocks.WATER)));
-        bucket = Registry.register(Registry.ITEM, id + "_bucket", new BucketItem(still, new FabricItemSettings().group(MaldingReactors.REACTORS_TAB)));
+        bucket = Registry.register(Registry.ITEM, id + "_bucket", new BucketItem(still, new FabricItemSettings().group(MaldingReactors.GROUP)));
     }
 }

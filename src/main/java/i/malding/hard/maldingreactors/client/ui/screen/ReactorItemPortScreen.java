@@ -1,18 +1,18 @@
-package i.malding.hard.maldingreactors.client.screen;
+package i.malding.hard.maldingreactors.client.ui.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import i.malding.hard.maldingreactors.client.MaldingTextures;
-import i.malding.hard.maldingreactors.content.handlers.ReactorScreenHandler;
+import i.malding.hard.maldingreactors.content.handlers.ReactorItemPortScreenHandler;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
-public class ReactorScreen extends HandledScreen<ReactorScreenHandler> {
-    public ReactorScreen(ReactorScreenHandler handler, PlayerInventory inventory, Text title) {
-        super(handler, inventory, new TranslatableText(""));
+public class ReactorItemPortScreen extends HandledScreen<ReactorItemPortScreenHandler> {
+
+    public ReactorItemPortScreen(ReactorItemPortScreenHandler handler, PlayerInventory inventory, Text title) {
+        super(handler, inventory, title);
     }
 
     @Override

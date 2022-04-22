@@ -1,6 +1,9 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -12,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ReactorFuelRodBlock extends BlockWithEntity {
 
-    public static BooleanProperty HAS_FUEL = BooleanProperty.of("has_fuel");
+    public static final BooleanProperty HAS_FUEL = BooleanProperty.of("has_fuel");
 
     public ReactorFuelRodBlock(Settings settings) {
         super(settings);
