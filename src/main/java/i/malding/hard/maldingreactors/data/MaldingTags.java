@@ -13,6 +13,9 @@ public class MaldingTags {
 
     public static final TagKey<Block> BASE_REACTOR_BLOCKS = createMaldingBlockTag("Base Reactor Blocks");
 
+    public static final TagKey<Block> REACTOR_COMPONENT_BLOCKS = createMaldingBlockTag("Base Component Blocks");
+
+
     //-------------------------------------------
 
     private static TagKey<Block> createMaldingBlockTag(String path) {

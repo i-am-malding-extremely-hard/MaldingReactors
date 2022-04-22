@@ -34,6 +34,11 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorComponentBlockEn
     }
 
     @Override
+    public void tick(World world, BlockPos pos, BlockState state) {
+
+    }
+
+    @Override
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
 
@@ -42,16 +47,19 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorComponentBlockEn
     }
 
     @Override
-    public void tick(World world, BlockPos pos, BlockState state) {
-
-    }
-
-    @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
 
         this.reactionRate = nbt.getInt(REACTION_RATE_KEY);
         this.readFuelRodPositions(nbt);
+    }
+
+    public void setAdjourningFuelRods(Set<BlockPos> adjourningFuelRods){
+        this.adjourningFuelRods = adjourningFuelRods;
+    }
+
+    public Set<BlockPos> getAdjourningFuelRods(){
+        return this.adjourningFuelRods;
     }
 
     @Override
@@ -64,6 +72,8 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorComponentBlockEn
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         return new ReactorFuelRodControllerScreenHandler(syncId, ScreenHandlerContext.create(this.world, this.pos));
     }
+
+    //-------------------------------------------------------------------------------
 
     public void writeFuelRodPositions(NbtCompound nbt) {
         NbtList list = new NbtList();

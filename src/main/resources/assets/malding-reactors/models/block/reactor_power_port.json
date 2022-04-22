@@ -1,0 +1,7 @@
+{
+  "parent": "malding-reactors:block/single_face_block",
+  "textures": {
+    "main": "malding-reactors:block/reactor_casing",
+    "port": "malding-reactors:block/reactor_usb_port"
+  }
+}

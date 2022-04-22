@@ -1,6 +1,5 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
-import i.malding.hard.maldingreactors.util.ReactorUtil;
 import io.wispforest.owo.network.ClientAccess;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -30,7 +29,7 @@ public class ReactorControllerBlock extends BlockWithEntity {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(Properties.FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(Properties.FACING, ctx.getPlayerLookDirection().getOpposite());
     }
 
     @Override
@@ -63,8 +62,8 @@ public class ReactorControllerBlock extends BlockWithEntity {
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ReactorControllerBlockEntity controllerBlock = ((ReactorControllerBlockEntity) world.getBlockEntity(pos));
 
-        if (!world.isClient && hand == Hand.MAIN_HAND && !controllerBlock.isMultiBlockStructure()) {
-            boolean isMultipart = ReactorUtil.checkReactorStructure(state, pos, world);
+        if (!world.isClient && hand == Hand.MAIN_HAND) {
+            boolean isMultipart = controllerBlock.getValidator().validateReactor(state);
 
             controllerBlock.setMultiBlockCheck(true);
             controllerBlock.markDirty();

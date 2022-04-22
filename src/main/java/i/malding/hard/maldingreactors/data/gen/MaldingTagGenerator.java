@@ -41,10 +41,17 @@ public class MaldingTagGenerator {
         @Override
         protected void generateTags() {
             tag(MaldingTags.BASE_REACTOR_BLOCKS)
-                    .add(REACTOR_CONTROLLER,
+                    .add(REACTOR_CASING,
+                            REACTOR_GLASS,
+                            REACTOR_CONTROLLER,
                             REACTOR_ITEM_PORT,
-                            REACTOR_CASING,
-                            REACTOR_GLASS);
+                            REACTOR_POWER_PORT,
+                            REACTOR_FUEL_ROD_CONTROLLER);
+
+            tag(MaldingTags.REACTOR_COMPONENT_BLOCKS)
+                    .add(REACTOR_ITEM_PORT,
+                            REACTOR_POWER_PORT,
+                            REACTOR_FUEL_ROD_CONTROLLER);
         }
 
         // Yarn is bad

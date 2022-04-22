@@ -3,6 +3,7 @@ package i.malding.hard.maldingreactors.content.reactor;
 import i.malding.hard.maldingreactors.content.handlers.ReactorScreenHandler;
 import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import i.malding.hard.maldingreactors.multiblock.ReactorMultiblock;
+import i.malding.hard.maldingreactors.util.ReactorValidator;
 import io.wispforest.owo.ops.WorldOps;
 import me.alphamode.star.transfer.FluidTank;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -38,6 +39,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
 
     private static final String MULTIBLOCK_CHECK_KEY = "IsMultiBlock";
 
+    private ReactorValidator validator = null;
     private boolean isMultiBlock = false;
 
     public ReactorControllerBlockEntity(BlockPos pos, BlockState state) {
@@ -45,7 +47,13 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
     }
 
     public void tick() {
+        if(validator == null){
+            validator = new ReactorValidator(this.world, this.pos);
+        }
+    }
 
+    public ReactorValidator getValidator(){
+        return this.validator;
     }
 
     @Override

@@ -1,9 +1,6 @@
 {
   "replace": false,
   "values": [
-    "malding-reactors:reactor_casing",
-    "malding-reactors:reactor_glass",
-    "malding-reactors:reactor_controller",
     "malding-reactors:reactor_item_port",
     "malding-reactors:reactor_power_port",
     "malding-reactors:reactor_fuel_rod_controller"
