@@ -49,7 +49,9 @@ public class MaldingTagGenerator {
                             REACTOR_FUEL_ROD_CONTROLLER);
 
             tag(MaldingTags.REACTOR_COMPONENT_BLOCKS)
-                    .add(REACTOR_ITEM_PORT,
+                    .add(REACTOR_CASING,
+                            REACTOR_GLASS,
+                            REACTOR_ITEM_PORT,
                             REACTOR_POWER_PORT,
                             REACTOR_FUEL_ROD_CONTROLLER);
         }

@@ -1,7 +1,7 @@
 package i.malding.hard.maldingreactors.util;
 
 import i.malding.hard.maldingreactors.content.MaldingBlocks;
-import i.malding.hard.maldingreactors.content.reactor.ReactorComponentBlockEntity;
+import i.malding.hard.maldingreactors.content.reactor.ReactorBaseBlockEntity;
 import i.malding.hard.maldingreactors.content.reactor.ReactorFuelRodBlockEntity;
 import i.malding.hard.maldingreactors.content.reactor.ReactorFuelRodControllerBlockEntity;
 import i.malding.hard.maldingreactors.data.MaldingTags;
@@ -143,7 +143,7 @@ public class ReactorValidator {
         for(int a = 0; a < maxA; a++){
             for(int b = 0; b < maxB; b++){
                 if(a == 0 || b == 0 || a == (maxA - 1) || b == (maxB - 1)){
-                    if(!isCasing(world.getBlockState(pos))){
+                    if(!isCasing(pos, world.getBlockState(pos))){
                         return false;
                     }
                 }else{
@@ -195,8 +195,16 @@ public class ReactorValidator {
     //----------------------------------------------------------------------------------------------------------------
 
 
-    public boolean isCasing(BlockState state) {
-        return state.isOf(MaldingBlocks.REACTOR_CASING) || state.isOf(Blocks.REDSTONE_BLOCK) || state.isOf(Blocks.GOLD_BLOCK) || state.isOf(Blocks.DIAMOND_BLOCK) || state.isOf(Blocks.ANCIENT_DEBRIS);
+    public boolean isCasing(BlockPos.Mutable pos, BlockState state) {
+        if(state.isOf(MaldingBlocks.REACTOR_CASING)){
+            if(pos != null){
+                ((ReactorBaseBlockEntity) world.getBlockEntity(pos)).setControllerPos(this.controllerPos);
+            }
+
+            return true;
+        }
+
+        return state.isOf(Blocks.REDSTONE_BLOCK) || state.isOf(Blocks.GOLD_BLOCK) || state.isOf(Blocks.DIAMOND_BLOCK) || state.isOf(Blocks.ANCIENT_DEBRIS);
     }
 
     public boolean isReactorBlock(BlockState state) {
@@ -204,28 +212,26 @@ public class ReactorValidator {
     }
 
     public boolean isReactorBlock(BlockPos.Mutable pos, BlockState state) {
-        //Check if the block is somehow a second controller block
-        if(pos != null) {
-            if (state.isOf(MaldingBlocks.REACTOR_CONTROLLER) && !compareBlockPos(pos, this.controllerPos)) {
-                return false;
-            }
-        }
-
-        if(isCasing(state) || state.isOf(MaldingBlocks.REACTOR_GLASS) || state.isOf(MaldingBlocks.REACTOR_CONTROLLER)) {
-            return true;
-        }else if(state.isIn(MaldingTags.REACTOR_COMPONENT_BLOCKS)){
+        if(state.isIn(MaldingTags.BASE_REACTOR_BLOCKS)){
             if(pos != null) {
-                if(state.isOf(MaldingBlocks.REACTOR_FUEL_ROD_CONTROLLER)){
-                    cachedRodControllerPositions.add(pos.toImmutable());
-                }
+                //Check if the block is somehow a second controller block
+                if (state.isOf(MaldingBlocks.REACTOR_CONTROLLER)) {
+                    if(!compareBlockPos(pos, this.controllerPos)) {
+                        return false;
+                    }
+                } else {
+                    if (state.isOf(MaldingBlocks.REACTOR_FUEL_ROD_CONTROLLER)) {
+                        cachedRodControllerPositions.add(pos.toImmutable());
+                    }
 
-                ((ReactorComponentBlockEntity) world.getBlockEntity(pos)).setControllerPos(this.controllerPos);
+                    ((ReactorBaseBlockEntity) world.getBlockEntity(pos)).setControllerPos(this.controllerPos);
+                }
             }
 
             return true;
         }
 
-        return false;
+        return isCasing(null, state);
     }
 
     /**

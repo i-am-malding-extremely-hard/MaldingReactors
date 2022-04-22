@@ -14,13 +14,13 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public abstract class ReactorComponentBlockEntity extends BlockEntity {
+public class ReactorBaseBlockEntity extends BlockEntity {
 
     public BlockPos controllerPos = null;
 
     public static final String CONTROLLER_POS_KEY = "ControllerPos";
 
-    public ReactorComponentBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public ReactorBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 

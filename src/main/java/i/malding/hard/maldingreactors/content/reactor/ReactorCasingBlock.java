@@ -1,6 +1,12 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
-import net.minecraft.block.Block;
+import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -18,8 +24,9 @@ public class ReactorCasingBlock extends BlockWithEntity {
         return BlockRenderType.MODEL;
     }
 
+    @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return new ReactorBaseBlockEntity(MaldingBlockEntities.REACTOR_CASING, pos, state);
     }
 }

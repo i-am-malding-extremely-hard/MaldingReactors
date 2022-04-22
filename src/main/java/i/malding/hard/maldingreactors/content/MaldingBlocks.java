@@ -23,8 +23,8 @@ import java.lang.reflect.Field;
 public class MaldingBlocks implements BlockRegistryContainer {
 
     @Tab(0)
-    public static final Block REACTOR_CASING = new Block(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
-    public static final Block REACTOR_GLASS = new GlassBlock(FabricBlockSettings.copy(Blocks.GLASS));
+    public static final Block REACTOR_CASING = new ReactorCasingBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
+    public static final Block REACTOR_GLASS = new ReactorGlassBlock(FabricBlockSettings.copy(Blocks.GLASS));
 
     public static final Block REACTOR_FUEL_ROD = new ReactorFuelRodBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
     public static final Block REACTOR_FUEL_ROD_CONTROLLER = new ReactorFuelRodControllerBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));

@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ReactorFuelRodControllerBlockEntity extends ReactorComponentBlockEntity implements NamedScreenHandlerFactory {
+public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity implements NamedScreenHandlerFactory {
 
     private static final String REACTION_RATE_KEY = "ReactionRate";
     private static final String ADJOURNING_FUEL_RODS_KEY = "ConnectedRods";

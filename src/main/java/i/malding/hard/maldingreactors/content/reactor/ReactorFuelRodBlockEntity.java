@@ -5,7 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ReactorFuelRodBlockEntity extends ReactorComponentBlockEntity {
+public class ReactorFuelRodBlockEntity extends ReactorBaseBlockEntity {
 
     private BlockPos rodControllerPos;
 

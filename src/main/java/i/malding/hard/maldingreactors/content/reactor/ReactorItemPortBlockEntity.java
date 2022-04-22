@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class ReactorItemPortBlockEntity extends ReactorComponentBlockEntity implements NamedScreenHandlerFactory {
+public class ReactorItemPortBlockEntity extends ReactorBaseBlockEntity implements NamedScreenHandlerFactory {
 
     public static final String FUEL_SLOT_KEY = "FuelSlot";
     public static final String WASTE_SLOT_KEY = "WasteSlot";
