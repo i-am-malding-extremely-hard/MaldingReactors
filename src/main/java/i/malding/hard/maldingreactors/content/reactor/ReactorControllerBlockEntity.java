@@ -6,6 +6,7 @@ import i.malding.hard.maldingreactors.multiblock.ReactorMultiblock;
 import i.malding.hard.maldingreactors.util.ReactorValidator;
 import io.wispforest.owo.ops.WorldOps;
 import me.alphamode.star.transfer.FluidTank;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -61,7 +63,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
         fuelTank.fromNbt(nbt, FUEL_TANK_KEY);
         wasteTank.fromNbt(nbt, WASTE_TANK_KEY);
 
-        this.setMultiBlockCheck(nbt.getBoolean(MULTIBLOCK_CHECK_KEY));
+        this.setValid(nbt.getBoolean(MULTIBLOCK_CHECK_KEY));
     }
 
     @Override
@@ -69,7 +71,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
         fuelTank.toNbt(nbt, FUEL_TANK_KEY);
         wasteTank.toNbt(nbt, WASTE_TANK_KEY);
 
-        nbt.putBoolean(MULTIBLOCK_CHECK_KEY, this.isMultiBlockStructure());
+        nbt.putBoolean(MULTIBLOCK_CHECK_KEY, this.isValid());
 
     }
 
@@ -114,11 +116,13 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
         return casingHeat;
     }
 
-    public void setMultiBlockCheck(boolean result) {
+    @Override
+    public void setValid(boolean result) {
         this.isMultiBlock = result;
     }
 
-    public boolean isMultiBlockStructure() {
+    @Override
+    public boolean isValid() {
         return this.isMultiBlock;
     }
 
@@ -132,18 +136,8 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new ReactorScreenHandler(syncId, inv);
-    }
-
-    //--------------------------------------------------------------------------------------------------------------
-
-    @Override
-    public boolean isController() {
-        return true;
-    }
-
-    @Override
-    public BlockPos getControllerPos() {
-        return pos;
+        PacketByteBuf openingData = PacketByteBufs.create();
+        openingData.writeBlockPos(pos);
+        return new ReactorScreenHandler(syncId, inv, openingData);
     }
 }

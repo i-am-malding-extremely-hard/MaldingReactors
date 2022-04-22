@@ -1,5 +1,6 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
+import i.malding.hard.maldingreactors.util.GuiUtil;
 import io.wispforest.owo.network.ClientAccess;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -67,18 +68,18 @@ public class ReactorControllerBlock extends BlockWithEntity {
         if (!world.isClient && hand == Hand.MAIN_HAND) {
             boolean isMultipart = controllerBlock.getValidator().validateReactor(state);
 
-            controllerBlock.setMultiBlockCheck(true);
+            controllerBlock.setValid(true);
             controllerBlock.markDirty();
         }
 
         ReactorControllerBlockEntity controllerBlockEntity = (ReactorControllerBlockEntity) world.getBlockEntity(pos);
 
         final var factory = state.createScreenHandlerFactory(world, pos);
-        if (factory != null && player instanceof ServerPlayerEntity serverPlayer) {
-            serverPlayer.openHandledScreen(factory);
+        if (player instanceof ServerPlayerEntity serverPlayer) {
+            GuiUtil.openGui(serverPlayer, factory, (buf -> buf.writeBlockPos(pos)));
         }
 
-        if (controllerBlockEntity != null && controllerBlockEntity.isMultiBlockStructure()) {
+        if (controllerBlockEntity != null && controllerBlockEntity.isValid()) {
             if (player.shouldCancelInteraction()) {
                 return ReactorItemPortBlock.extractWasteAmount(world, pos, player);
             } else {
@@ -100,7 +101,7 @@ public class ReactorControllerBlock extends BlockWithEntity {
             ReactorControllerBlockEntity controllerBlockEntity = (ReactorControllerBlockEntity) access.runtime().world.getBlockEntity(packet.pos());
 
             if (controllerBlockEntity != null) {
-                controllerBlockEntity.setMultiBlockCheck(packet.isMultiPart());
+                controllerBlockEntity.setValid(packet.isMultiPart());
             }
         }
     }

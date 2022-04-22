@@ -1,12 +1,13 @@
 package i.malding.hard.maldingreactors.content.handlers;
 
 import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.registry.Registry;
 
 public class MaldingScreenHandlers implements AutoRegistryContainer<ScreenHandlerType<?>> {
 
-    public static final ScreenHandlerType<ReactorScreenHandler> REACTOR_CONTROLLER = new ScreenHandlerType<>(ReactorScreenHandler::new);
+    public static final ScreenHandlerType<ReactorScreenHandler> REACTOR_CONTROLLER = new ExtendedScreenHandlerType<>(ReactorScreenHandler::new);
     public static final ScreenHandlerType<ReactorItemPortScreenHandler> REACTOR_ITEM_PORT = new ScreenHandlerType<>(ReactorItemPortScreenHandler::new);
     public static final ScreenHandlerType<ReactorFuelRodControllerScreenHandler> REACTOR_ROD_CONTROLLER = new ScreenHandlerType<>(ReactorFuelRodControllerScreenHandler::new);
 

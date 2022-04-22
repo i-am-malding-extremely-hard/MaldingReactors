@@ -9,6 +9,7 @@ import net.minecraft.util.registry.Registry;
 public class MaldingBlockEntities implements AutoRegistryContainer<BlockEntityType<?>> {
 
     public static final BlockEntityType<ReactorControllerBlockEntity> REACTOR_CONTROLLER = FabricBlockEntityTypeBuilder.create(ReactorControllerBlockEntity::new, MaldingBlocks.REACTOR_CONTROLLER).build();
+    public static final BlockEntityType<ReactorCasingBlockBlockEntity> REACTOR_CASING = FabricBlockEntityTypeBuilder.create(ReactorCasingBlockBlockEntity::new, MaldingBlocks.REACTOR_CASING).build();
 
     public static final BlockEntityType<ReactorItemPortBlockEntity> REACTOR_ITEM_PORT = FabricBlockEntityTypeBuilder.create(ReactorItemPortBlockEntity::new, MaldingBlocks.REACTOR_ITEM_PORT).build();
     public static final BlockEntityType<ReactorPowerPortBlockEntity> REACTOR_POWER_PORT = FabricBlockEntityTypeBuilder.create(ReactorPowerPortBlockEntity::new, MaldingBlocks.REACTOR_POWER_PORT).build();

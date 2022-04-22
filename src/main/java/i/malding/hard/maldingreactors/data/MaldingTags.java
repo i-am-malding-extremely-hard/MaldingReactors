@@ -15,6 +15,8 @@ public class MaldingTags {
 
     public static final TagKey<Block> REACTOR_COMPONENT_BLOCKS = createMaldingBlockTag("Base Component Blocks");
 
+    public static final TagKey<Block> REACTOR_CASING_BLOCKS = createMaldingBlockTag("Reactor Casing Blocks");
+
 
     //-------------------------------------------
 
