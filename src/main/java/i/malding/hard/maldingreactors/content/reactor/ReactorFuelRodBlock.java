@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ReactorFuelRodBlock extends BlockWithEntity {
+public class ReactorFuelRodBlock extends ReactorBaseBlock {
 
     public static final BooleanProperty HAS_FUEL = BooleanProperty.of("has_fuel");
 
@@ -35,14 +35,8 @@ public class ReactorFuelRodBlock extends BlockWithEntity {
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return ((world1, pos, state1, blockEntity) -> ((ReactorFuelRodBlockEntity) blockEntity).tick(world1, pos, state1));
-    }
-
-    @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(HAS_FUEL);
     }
-
 
 }

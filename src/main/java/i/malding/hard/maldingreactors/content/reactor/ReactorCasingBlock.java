@@ -15,6 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
 public class ReactorCasingBlock extends BlockWithEntity {
+
     public ReactorCasingBlock(Settings settings) {
         super(settings);
     }

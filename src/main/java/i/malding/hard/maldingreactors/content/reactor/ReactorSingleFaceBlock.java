@@ -12,7 +12,7 @@ import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.Direction;
 
-public abstract class ReactorSingleFaceBlock extends BlockWithEntity {
+public abstract class ReactorSingleFaceBlock extends ReactorBaseBlock {
     public static final DirectionProperty FACING = Properties.FACING;
 
     protected ReactorSingleFaceBlock(Settings settings) {

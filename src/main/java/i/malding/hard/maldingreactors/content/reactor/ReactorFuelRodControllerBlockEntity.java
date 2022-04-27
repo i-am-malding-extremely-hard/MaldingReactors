@@ -25,17 +25,24 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity 
     private static final String REACTION_RATE_KEY = "ReactionRate";
     private static final String ADJOURNING_FUEL_RODS_KEY = "ConnectedRods";
 
-    private int reactionRate = 0;
+    public int reactionRate = 0;
 
-    private Set<BlockPos> adjourningFuelRods = new HashSet<>();
+    private Set<ReactorFuelRodBlockEntity> adjourningFuelRods = new HashSet<>();
 
     public ReactorFuelRodControllerBlockEntity(BlockPos pos, BlockState state) {
         super(MaldingBlockEntities.REACTOR_FUEL_ROD_CONTROLLER, pos, state);
     }
 
     @Override
-    public void tick(World world, BlockPos pos, BlockState state) {
+    public void serverTick() {
 
+    }
+
+    @Override
+    public void onRemoval(BlockPos pos) {
+        if(this.isFullMultipartStructure()){
+            this.getController().ROD_CONTROLLERS.remove(this);
+        }
     }
 
     @Override
@@ -54,11 +61,11 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity 
         this.readFuelRodPositions(nbt);
     }
 
-    public void setAdjourningFuelRods(Set<BlockPos> adjourningFuelRods){
+    public void setAdjourningFuelRods(Set<ReactorFuelRodBlockEntity> adjourningFuelRods){
         this.adjourningFuelRods = adjourningFuelRods;
     }
 
-    public Set<BlockPos> getAdjourningFuelRods(){
+    public Set<ReactorFuelRodBlockEntity> getAdjourningFuelRods(){
         return this.adjourningFuelRods;
     }
 
@@ -78,8 +85,8 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity 
     public void writeFuelRodPositions(NbtCompound nbt) {
         NbtList list = new NbtList();
 
-        for (BlockPos pos : adjourningFuelRods) {
-            list.add(NbtHelper.fromBlockPos(pos));
+        for (ReactorFuelRodBlockEntity reactorFuelRodBlockEntity : adjourningFuelRods) {
+            list.add(NbtHelper.fromBlockPos(reactorFuelRodBlockEntity.getPos()));
         }
 
         nbt.put(ADJOURNING_FUEL_RODS_KEY, list);
@@ -87,10 +94,10 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity 
 
     public void readFuelRodPositions(NbtCompound nbt) {
         NbtList list = nbt.getList(ADJOURNING_FUEL_RODS_KEY, NbtList.COMPOUND_TYPE);
-        Set<BlockPos> adjoiningFuelRods = new HashSet<>();
+        Set<ReactorFuelRodBlockEntity> adjoiningFuelRods = new HashSet<>();
 
         for (NbtElement compound : list) {
-            adjoiningFuelRods.add(NbtHelper.toBlockPos((NbtCompound) compound));
+            adjoiningFuelRods.add((ReactorFuelRodBlockEntity) world.getBlockEntity(NbtHelper.toBlockPos((NbtCompound) compound)));
         }
 
         this.adjourningFuelRods = adjoiningFuelRods;

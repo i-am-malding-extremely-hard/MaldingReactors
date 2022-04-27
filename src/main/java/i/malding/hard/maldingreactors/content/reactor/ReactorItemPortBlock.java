@@ -35,12 +35,6 @@ public class ReactorItemPortBlock extends ReactorSingleFaceBlock {
         return new ReactorItemPortBlockEntity(pos, state);
     }
 
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (world1, pos, state1, blockEntity) -> ((ReactorItemPortBlockEntity) blockEntity).tick(world1, pos, state1);
-    }
-
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ReactorItemPortBlockEntity portBlockEntity = (ReactorItemPortBlockEntity) world.getBlockEntity(pos);

@@ -2,6 +2,7 @@ package i.malding.hard.maldingreactors.util;
 
 import i.malding.hard.maldingreactors.content.MaldingBlocks;
 import i.malding.hard.maldingreactors.content.reactor.ReactorBaseBlockEntity;
+import i.malding.hard.maldingreactors.content.reactor.ReactorControllerBlockEntity;
 import i.malding.hard.maldingreactors.content.reactor.ReactorFuelRodBlockEntity;
 import i.malding.hard.maldingreactors.content.reactor.ReactorFuelRodControllerBlockEntity;
 import i.malding.hard.maldingreactors.data.MaldingTags;
@@ -166,8 +167,10 @@ public class ReactorValidator {
     public boolean validateFuelRodsAndControllers(BlockBox blockBox){
         int allowedRodHeight = blockBox.getBlockCountY() - 2;
 
+        Set<ReactorFuelRodControllerBlockEntity> rodControllers = new HashSet<>();
+
         for(BlockPos rodControllerPos : cachedRodControllerPositions){
-            Set<BlockPos> fuelRodPositions = new HashSet<>();
+            Set<ReactorFuelRodBlockEntity> fuelRodPositions = new HashSet<>();
 
             for(int i = 1; i <= allowedRodHeight; i++){
                 BlockPos possibleRod = rodControllerPos.down(i);
@@ -180,7 +183,7 @@ public class ReactorValidator {
                     reactorFuelRod.setRodControllerPos(rodControllerPos);
                     reactorFuelRod.setControllerPos(this.controllerPos);
 
-                    fuelRodPositions.add(possibleRod);
+                    fuelRodPositions.add(reactorFuelRod);
                 } else{
                     return false;
                 }
@@ -188,6 +191,8 @@ public class ReactorValidator {
 
             ((ReactorFuelRodControllerBlockEntity)world.getBlockEntity(rodControllerPos)).setAdjourningFuelRods(fuelRodPositions);
         }
+
+        ((ReactorControllerBlockEntity)world.getBlockEntity(this.controllerPos)).setRodControllers(rodControllers);
 
         return true;
     }

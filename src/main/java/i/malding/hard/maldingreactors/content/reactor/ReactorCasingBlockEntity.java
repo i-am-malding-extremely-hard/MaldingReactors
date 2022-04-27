@@ -7,9 +7,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 
-public class ReactorCasingBlockBlockEntity extends BlockEntity implements RenderAttachmentBlockEntity, ReactorPart {
+public class ReactorCasingBlockEntity extends BlockEntity implements RenderAttachmentBlockEntity, ReactorPart {
 
-    public ReactorCasingBlockBlockEntity(BlockPos pos, BlockState state) {
+    public ReactorCasingBlockEntity(BlockPos pos, BlockState state) {
         super(MaldingBlockEntities.REACTOR_CASING, pos, state);
     }
 

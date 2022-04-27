@@ -30,7 +30,7 @@ public class ReactorItemPortBlockEntity extends ReactorBaseBlockEntity implement
     }
 
     @Override
-    public void tick(World world, BlockPos pos, BlockState state) {
+    public void serverTick() {
 
     }
 

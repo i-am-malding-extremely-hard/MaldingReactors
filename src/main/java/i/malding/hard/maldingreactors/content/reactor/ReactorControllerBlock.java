@@ -60,7 +60,13 @@ public class ReactorControllerBlock extends ReactorSingleFaceBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return checkType(type, MaldingBlockEntities.REACTOR_CONTROLLER,
-                ((world1, pos, state1, blockEntity) -> ((ReactorControllerBlockEntity) blockEntity).tick()));
+                ((world1, pos, state1, blockEntity) -> {
+                    if(world1.isClient) {
+                        ((ReactorControllerBlockEntity) blockEntity).clientTick();
+                    }else{
+                        ((ReactorControllerBlockEntity) blockEntity).serverTick();
+                    }
+                }));
     }
 
     public record MultiBlockUpdatePacket(BlockPos pos, boolean isMultiPart) {

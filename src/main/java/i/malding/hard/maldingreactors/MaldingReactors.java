@@ -2,12 +2,14 @@ package i.malding.hard.maldingreactors;
 
 import i.malding.hard.maldingreactors.content.*;
 import i.malding.hard.maldingreactors.content.handlers.MaldingScreenHandlers;
+import i.malding.hard.maldingreactors.content.reactor.ReactorPowerPortBlockEntity;
 import i.malding.hard.maldingreactors.content.worldgen.MaldingFeatures;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.network.OwoNetChannel;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
+import team.reborn.energy.api.EnergyStorage;
 
 import java.util.Locale;
 
@@ -29,6 +31,11 @@ public class MaldingReactors implements ModInitializer {
         GROUP.initialize();
 
         registerNetworkPackets();
+        registerEnergyStuff();
+    }
+
+    public void registerEnergyStuff(){
+        EnergyStorage.SIDED.registerSelf(MaldingBlockEntities.REACTOR_POWER_PORT);
     }
 
     public static Identifier asResource(String path) {
