@@ -1,16 +1,18 @@
 {
   "schemaVersion": 1,
-  "id": "malding-reactors",
+  "id": "malding_reactors",
   "version": "${version}",
-  "name": "MaldingReactors",
+  "name": "Malding Reactors",
   "description": "Big Reactors for Fabric",
   "authors": [
     "AlphaMode",
-    "Blodhgarm"
+    "Blodhgarm",
+    "glisco",
+    "Noaaan"
   ],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/MaldingReactors/icon.png",
+  "icon": "assets/malding_reactors/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
@@ -24,11 +26,11 @@
     ]
   },
   "mixins": [
-    "MaldingReactors.mixins.json"
+    "malding_reactors.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.14.22",
     "fabric": "*",
-    "minecraft": "1.20.*"
+    "minecraft": "~1.20"
   }
 }

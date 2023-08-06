@@ -171,7 +171,7 @@ public class ReactorValidator {
         Set<ReactorFuelRodControllerBlockEntity> rodControllers = new HashSet<>();
 
         for (BlockPos rodControllerPos : cachedRodControllerPositions) {
-            Set<ReactorFuelRodBlockEntity> fuelRodPositions = new HashSet<>();
+            Set<BlockPos> fuelRodPositions = new HashSet<>();
 
             for (int i = 1; i <= allowedRodHeight; i++) {
                 BlockPos possibleRod = rodControllerPos.down(i);
@@ -184,7 +184,7 @@ public class ReactorValidator {
                     reactorFuelRod.setRodControllerPos(rodControllerPos);
                     reactorFuelRod.setControllerPos(this.controllerPos);
 
-                    fuelRodPositions.add(reactorFuelRod);
+                    fuelRodPositions.add(possibleRod);
                 } else {
                     return false;
                 }

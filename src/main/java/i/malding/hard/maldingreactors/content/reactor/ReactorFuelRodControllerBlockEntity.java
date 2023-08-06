@@ -2,13 +2,13 @@ package i.malding.hard.maldingreactors.content.reactor;
 
 import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import i.malding.hard.maldingreactors.content.handlers.ReactorFuelRodControllerScreenHandler;
+import i.malding.hard.maldingreactors.util.CollectionNbtKey;
+import io.wispforest.owo.nbt.NbtKey;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtHelper;
-import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.*;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -18,16 +18,20 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity implements NamedScreenHandlerFactory {
 
-    private static final String REACTION_RATE_KEY = "ReactionRate";
-    private static final String ADJOURNING_FUEL_RODS_KEY = "ConnectedRods";
+    public static NbtKey.Type<BlockPos> BLOCK_POS = NbtKey.Type.LONG.then(BlockPos::fromLong, BlockPos::asLong);
+
+    public static final NbtKey<Integer> REACTION_RATE_KEY = new NbtKey<>("ReactionRate", NbtKey.Type.INT);
+
+    private static final CollectionNbtKey<BlockPos, Set<BlockPos>> ADJOURNING_FUEL_RODS_KEY = new CollectionNbtKey<>("ConnectedRods", BLOCK_POS, LinkedHashSet::new);
 
     public int reactionRate = 0;
 
-    private Set<ReactorFuelRodBlockEntity> adjourningFuelRods = new HashSet<>();
+    private Set<BlockPos> adjourningFuelRods = new LinkedHashSet<>();
 
     public ReactorFuelRodControllerBlockEntity(BlockPos pos, BlockState state) {
         super(MaldingBlockEntities.REACTOR_FUEL_ROD_CONTROLLER, pos, state);
@@ -49,7 +53,8 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity 
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
 
-        nbt.putInt(REACTION_RATE_KEY, reactionRate);
+        nbt.put(REACTION_RATE_KEY, reactionRate);
+
         this.writeFuelRodPositions(nbt);
     }
 
@@ -57,15 +62,16 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity 
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
 
-        this.reactionRate = nbt.getInt(REACTION_RATE_KEY);
+        this.reactionRate = nbt.get(REACTION_RATE_KEY);
+
         this.readFuelRodPositions(nbt);
     }
 
-    public void setAdjourningFuelRods(Set<ReactorFuelRodBlockEntity> adjourningFuelRods){
+    public void setAdjourningFuelRods(Set<BlockPos> adjourningFuelRods){
         this.adjourningFuelRods = adjourningFuelRods;
     }
 
-    public Set<ReactorFuelRodBlockEntity> getAdjourningFuelRods(){
+    public Set<BlockPos> getAdjourningFuelRods(){
         return this.adjourningFuelRods;
     }
 
@@ -83,23 +89,10 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity 
     //-------------------------------------------------------------------------------
 
     public void writeFuelRodPositions(NbtCompound nbt) {
-        NbtList list = new NbtList();
-
-        for (ReactorFuelRodBlockEntity reactorFuelRodBlockEntity : adjourningFuelRods) {
-            list.add(NbtHelper.fromBlockPos(reactorFuelRodBlockEntity.getPos()));
-        }
-
-        nbt.put(ADJOURNING_FUEL_RODS_KEY, list);
+        ADJOURNING_FUEL_RODS_KEY.putCollection(nbt, adjourningFuelRods);
     }
 
     public void readFuelRodPositions(NbtCompound nbt) {
-        NbtList list = nbt.getList(ADJOURNING_FUEL_RODS_KEY, NbtList.COMPOUND_TYPE);
-        Set<ReactorFuelRodBlockEntity> adjoiningFuelRods = new HashSet<>();
-
-        for (NbtElement compound : list) {
-            adjoiningFuelRods.add((ReactorFuelRodBlockEntity) world.getBlockEntity(NbtHelper.toBlockPos((NbtCompound) compound)));
-        }
-
-        this.adjourningFuelRods = adjoiningFuelRods;
+        this.adjourningFuelRods = ADJOURNING_FUEL_RODS_KEY.getCollection(nbt);
     }
 }

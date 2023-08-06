@@ -1,0 +1,9 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "particle": "malding-reactors:block/reactor_controller_side",
+    "top": "malding-reactors:block/reactor_controller_side",
+	"front": "malding-reactors:block/reactor_controller_front",
+	"side": "malding-reactors:block/reactor_controller_side"
+  }
+}
