@@ -2,22 +2,18 @@ package i.malding.hard.maldingreactors.content;
 
 import i.malding.hard.maldingreactors.MaldingReactors;
 import i.malding.hard.maldingreactors.content.reactor.*;
+import i.malding.hard.maldingreactors.util.Tab;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.registration.reflect.BlockRegistryContainer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.GlassBlock;
-import net.minecraft.block.OreBlock;
+import net.minecraft.block.ExperienceDroppingBlock;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 
 public class MaldingBlocks implements BlockRegistryContainer {
@@ -34,12 +30,7 @@ public class MaldingBlocks implements BlockRegistryContainer {
     public static final Block REACTOR_POWER_PORT = new ReactorPowerPortBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
 
     @Tab(1)
-    public static final Block COPIUM_ORE = new OreBlock(FabricBlockSettings.copy(Blocks.IRON_ORE));
-
-    @Override
-    public BlockItem createBlockItem(Block block, String identifier) {
-        return new BlockItem(block, new Item.Settings().group(MaldingReactors.GROUP));
-    }
+    public static final Block COPIUM_ORE = new ExperienceDroppingBlock(FabricBlockSettings.copy(Blocks.IRON_ORE));
 
     //---------------------------------------------------------------------------------
 
@@ -49,23 +40,10 @@ public class MaldingBlocks implements BlockRegistryContainer {
     public void postProcessField(String namespace, Block value, String identifier, Field field) {
         if (field.isAnnotationPresent(NoBlockItem.class)) return;
 
-        int tab;
+        if (field.isAnnotationPresent(Tab.class)) cachedTab = field.getAnnotation(Tab.class).value();
 
-        if (field.isAnnotationPresent(Tab.class)) {
-            tab = field.getAnnotation(Tab.class).value();
-        } else {
-            tab = cachedTab;
-        }
-
-        cachedTab = tab;
-
-        Registry.register(Registry.ITEM, new Identifier(namespace, identifier),
-                new BlockItem(value, new OwoItemSettings().tab(tab).group(MaldingReactors.GROUP)));
+        Registry.register(Registries.ITEM, new Identifier(namespace, identifier),
+                new BlockItem(value, new OwoItemSettings().tab(cachedTab).group(MaldingReactors.GROUP)));
     }
 
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.FIELD)
-    private @interface Tab {
-        int value();
-    }
 }

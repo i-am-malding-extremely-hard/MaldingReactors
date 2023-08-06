@@ -6,6 +6,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class ReactorFuelRodBlockEntity extends ReactorBaseBlockEntity {
 
@@ -14,6 +15,7 @@ public class ReactorFuelRodBlockEntity extends ReactorBaseBlockEntity {
 
     private Long currentHeatStored = 0L;
 
+    @Nullable
     public BlockPos rodControllerPos = null;
 
     public ReactorFuelRodBlockEntity(BlockPos pos, BlockState state) {
@@ -31,7 +33,10 @@ public class ReactorFuelRodBlockEntity extends ReactorBaseBlockEntity {
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
 
-        this.rodControllerPos = NbtHelper.toBlockPos(nbt);
+        if(nbt.contains("RodControllerPos")) {
+            this.rodControllerPos = NbtHelper.toBlockPos(nbt);
+        }
+
         this.currentHeatStored = nbt.getLong(STORED_HEAT_KEY);
     }
 
@@ -39,7 +44,10 @@ public class ReactorFuelRodBlockEntity extends ReactorBaseBlockEntity {
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
 
-        nbt.put("RodControllerPos", NbtHelper.fromBlockPos(this.rodControllerPos));
+        if(rodControllerPos != null){
+            nbt.put("RodControllerPos", NbtHelper.fromBlockPos(this.rodControllerPos));
+        }
+
         nbt.putLong(STORED_HEAT_KEY, currentHeatStored);
     }
 

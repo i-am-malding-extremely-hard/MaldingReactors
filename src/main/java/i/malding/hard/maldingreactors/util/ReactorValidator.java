@@ -13,8 +13,9 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public class ReactorValidator {
 
     public Set<BlockPos> cachedRodControllerPositions = new HashSet<>();
 
-    public ReactorValidator(World world, BlockPos controllerPos){
+    public ReactorValidator(World world, BlockPos controllerPos) {
         this.controllerPos = controllerPos;
         this.world = world;
     }
@@ -39,7 +40,7 @@ public class ReactorValidator {
         Direction facing = controllerState.get(Properties.FACING);
         BlockPos.Mutable pos = new BlockPos.Mutable(controllerPos.getX(), controllerPos.getY(), controllerPos.getZ());
 
-        if(facing == Direction.DOWN || facing == Direction.UP){
+        if (facing == Direction.DOWN || facing == Direction.UP) {
             int northAmount = findDirectionalBound(pos, Direction.NORTH);
 
             pos.move(Direction.NORTH, northAmount);
@@ -63,27 +64,27 @@ public class ReactorValidator {
         BlockBox unvalidatedReactorBounds = BlockBox.create(bottomLeft, topFarRight);
 
         //Must be a minimum of 3x3x3 blocks
-        if(unvalidatedReactorBounds.getBlockCountX() < 3 || unvalidatedReactorBounds.getBlockCountY() < 3 || unvalidatedReactorBounds.getBlockCountZ() < 3){
+        if (unvalidatedReactorBounds.getBlockCountX() < 3 || unvalidatedReactorBounds.getBlockCountY() < 3 || unvalidatedReactorBounds.getBlockCountZ() < 3) {
             return false;
         }
 
         //Can be a maximum of 100x100x100 blocks
-        if(unvalidatedReactorBounds.getBlockCountX() > MAX_REACTOR_SIZE || unvalidatedReactorBounds.getBlockCountY() > MAX_REACTOR_SIZE || unvalidatedReactorBounds.getBlockCountZ() > MAX_REACTOR_SIZE){
+        if (unvalidatedReactorBounds.getBlockCountX() > MAX_REACTOR_SIZE || unvalidatedReactorBounds.getBlockCountY() > MAX_REACTOR_SIZE || unvalidatedReactorBounds.getBlockCountZ() > MAX_REACTOR_SIZE) {
             return false;
         }
 
         //Validate that all sides and edges checkout
-        if(!validateSidesAndEdges(unvalidatedReactorBounds)){
+        if (!validateSidesAndEdges(unvalidatedReactorBounds)) {
             return false;
         }
 
         //Check if we found any reactor rod controllers
-        if(this.cachedRodControllerPositions.isEmpty()){
+        if (this.cachedRodControllerPositions.isEmpty()) {
             return false;
         }
 
         //Confirm that the rods for the reactor rod controllers are good
-        if(!validateFuelRodsAndControllers(unvalidatedReactorBounds)){
+        if (!validateFuelRodsAndControllers(unvalidatedReactorBounds)) {
             return false;
         }
 
@@ -102,14 +103,14 @@ public class ReactorValidator {
 
     //----------------------------------------------------------------------------------------------------------------
 
-    private int findDirectionalBound(BlockPos.Mutable pos, Direction direction){
+    private int findDirectionalBound(BlockPos.Mutable pos, Direction direction) {
         int i = 1;
         boolean foundTop = false;
 
-        while(!foundTop) {
+        while (!foundTop) {
             if (!isReactorBlock(world.getBlockState(pos.mutableCopy().move(direction, i)))) {
                 foundTop = true;
-            }else{
+            } else {
                 i += 1;
             }
         }
@@ -119,7 +120,7 @@ public class ReactorValidator {
 
     //----------------------------------------------------------------------------------------------------------------
 
-    private boolean validateSidesAndEdges(BlockBox blockBox){
+    private boolean validateSidesAndEdges(BlockBox blockBox) {
         int maxX = blockBox.getBlockCountX();
         int maxY = blockBox.getBlockCountY();
         int maxZ = blockBox.getBlockCountZ();
@@ -139,16 +140,16 @@ public class ReactorValidator {
         return (side1Check && side2Check && side3Check && side4Check && side5Check && side6Check);
     }
 
-    public boolean validateSide(int maxA, Direction aDirection, int maxB, Direction bDirection, BlockPos.Mutable startPos){
+    public boolean validateSide(int maxA, Direction aDirection, int maxB, Direction bDirection, BlockPos.Mutable startPos) {
         BlockPos.Mutable pos = startPos.mutableCopy();
-        for(int a = 0; a < maxA; a++){
-            for(int b = 0; b < maxB; b++){
-                if(a == 0 || b == 0 || a == (maxA - 1) || b == (maxB - 1)){
-                    if(!isCasing(pos, world.getBlockState(pos))){
+        for (int a = 0; a < maxA; a++) {
+            for (int b = 0; b < maxB; b++) {
+                if (a == 0 || b == 0 || a == (maxA - 1) || b == (maxB - 1)) {
+                    if (!isCasing(pos, world.getBlockState(pos))) {
                         return false;
                     }
-                }else{
-                    if(!isReactorBlock(pos, world.getBlockState(pos))){
+                } else {
+                    if (!isReactorBlock(pos, world.getBlockState(pos))) {
                         return false;
                     }
                 }
@@ -164,35 +165,35 @@ public class ReactorValidator {
 
     //----------------------------------------------------------------------------------------------------------------
 
-    public boolean validateFuelRodsAndControllers(BlockBox blockBox){
+    public boolean validateFuelRodsAndControllers(BlockBox blockBox) {
         int allowedRodHeight = blockBox.getBlockCountY() - 2;
 
         Set<ReactorFuelRodControllerBlockEntity> rodControllers = new HashSet<>();
 
-        for(BlockPos rodControllerPos : cachedRodControllerPositions){
+        for (BlockPos rodControllerPos : cachedRodControllerPositions) {
             Set<ReactorFuelRodBlockEntity> fuelRodPositions = new HashSet<>();
 
-            for(int i = 1; i <= allowedRodHeight; i++){
+            for (int i = 1; i <= allowedRodHeight; i++) {
                 BlockPos possibleRod = rodControllerPos.down(i);
 
                 BlockState state = world.getBlockState(possibleRod);
 
-                if(state.isOf(MaldingBlocks.REACTOR_FUEL_ROD)){
+                if (state.isOf(MaldingBlocks.REACTOR_FUEL_ROD)) {
                     ReactorFuelRodBlockEntity reactorFuelRod = (ReactorFuelRodBlockEntity) world.getBlockEntity(possibleRod);
 
                     reactorFuelRod.setRodControllerPos(rodControllerPos);
                     reactorFuelRod.setControllerPos(this.controllerPos);
 
                     fuelRodPositions.add(reactorFuelRod);
-                } else{
+                } else {
                     return false;
                 }
             }
 
-            ((ReactorFuelRodControllerBlockEntity)world.getBlockEntity(rodControllerPos)).setAdjourningFuelRods(fuelRodPositions);
+            ((ReactorFuelRodControllerBlockEntity) world.getBlockEntity(rodControllerPos)).setAdjourningFuelRods(fuelRodPositions);
         }
 
-        ((ReactorControllerBlockEntity)world.getBlockEntity(this.controllerPos)).setRodControllers(rodControllers);
+        ((ReactorControllerBlockEntity) world.getBlockEntity(this.controllerPos)).setRodControllers(rodControllers);
 
         return true;
     }
@@ -201,8 +202,8 @@ public class ReactorValidator {
 
 
     public boolean isCasing(BlockPos.Mutable pos, BlockState state) {
-        if(state.isOf(MaldingBlocks.REACTOR_CASING)){
-            if(pos != null){
+        if (state.isOf(MaldingBlocks.REACTOR_CASING)) {
+            if (pos != null) {
                 ((ReactorBaseBlockEntity) world.getBlockEntity(pos)).setControllerPos(this.controllerPos);
             }
 
@@ -217,11 +218,11 @@ public class ReactorValidator {
     }
 
     public boolean isReactorBlock(BlockPos.Mutable pos, BlockState state) {
-        if(state.isIn(MaldingTags.BASE_REACTOR_BLOCKS)){
-            if(pos != null) {
+        if (state.isIn(MaldingTags.BASE_REACTOR_BLOCKS)) {
+            if (pos != null) {
                 //Check if the block is somehow a second controller block
                 if (state.isOf(MaldingBlocks.REACTOR_CONTROLLER)) {
-                    if(!compareBlockPos(pos, this.controllerPos)) {
+                    if (!compareBlockPos(pos, this.controllerPos)) {
                         return false;
                     }
                 } else {
@@ -244,7 +245,7 @@ public class ReactorValidator {
      *
      * @return if the block cords are both the same
      */
-    private static boolean compareBlockPos(BlockPos pos1, BlockPos pos2){
+    private static boolean compareBlockPos(BlockPos pos1, BlockPos pos2) {
         return pos1.getX() == pos2.getX() && pos1.getY() == pos2.getY() && pos1.getZ() == pos2.getZ();
     }
 }

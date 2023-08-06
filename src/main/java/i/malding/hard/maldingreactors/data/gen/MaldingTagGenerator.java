@@ -1,13 +1,13 @@
 package i.malding.hard.maldingreactors.data.gen;
 
 import i.malding.hard.maldingreactors.data.MaldingTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.RegistryWrapper;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.concurrent.CompletableFuture;
 
 import static i.malding.hard.maldingreactors.content.MaldingBlocks.*;
 import static i.malding.hard.maldingreactors.content.MaldingItems.COPIUM_INGOT;
@@ -16,31 +16,26 @@ public class MaldingTagGenerator {
 
     public static class MaldingItemTagProvider extends ItemTagProvider {
 
-        public MaldingItemTagProvider(FabricDataGenerator dataGenerator, @Nullable BlockTagProvider blockTagProvider) {
-            super(dataGenerator, blockTagProvider);
+        public MaldingItemTagProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture, @Nullable BlockTagProvider blockTagProvider) {
+            super(dataOutput, completableFuture, blockTagProvider);
         }
 
         @Override
-        protected void generateTags() {
-            tag(MaldingTags.REACTOR_FUEL)
+        protected void configure(RegistryWrapper.WrapperLookup arg) {
+            getOrCreateTagBuilder(MaldingTags.REACTOR_FUEL)
                     .add(COPIUM_INGOT);
-        }
-
-        // Yarn is bad
-        public FabricTagBuilder<Item> tag(TagKey<Item> tag) {
-            return getOrCreateTagBuilder(tag);
         }
     }
 
     public static class MaldingBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
-        public MaldingBlockTagProvider(FabricDataGenerator dataGenerator) {
-            super(dataGenerator);
+        public MaldingBlockTagProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+            super(dataOutput, registriesFuture);
         }
 
         @Override
-        protected void generateTags() {
-            tag(MaldingTags.BASE_REACTOR_BLOCKS)
+        protected void configure(RegistryWrapper.WrapperLookup arg) {
+            getOrCreateTagBuilder(MaldingTags.BASE_REACTOR_BLOCKS)
                     .add(REACTOR_CASING,
                             REACTOR_GLASS,
                             REACTOR_CONTROLLER,
@@ -48,17 +43,12 @@ public class MaldingTagGenerator {
                             REACTOR_POWER_PORT,
                             REACTOR_FUEL_ROD_CONTROLLER);
 
-            tag(MaldingTags.REACTOR_COMPONENT_BLOCKS)
+            getOrCreateTagBuilder(MaldingTags.REACTOR_COMPONENT_BLOCKS)
                     .add(REACTOR_CASING,
                             REACTOR_GLASS,
                             REACTOR_ITEM_PORT,
                             REACTOR_POWER_PORT,
                             REACTOR_FUEL_ROD_CONTROLLER);
-        }
-
-        // Yarn is bad
-        public FabricTagBuilder<Block> tag(TagKey<Block> tag) {
-            return getOrCreateTagBuilder(tag);
         }
     }
 }

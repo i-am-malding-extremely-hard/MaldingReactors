@@ -4,13 +4,14 @@ import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
 public class MaldingDataGenerator implements DataGeneratorEntrypoint {
+
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator generator) {
+        var pack = generator.createPack();
 
-        MaldingTagGenerator.MaldingBlockTagProvider blockTagProvider = new MaldingTagGenerator.MaldingBlockTagProvider(generator);
+        MaldingTagGenerator.MaldingBlockTagProvider blockTagProvider = pack.addProvider(MaldingTagGenerator.MaldingBlockTagProvider::new);
 
-        generator.addProvider(blockTagProvider);
-        generator.addProvider(new MaldingTagGenerator.MaldingItemTagProvider(generator, blockTagProvider));
+        pack.addProvider((output, registriesFuture) -> new MaldingTagGenerator.MaldingItemTagProvider(output, registriesFuture, blockTagProvider));
 
     }
 }

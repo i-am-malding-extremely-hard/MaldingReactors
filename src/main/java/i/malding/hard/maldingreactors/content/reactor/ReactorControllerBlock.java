@@ -46,14 +46,6 @@ public class ReactorControllerBlock extends ReactorSingleFaceBlock {
             GuiUtil.openGui(serverPlayer, factory, (buf -> buf.writeBlockPos(pos)));
         }
 
-//        if (controllerBlockEntity != null && controllerBlockEntity.isValid()) {
-//            if (player.shouldCancelInteraction()) {
-//                return ReactorItemPortBlock.extractWasteAmount(world, pos, player);
-//            } else {
-//                return ReactorItemPortBlock.insertFuelAmount(world, pos, player, hand);
-//            }
-//        }
-
         return super.onUse(state, world, pos, player, hand, hit);
     }
 

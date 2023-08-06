@@ -3,10 +3,12 @@ package i.malding.hard.maldingreactors.content.handlers;
 import i.malding.hard.maldingreactors.content.reactor.ReactorItemPortBlockEntity;
 import i.malding.hard.maldingreactors.data.MaldingTags;
 import io.wispforest.owo.client.screens.ScreenUtils;
+import io.wispforest.owo.client.screens.SlotGenerator;
 import io.wispforest.owo.client.screens.ValidatingSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
@@ -35,7 +37,13 @@ public class ReactorItemPortScreenHandler extends ScreenHandler {
 
         this.addSlot(new Slot(this.fuelSlot, 0, 0, 0));
 
-        ScreenUtils.generatePlayerSlots(8, 122, playerInventory, this::addSlot);
+        SlotGenerator.begin(this::addSlot, 8, 122)
+                        .playerInventory(playerInventory);
+    }
+
+    @Override
+    public ItemStack quickMove(PlayerEntity player, int slot) {
+        return ScreenUtils.handleSlotTransfer(this, slot, 2);
     }
 
     @Override
@@ -44,8 +52,8 @@ public class ReactorItemPortScreenHandler extends ScreenHandler {
     }
 
     @Override
-    public void close(PlayerEntity player) {
-        super.close(player);
+    public void onClosed(PlayerEntity player) {
+        super.onClosed(player);
         this.context.run((world, blockPos) -> {
             ReactorItemPortBlockEntity itemPort = (ReactorItemPortBlockEntity) world.getBlockEntity(blockPos);
 

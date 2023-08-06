@@ -3,6 +3,7 @@ package i.malding.hard.maldingreactors.client.ui.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import i.malding.hard.maldingreactors.client.MaldingTextures;
 import i.malding.hard.maldingreactors.content.handlers.ReactorFuelRodControllerScreenHandler;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -15,10 +16,7 @@ public class ReactorFuelRodControllerScreen extends HandledScreen<ReactorFuelRod
     }
 
     @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, MaldingTextures.REACTOR_BACKGROUND);
-        drawTexture(matrices, this.x, this.y, 0, 0, backgroundWidth, backgroundHeight);
+    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
+        context.drawTexture(MaldingTextures.REACTOR_BACKGROUND, this.x, this.y, 0, 0, backgroundWidth, backgroundHeight);
     }
 }

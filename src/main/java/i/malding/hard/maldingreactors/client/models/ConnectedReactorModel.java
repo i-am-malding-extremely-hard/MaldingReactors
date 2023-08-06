@@ -17,10 +17,9 @@ public class ConnectedReactorModel extends ForwardingBakedModel {
     }
 
     @Override
-    public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
+    public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<net.minecraft.util.math.random.Random> randomSupplier, RenderContext context) {
         if(blockView instanceof RenderAttachedBlockView attachedBlockView && (boolean) attachedBlockView.getBlockEntityRenderAttachment(pos)) {
             super.emitBlockQuads(blockView, state, pos, randomSupplier, context);
         }
-
     }
 }

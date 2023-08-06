@@ -13,9 +13,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class ReactorItemPortBlockEntity extends ReactorBaseBlockEntity implements NamedScreenHandlerFactory {
 
@@ -38,16 +36,16 @@ public class ReactorItemPortBlockEntity extends ReactorBaseBlockEntity implement
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
 
-        nbt.put(FUEL_SLOT_KEY, fuelSlot.getStack(0).getOrCreateNbt());
-        nbt.put(WASTE_SLOT_KEY, wasteSlot.getStack(0).getOrCreateNbt());
+        fuelSlot.setStack(0, ItemStack.fromNbt((NbtCompound) nbt.get(FUEL_SLOT_KEY)));
+        wasteSlot.setStack(0, ItemStack.fromNbt((NbtCompound) nbt.get(WASTE_SLOT_KEY)));
     }
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
 
-        fuelSlot.setStack(0, ItemStack.fromNbt((NbtCompound) nbt.get(FUEL_SLOT_KEY)));
-        wasteSlot.setStack(0, ItemStack.fromNbt((NbtCompound) nbt.get(WASTE_SLOT_KEY)));
+        nbt.put(FUEL_SLOT_KEY, fuelSlot.getStack(0).getOrCreateNbt());
+        nbt.put(WASTE_SLOT_KEY, wasteSlot.getStack(0).getOrCreateNbt());
     }
 
     @Override

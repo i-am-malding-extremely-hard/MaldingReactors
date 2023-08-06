@@ -1,8 +1,10 @@
 package i.malding.hard.maldingreactors.content.handlers;
 
 import i.malding.hard.maldingreactors.content.reactor.ReactorFuelRodControllerBlockEntity;
+import io.wispforest.owo.client.screens.ScreenUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 
@@ -26,8 +28,13 @@ public class ReactorFuelRodControllerScreenHandler extends ScreenHandler {
     }
 
     @Override
-    public void close(PlayerEntity player) {
-        super.close(player);
+    public ItemStack quickMove(PlayerEntity player, int slot) {
+        return ScreenUtils.handleSlotTransfer(this, slot, 0);
+    }
+
+    @Override
+    public void onClosed(PlayerEntity player) {
+        super.onClosed(player);
         this.context.run((world, blockPos) -> {
             ReactorFuelRodControllerBlockEntity itemPort = (ReactorFuelRodControllerBlockEntity) world.getBlockEntity(blockPos);
 

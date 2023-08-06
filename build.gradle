@@ -1,7 +1,7 @@
 plugins {
-    id 'fabric-loom' version '0.12-SNAPSHOT'
+    id 'fabric-loom' version '1.3-SNAPSHOT'
     id 'maven-publish'
-    id 'io.github.juuxel.loom-quiltflower' version '1.7.1'
+    id 'io.github.juuxel.loom-vineflower' version '1.11.0'
 }
 
 version = project.mod_version
@@ -9,6 +9,11 @@ group = project.maven_group
 
 repositories {
     maven { url 'https://maven.wispforest.io' }
+    maven {
+        name = "Modrinth"
+        url "https://api.modrinth.com/maven"
+        content {includeGroup "maven.modrinth" }
+    }
     mavenLocal()
 }
 
@@ -22,11 +27,25 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     modImplementation "io.wispforest:owo-lib:${project.owo_version}"
-    modImplementation "me.alphamode:Star:1.0+1.18.2"
+    modImplementation "me.alphamode:Star:${project.star_version}"
 
-    include modApi('teamreborn:energy:2.2.0') {
+    include modApi("teamreborn:energy:${project.energy_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
+
+    //Locals
+
+    modLocalRuntime("maven.modrinth:ferrite-core:${project.ferrite_core}-fabric")
+
+//    modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
+
+    //modLocalRuntime ("maven.modrinth:sodium:${project.sodium}")
+
+    //modImplementation modLocalRuntime('org.joml:joml:1.10.2')
+
+    //modLocalRuntime("maven.modrinth:starlight:${project.starlight}")
+
+    modLocalRuntime("maven.modrinth:lazydfu:${project.lazydfu}")
 }
 
 sourceSets {
@@ -39,7 +58,7 @@ sourceSets {
     }
 }
 
-loom{
+loom {
     runs {
         datagen {
             client()
@@ -50,6 +69,44 @@ loom{
             vmArg "-Dfabric-api.datagen.modid=malding-reactors"
 
             runDir "build/datagen"
+        }
+        client_renderDoc {
+            client()
+            ideConfigGenerated true
+            name = "[${project.archivesBaseName}] Client - (RenderDoc)"
+            source sourceSets.main
+            vmArg "-Dowo.renderdocPath=${System.getenv('renderDocPath')}"
+        }
+        client_mixin {
+            client()
+            ideConfigGenerated true
+            name = "[${project.archivesBaseName}] Client - (Mixin Swap)"
+            source sourceSets.main
+            vmArg "-Dmixin.debug.export=true"
+
+            try {
+                afterEvaluate {
+                    def mixinDep = this.configurations.compileClasspath
+                            .allDependencies
+                            .findAll { it.name == "sponge-mixin" }
+                            .first()
+
+                    if (mixin != null) {
+                        def mixinPath = this.configurations.compileClasspath.files(mixinDep).first().path;
+
+                        println(mixinPath)
+
+                        vmArg("-javaagent:\"${mixinPath}\"")
+
+                        println("[Info]: Mixin Hotswap Run should be working")
+                    } else {
+                        println("[Warning]: Unable to locate file path for Mixin Jar, HotSwap Run will not work!!!")
+                    }
+                }
+            } catch (Exception e) {
+                println("[Error]: MixinHotswap Run had a issue!")
+                e.printStackTrace()
+            }
         }
     }
 }
