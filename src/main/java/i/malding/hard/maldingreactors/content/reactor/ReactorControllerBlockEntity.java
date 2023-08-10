@@ -4,7 +4,9 @@ import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import i.malding.hard.maldingreactors.content.MaldingFluids;
 import i.malding.hard.maldingreactors.content.handlers.ReactorScreenHandler;
 import i.malding.hard.maldingreactors.multiblock.ReactorMultiblock;
+import i.malding.hard.maldingreactors.util.CollectionNbtKey;
 import i.malding.hard.maldingreactors.util.ReactorValidator;
+import io.wispforest.owo.nbt.NbtKey;
 import io.wispforest.owo.ops.WorldOps;
 import me.alphamode.star.transfer.FluidTank;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -12,7 +14,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
@@ -31,10 +33,14 @@ import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @SuppressWarnings("UnstableApiUsage")
 public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity implements ReactorMultiblock, NamedScreenHandlerFactory {
+
+    public static final NbtKey.Type<BlockPos> BLOCK_POS = NbtKey.Type.LONG.then(BlockPos::fromLong, BlockPos::asLong);
 
     //Droplets per tick
     private static final int reactionRate = 1;
@@ -48,7 +54,13 @@ public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity impleme
     protected final EnergyStorage energyStorage = new SimpleEnergyStorage(4000 * 50, Long.MAX_VALUE, Long.MAX_VALUE);
     private int coreHeat, casingHeat;
 
-    protected Set<ReactorFuelRodControllerBlockEntity> ROD_CONTROLLERS = new HashSet<>();
+    private static final CollectionNbtKey<BlockPos, Set<BlockPos>> FUEL_RODS_KEY = new CollectionNbtKey<>("ConnectedRods", BLOCK_POS, LinkedHashSet::new);
+
+    public Set<BlockPos> rodControllers = new HashSet<>();
+    public Set<BlockPos> fuelRods = new HashSet<>();
+
+    public Set<BlockPos> itemPorts = new HashSet<>();
+    public Set<BlockPos> powerPorts = new HashSet<>();
 
     private ReactorValidator validator = null;
     private boolean isMultiBlock = false;
@@ -59,10 +71,8 @@ public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity impleme
         super(MaldingBlockEntities.REACTOR_CONTROLLER, pos, state);
     }
 
-    @Override
     public void clientTick() {}
 
-    @Override
     public void serverTick() {
         if (validator == null) {
             validator = new ReactorValidator(this.world, this.pos);
@@ -75,13 +85,21 @@ public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity impleme
                 int totalReatorRods = 0;
                 int totalReactorControlRods = 0;
 
-                for (ReactorFuelRodControllerBlockEntity rodController : ROD_CONTROLLERS) {
-                    totalRodAbsorptionRate += rodController.reactionRate / 100f;
+                for (BlockPos rodControllerPos : rodControllers) {
+                    Optional<ReactorFuelRodControllerBlockEntity> possibleBlockEntity = world.getBlockEntity(rodControllerPos, MaldingBlockEntities.REACTOR_FUEL_ROD_CONTROLLER);
 
-                    totalReatorRods += rodController.getAdjourningFuelRods().size();
+                    if(possibleBlockEntity.isEmpty()){
+                        continue;
+                    }
+
+                    ReactorFuelRodControllerBlockEntity rodController = possibleBlockEntity.get();
+
+                    totalRodAbsorptionRate += rodController.reactionRate / 100f;
 
                     totalReactorControlRods++;
                 }
+
+                totalReatorRods += this.fuelRods.size();
 
                 long consumedFuel = convertFuelToWaste(MathHelper.floor(reactionRate * (totalRodAbsorptionRate / totalReactorControlRods)) * totalReatorRods);
 
@@ -112,14 +130,28 @@ public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity impleme
         }
     }
 
+    public void handleBlockRemovable(BlockEntityType<?> type, BlockPos pos){
+        if(type == MaldingBlockEntities.REACTOR_FUEL_ROD_CONTROLLER){
+            rodControllers.remove(pos);
+        } else if(type == MaldingBlockEntities.REACTOR_FUEL_ROD){
+            fuelRods.remove(pos);
+        } else if(type == MaldingBlockEntities.REACTOR_ITEM_PORT){
+            itemPorts.remove(pos);
+        } else if(type == MaldingBlockEntities.REACTOR_POWER_PORT){
+            powerPorts.remove(pos);
+        }
+
+        this.setValid(false);
+    }
+
     //---------------------------------------------------
 
     public ReactorValidator getValidator() {
         return this.validator;
     }
 
-    public void setRodControllers(Set<ReactorFuelRodControllerBlockEntity> reactorRods) {
-        this.ROD_CONTROLLERS = reactorRods;
+    public void setRodControllers(Set<BlockPos> reactorRods) {
+        this.rodControllers = reactorRods;
     }
 
     @Override

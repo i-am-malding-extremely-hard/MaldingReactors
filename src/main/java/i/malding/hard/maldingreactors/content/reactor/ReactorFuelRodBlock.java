@@ -1,5 +1,6 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
+import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -27,7 +28,7 @@ public class ReactorFuelRodBlock extends ReactorBaseBlock {
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new ReactorFuelRodBlockEntity(pos, state);
+        return new ReactorBaseBlockEntity(MaldingBlockEntities.REACTOR_FUEL_ROD, pos, state);
     }
 
     @Override

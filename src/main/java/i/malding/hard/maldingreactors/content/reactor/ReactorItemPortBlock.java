@@ -1,14 +1,17 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
+import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import i.malding.hard.maldingreactors.content.MaldingFluids;
 import i.malding.hard.maldingreactors.content.MaldingItems;
 import i.malding.hard.maldingreactors.data.MaldingTags;
 import me.alphamode.star.transfer.FluidTank;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -77,10 +80,10 @@ public class ReactorItemPortBlock extends ReactorSingleFaceBlock {
                 long amountOfDropletsFromStack = stackCount * FluidConstants.INGOT;
 
                 try (Transaction t = Transaction.openOuter()) {
-                    long amountAllowedInsertable = wasteTank.simulateInsert(FluidVariant.of(MaldingFluids.COPIUM.still()), amountOfDropletsFromStack, t);
+                    long amountAllowedInsertable = StorageUtil.simulateInsert(wasteTank, FluidVariant.of(MaldingFluids.COPIUM.still()), amountOfDropletsFromStack, t);
 
                     if (amountAllowedInsertable > 0) {
-                        long actuallyInsertable = fuelTank.simulateInsert(FluidVariant.of(MaldingFluids.COPIUM.still()), amountAllowedInsertable, t);
+                        long actuallyInsertable = StorageUtil.simulateInsert(fuelTank, FluidVariant.of(MaldingFluids.COPIUM.still()), amountAllowedInsertable, t);
 
                         int amountUsed = MathHelper.floor(actuallyInsertable / (float) FluidConstants.INGOT);
 
@@ -113,7 +116,7 @@ public class ReactorItemPortBlock extends ReactorSingleFaceBlock {
             FluidTank wasteTank = controller.getWasteTank();
 
             try (Transaction t = Transaction.openOuter()) {
-                long amountOfWasteExtractable = wasteTank.simulateExtract(FluidVariant.of(MaldingFluids.MALDING_COPIUM.still()), wasteTank.getCapacity(), t);
+                long amountOfWasteExtractable = StorageUtil.simulateInsert(wasteTank, FluidVariant.of(MaldingFluids.MALDING_COPIUM.still()), wasteTank.getCapacity(), t);
 
                 int maldingCopium = MathHelper.floor(amountOfWasteExtractable / (float) FluidConstants.INGOT);
 

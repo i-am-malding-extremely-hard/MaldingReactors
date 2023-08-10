@@ -37,14 +37,4 @@ public class ReactorGlassBlock extends GlassBlock implements BlockEntityProvider
         BlockEntity blockEntity = world.getBlockEntity(pos);
         return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory) blockEntity : null;
     }
-
-    /**
-     * {@return the ticker if the given type and expected type are the same, or {@code null} if they are different}
-     */
-    @Nullable
-    protected static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> checkType(
-            BlockEntityType<A> givenType, BlockEntityType<E> expectedType, BlockEntityTicker<? super E> ticker
-    ) {
-        return expectedType == givenType ? (BlockEntityTicker<A>) ticker : null;
-    }
 }

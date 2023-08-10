@@ -2,6 +2,7 @@ package i.malding.hard.maldingreactors.content.reactor;
 
 import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import i.malding.hard.maldingreactors.util.GuiUtil;
+import i.malding.hard.maldingreactors.util.ReactorValidator;
 import io.wispforest.owo.network.ClientAccess;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -15,6 +16,8 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Set;
 
 public class ReactorControllerBlock extends ReactorSingleFaceBlock {
 
@@ -30,18 +33,33 @@ public class ReactorControllerBlock extends ReactorSingleFaceBlock {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        ReactorControllerBlockEntity controllerBlock = ((ReactorControllerBlockEntity) world.getBlockEntity(pos));
+        ReactorControllerBlockEntity controllerBlockEntity = ((ReactorControllerBlockEntity) world.getBlockEntity(pos));
 
-        if (!world.isClient && hand == Hand.MAIN_HAND) {
-            boolean isMultipart = controllerBlock.getValidator().validateReactor(state);
+        if (!world.isClient && hand == Hand.MAIN_HAND && !controllerBlockEntity.isValid()) {
+            ReactorValidator validator = controllerBlockEntity.getValidator();
 
-            controllerBlock.setValid(true);
-            controllerBlock.markDirty();
+            boolean isMultipart = controllerBlockEntity.getValidator().validateReactor(state);
+
+            if(isMultipart){
+                controllerBlockEntity.rodControllers = Set.copyOf(validator.rodControllers);
+                controllerBlockEntity.fuelRods = Set.copyOf(validator.fuelRods);
+
+                controllerBlockEntity.itemPorts = Set.copyOf(validator.itemPorts);
+                controllerBlockEntity.powerPorts = Set.copyOf(validator.powerPorts);
+            } else {
+                controllerBlockEntity.rodControllers.clear();
+                controllerBlockEntity.fuelRods.clear();
+
+                controllerBlockEntity.itemPorts.clear();
+                controllerBlockEntity.powerPorts.clear();
+            }
+
+            controllerBlockEntity.setValid(isMultipart);
+            controllerBlockEntity.markDirty();
         }
 
-        ReactorControllerBlockEntity controllerBlockEntity = (ReactorControllerBlockEntity) world.getBlockEntity(pos);
-
         final var factory = state.createScreenHandlerFactory(world, pos);
+
         if (player instanceof ServerPlayerEntity serverPlayer) {
             GuiUtil.openGui(serverPlayer, factory, (buf -> buf.writeBlockPos(pos)));
         }
@@ -49,16 +67,21 @@ public class ReactorControllerBlock extends ReactorSingleFaceBlock {
         return super.onUse(state, world, pos, player, hand, hit);
     }
 
+    public <T extends BlockEntity> BlockEntityType<T> getType() {
+        return (BlockEntityType<T>) MaldingBlockEntities.REACTOR_CONTROLLER;
+    }
+
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, MaldingBlockEntities.REACTOR_CONTROLLER,
-                ((world1, pos, state1, blockEntity) -> {
-                    if (world1.isClient) {
-                        ((ReactorControllerBlockEntity) blockEntity).clientTick();
-                    } else {
-                        ((ReactorControllerBlockEntity) blockEntity).serverTick();
-                    }
-                }));
+        if(getType() != type) return null;
+
+        return ((world1, pos, state1, blockEntity) -> {
+            if (world1.isClient) {
+                ((ReactorControllerBlockEntity) blockEntity).clientTick();
+            } else {
+                ((ReactorControllerBlockEntity) blockEntity).serverTick();
+            }
+        });
     }
 
     public record MultiBlockUpdatePacket(BlockPos pos, boolean isMultiPart) {

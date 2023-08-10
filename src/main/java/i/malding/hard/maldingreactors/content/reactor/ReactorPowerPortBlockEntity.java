@@ -29,9 +29,9 @@ public class ReactorPowerPortBlockEntity extends ReactorBaseBlockEntity implemen
 
         if (controller != null) {
             return controller.energyStorage.extract(maxAmount, transaction);
-        } else {
-            return 0;
         }
+
+        return 0;
     }
 
     @Override
@@ -40,9 +40,9 @@ public class ReactorPowerPortBlockEntity extends ReactorBaseBlockEntity implemen
 
         if (controller != null) {
             return controller.energyStorage.getAmount();
-        } else {
-            return 0;
         }
+
+        return 0;
     }
 
     @Override
@@ -51,8 +51,8 @@ public class ReactorPowerPortBlockEntity extends ReactorBaseBlockEntity implemen
 
         if (controller != null) {
             return controller.energyStorage.getCapacity();
-        } else {
-            return 0;
         }
+
+        return 0;
     }
 }

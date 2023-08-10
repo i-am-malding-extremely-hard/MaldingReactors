@@ -1,5 +1,6 @@
 package i.malding.hard.maldingreactors.content.reactor;
 
+import io.wispforest.owo.nbt.NbtKey;
 import io.wispforest.owo.ops.WorldOps;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -16,7 +17,7 @@ public class ReactorBaseBlockEntity extends BlockEntity {
 
     public BlockPos controllerPos = null;
 
-    public static final String CONTROLLER_POS_KEY = "ControllerPos";
+    public static final NbtKey<Long> CONTROLLER_POS_KEY = new NbtKey<>("ControllerPos", NbtKey.Type.LONG);
 
     public ReactorBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -24,11 +25,9 @@ public class ReactorBaseBlockEntity extends BlockEntity {
 
     @Nullable
     public ReactorControllerBlockEntity getController() {
-        if (isFullMultipartStructure()) {
-            return (ReactorControllerBlockEntity) this.getWorld().getBlockEntity(this.getControllerPos());
-        }
+        if (!isFullMultipartStructure()) return null;
 
-        return null;
+        return (ReactorControllerBlockEntity) this.getWorld().getBlockEntity(this.getControllerPos());
     }
 
     public void setControllerPos(BlockPos controllerPos) {
@@ -40,21 +39,23 @@ public class ReactorBaseBlockEntity extends BlockEntity {
         return controllerPos;
     }
 
-    public void clientTick() {}
-
-    public void serverTick() {}
-
-    public void onRemoval(BlockPos pos) {}
+    public void onRemoval(BlockPos pos) {
+        if(isFullMultipartStructure()){
+            this.getController().handleBlockRemovable(this.getType(), pos);
+        }
+    }
 
     @Override
     public void readNbt(NbtCompound nbt) {
-        this.setControllerPos(NbtHelper.toBlockPos(nbt.getCompound(CONTROLLER_POS_KEY)));
+        if(nbt.has(CONTROLLER_POS_KEY)) {
+            this.setControllerPos(BlockPos.fromLong(nbt.get(CONTROLLER_POS_KEY)));
+        }
     }
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
         if (isFullMultipartStructure()) {
-            nbt.put(CONTROLLER_POS_KEY, NbtHelper.fromBlockPos(this.getControllerPos()));
+            nbt.put(CONTROLLER_POS_KEY, this.getControllerPos().asLong());
         }
     }
 
@@ -63,7 +64,6 @@ public class ReactorBaseBlockEntity extends BlockEntity {
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
         return BlockEntityUpdateS2CPacket.create(this);
     }
-
 
     @Override
     public NbtCompound toInitialChunkDataNbt() {
