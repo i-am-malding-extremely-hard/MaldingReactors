@@ -23,7 +23,7 @@ public class ReactorBaseBlockEntity extends BlockEntity {
     }
 
     @Nullable
-    public ReactorControllerBlockEntity getController(){
+    public ReactorControllerBlockEntity getController() {
         if (isFullMultipartStructure()) {
             return (ReactorControllerBlockEntity) this.getWorld().getBlockEntity(this.getControllerPos());
         }
@@ -44,7 +44,7 @@ public class ReactorBaseBlockEntity extends BlockEntity {
 
     public void serverTick() {}
 
-    public void onRemoval(BlockPos pos){}
+    public void onRemoval(BlockPos pos) {}
 
     @Override
     public void readNbt(NbtCompound nbt) {

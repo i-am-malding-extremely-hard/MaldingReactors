@@ -38,7 +38,7 @@ public class ReactorItemPortScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(this.fuelSlot, 0, 0, 0));
 
         SlotGenerator.begin(this::addSlot, 8, 122)
-                        .playerInventory(playerInventory);
+                .playerInventory(playerInventory);
     }
 
     @Override

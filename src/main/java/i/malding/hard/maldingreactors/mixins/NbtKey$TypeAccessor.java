@@ -11,7 +11,12 @@ import java.util.function.BiFunction;
 @Mixin(NbtKey.Type.class)
 public interface NbtKey$TypeAccessor<T> {
 
-    @Accessor("nbtEquivalent") byte malding$getNbtEquivalent();
-    @Accessor("getter") BiFunction<NbtCompound, String, T> malding$getGetter();
-    @Accessor("setter") TriConsumer<NbtCompound, String, T> malding$getSetter();
+    @Accessor("nbtEquivalent")
+    byte malding$getNbtEquivalent();
+
+    @Accessor("getter")
+    BiFunction<NbtCompound, String, T> malding$getGetter();
+
+    @Accessor("setter")
+    TriConsumer<NbtCompound, String, T> malding$getSetter();
 }

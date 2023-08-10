@@ -53,9 +53,9 @@ public class ReactorControllerBlock extends ReactorSingleFaceBlock {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return checkType(type, MaldingBlockEntities.REACTOR_CONTROLLER,
                 ((world1, pos, state1, blockEntity) -> {
-                    if(world1.isClient) {
+                    if (world1.isClient) {
                         ((ReactorControllerBlockEntity) blockEntity).clientTick();
-                    }else{
+                    } else {
                         ((ReactorControllerBlockEntity) blockEntity).serverTick();
                     }
                 }));

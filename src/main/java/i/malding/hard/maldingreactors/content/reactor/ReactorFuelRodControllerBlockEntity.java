@@ -4,20 +4,17 @@ import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import i.malding.hard.maldingreactors.content.handlers.ReactorFuelRodControllerScreenHandler;
 import i.malding.hard.maldingreactors.util.CollectionNbtKey;
 import io.wispforest.owo.nbt.NbtKey;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -44,7 +41,7 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity 
 
     @Override
     public void onRemoval(BlockPos pos) {
-        if(this.isFullMultipartStructure()){
+        if (this.isFullMultipartStructure()) {
             this.getController().ROD_CONTROLLERS.remove(this);
         }
     }
@@ -67,11 +64,11 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity 
         this.readFuelRodPositions(nbt);
     }
 
-    public void setAdjourningFuelRods(Set<BlockPos> adjourningFuelRods){
+    public void setAdjourningFuelRods(Set<BlockPos> adjourningFuelRods) {
         this.adjourningFuelRods = adjourningFuelRods;
     }
 
-    public Set<BlockPos> getAdjourningFuelRods(){
+    public Set<BlockPos> getAdjourningFuelRods() {
         return this.adjourningFuelRods;
     }
 

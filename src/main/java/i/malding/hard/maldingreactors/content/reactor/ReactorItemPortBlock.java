@@ -9,8 +9,6 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -107,7 +105,9 @@ public class ReactorItemPortBlock extends ReactorSingleFaceBlock {
     }
 
     public static ActionResult extractWasteAmount(World world, BlockPos controllerPos, PlayerEntity player) {
-        if (!(world.getBlockEntity(controllerPos) instanceof ReactorControllerBlockEntity controller)) return ActionResult.PASS;
+        if (!(world.getBlockEntity(controllerPos) instanceof ReactorControllerBlockEntity controller)) {
+            return ActionResult.PASS;
+        }
 
         if (!world.isClient) {
             FluidTank wasteTank = controller.getWasteTank();

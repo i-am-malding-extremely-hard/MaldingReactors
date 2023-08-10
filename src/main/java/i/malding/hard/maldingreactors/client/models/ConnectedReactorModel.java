@@ -8,7 +8,6 @@ import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 
-import java.util.Random;
 import java.util.function.Supplier;
 
 public class ConnectedReactorModel extends ForwardingBakedModel {
@@ -18,7 +17,7 @@ public class ConnectedReactorModel extends ForwardingBakedModel {
 
     @Override
     public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<net.minecraft.util.math.random.Random> randomSupplier, RenderContext context) {
-        if(blockView instanceof RenderAttachedBlockView attachedBlockView && (boolean) attachedBlockView.getBlockEntityRenderAttachment(pos)) {
+        if (blockView instanceof RenderAttachedBlockView attachedBlockView && (boolean) attachedBlockView.getBlockEntityRenderAttachment(pos)) {
             super.emitBlockQuads(blockView, state, pos, randomSupplier, context);
         }
     }

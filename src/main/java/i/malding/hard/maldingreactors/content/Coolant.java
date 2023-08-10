@@ -1,7 +1,6 @@
 package i.malding.hard.maldingreactors.content;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 
 import java.util.HashSet;
@@ -25,16 +24,16 @@ public class Coolant {
     public final int coolingValue;
     public final Block coolingBlock;
 
-    public Coolant(Block block, int coolingValue){
+    public Coolant(Block block, int coolingValue) {
         this.coolingBlock = block;
         this.coolingValue = coolingValue;
 
         ALL_COOLANTS.add(this);
     }
 
-    public static Coolant getOrDefaultCoolant(Block block){
-        for(Coolant coolant : ALL_COOLANTS){
-            if(coolant.coolingBlock == block){
+    public static Coolant getOrDefaultCoolant(Block block) {
+        for (Coolant coolant : ALL_COOLANTS) {
+            if (coolant.coolingBlock == block) {
                 return coolant;
             }
         }

@@ -7,7 +7,6 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.world.World;
 
 public abstract class CopiumFluid extends MaldingFluid {
     @Override

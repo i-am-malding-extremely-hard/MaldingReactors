@@ -47,13 +47,13 @@ public class CollectionNbtKey<T, C extends Collection<T>> extends NbtKey<NbtList
         };
     }
 
-    public CollectionNbtKey<T, C> alwaysUseNewFake(){
+    public CollectionNbtKey<T, C> alwaysUseNewFake() {
         this.alwaysUseNewFake = true;
 
         return this;
     }
 
-    private FakeNbtCompound getFakeCompound(@Nullable NbtElement element){
+    private FakeNbtCompound getFakeCompound(@Nullable NbtElement element) {
         return this.alwaysUseNewFake ? new FakeNbtCompound(element) : cachedFake;
     }
 
@@ -72,12 +72,12 @@ public class CollectionNbtKey<T, C extends Collection<T>> extends NbtKey<NbtList
     public void putCollection(@NotNull NbtCompound nbt, C values) {
         NbtList nbtList = new NbtList();
 
-        for(T value : values) nbtList.add(setter.apply(value));
+        for (T value : values) nbtList.add(setter.apply(value));
 
         put(nbt, nbtList);
     }
 
-    public Iterator<T> iterator(NbtCompound nbt){
+    public Iterator<T> iterator(NbtCompound nbt) {
         return new NbtListIterator<>(get(nbt), getter);
     }
 
@@ -105,7 +105,7 @@ public class CollectionNbtKey<T, C extends Collection<T>> extends NbtKey<NbtList
         private final Iterator<NbtElement> listIterator;
         private final Function<E, T> getter;
 
-        public NbtListIterator(List<NbtElement> listIterator, Function<E, T> getter){
+        public NbtListIterator(List<NbtElement> listIterator, Function<E, T> getter) {
             this.listIterator = listIterator.iterator();
 
             this.getter = getter;
@@ -127,7 +127,7 @@ public class CollectionNbtKey<T, C extends Collection<T>> extends NbtKey<NbtList
 
         public NbtElement element;
 
-        public FakeNbtCompound(NbtElement element){
+        public FakeNbtCompound(NbtElement element) {
             super(EMPTY);
 
             this.element = element;

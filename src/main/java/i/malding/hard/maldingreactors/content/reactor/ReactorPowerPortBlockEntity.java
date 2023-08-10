@@ -4,9 +4,7 @@ import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import team.reborn.energy.api.EnergyStorage;
-import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 @SuppressWarnings("UnstableApiUsage")
 public class ReactorPowerPortBlockEntity extends ReactorBaseBlockEntity implements EnergyStorage {

@@ -5,7 +5,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class ReactorFuelRodBlockEntity extends ReactorBaseBlockEntity {
@@ -22,7 +21,7 @@ public class ReactorFuelRodBlockEntity extends ReactorBaseBlockEntity {
         super(MaldingBlockEntities.REACTOR_FUEL_ROD, pos, state);
     }
 
-    public void setRodControllerPos(BlockPos pos){
+    public void setRodControllerPos(BlockPos pos) {
         this.rodControllerPos = pos;
     }
 
@@ -33,7 +32,7 @@ public class ReactorFuelRodBlockEntity extends ReactorBaseBlockEntity {
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
 
-        if(nbt.contains("RodControllerPos")) {
+        if (nbt.contains("RodControllerPos")) {
             this.rodControllerPos = NbtHelper.toBlockPos(nbt);
         }
 
@@ -44,7 +43,7 @@ public class ReactorFuelRodBlockEntity extends ReactorBaseBlockEntity {
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
 
-        if(rodControllerPos != null){
+        if (rodControllerPos != null) {
             nbt.put("RodControllerPos", NbtHelper.fromBlockPos(this.rodControllerPos));
         }
 

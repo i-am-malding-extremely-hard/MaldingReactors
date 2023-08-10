@@ -59,7 +59,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
         super(MaldingBlockEntities.REACTOR_CONTROLLER, pos, state);
     }
 
-    public void clientTick(){}
+    public void clientTick() {}
 
     public void serverTick() {
         if (validator == null) {
@@ -73,7 +73,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
                 int totalReatorRods = 0;
                 int totalReactorControlRods = 0;
 
-                for(ReactorFuelRodControllerBlockEntity rodController : ROD_CONTROLLERS){
+                for (ReactorFuelRodControllerBlockEntity rodController : ROD_CONTROLLERS) {
                     totalRodAbsorptionRate += rodController.reactionRate / 100f;
 
                     totalReatorRods += rodController.getAdjourningFuelRods().size();
@@ -83,25 +83,25 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
 
                 long consumedFuel = convertFuelToWaste(MathHelper.floor(reactionRate * (totalRodAbsorptionRate / totalReactorControlRods)) * totalReatorRods);
 
-                if(consumedFuel != 0){
+                if (consumedFuel != 0) {
                     long energyCreated = consumedFuel * energyConversionAmount;
 
-                    try(Transaction t = Transaction.openOuter()){
-                       energyStorage.insert(energyCreated, t);
+                    try (Transaction t = Transaction.openOuter()) {
+                        energyStorage.insert(energyCreated, t);
 
-                       t.commit();
+                        t.commit();
                     }
                 }
             }
         }
     }
 
-    public long convertFuelToWaste(int maxFuelConsumption){
-        if(fuelTank.getAmount() == 0){
+    public long convertFuelToWaste(int maxFuelConsumption) {
+        if (fuelTank.getAmount() == 0) {
             return 0;
         }
 
-        try(Transaction t = Transaction.openOuter()){
+        try (Transaction t = Transaction.openOuter()) {
             long amountExtracted = fuelTank.extract(FluidVariant.of(MaldingFluids.COPIUM.still()), maxFuelConsumption, t);
 
             wasteTank.insert(FluidVariant.of(MaldingFluids.MALDING_COPIUM.still()), amountExtracted, t);
@@ -112,11 +112,11 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
 
     //---------------------------------------------------
 
-    public ReactorValidator getValidator(){
+    public ReactorValidator getValidator() {
         return this.validator;
     }
 
-    public void setRodControllers(Set<ReactorFuelRodControllerBlockEntity> reactorRods){
+    public void setRodControllers(Set<ReactorFuelRodControllerBlockEntity> reactorRods) {
         this.ROD_CONTROLLERS = reactorRods;
     }
 
