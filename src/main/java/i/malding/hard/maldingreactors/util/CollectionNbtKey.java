@@ -8,10 +8,8 @@ import net.minecraft.nbt.NbtList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.function.Supplier;
@@ -26,7 +24,7 @@ public class CollectionNbtKey<T, C extends Collection<T>> extends NbtKey<NbtList
     private final Function<T, NbtElement> setter;
 
     private boolean alwaysUseNewFake = false;
-    private final FakeNbtCompound cachedFake = new FakeNbtCompound(null);
+    private final FakeNbtCompound cachedFake = FakeNbtCompound.of(null);
 
     public CollectionNbtKey(String key, Type<T> elementType, IntFunction<C> collectionBuilder) {
         super(key, null);
@@ -54,7 +52,7 @@ public class CollectionNbtKey<T, C extends Collection<T>> extends NbtKey<NbtList
     }
 
     private FakeNbtCompound getFakeCompound(@Nullable NbtElement element) {
-        return this.alwaysUseNewFake ? new FakeNbtCompound(element) : cachedFake;
+        return this.alwaysUseNewFake ? FakeNbtCompound.of(element) : cachedFake;
     }
 
     //------
@@ -101,7 +99,6 @@ public class CollectionNbtKey<T, C extends Collection<T>> extends NbtKey<NbtList
     //------
 
     public static class NbtListIterator<T, E extends NbtElement> implements Iterator<T> {
-
         private final Iterator<NbtElement> listIterator;
         private final Function<E, T> getter;
 
@@ -122,34 +119,61 @@ public class CollectionNbtKey<T, C extends Collection<T>> extends NbtKey<NbtList
         }
     }
 
-    private static class FakeNbtCompound extends NbtCompound implements Supplier<NbtElement> {
-        private static final Map<String, NbtElement> EMPTY = Map.of();
-
+    //Very cursed I know
+    private static class FakeNbtCompound extends NbtCompound {
         public NbtElement element;
 
-        public FakeNbtCompound(NbtElement element) {
-            super(EMPTY);
+        private FakeNbtCompound(NbtElement element, FakeMap<String, NbtElement> notMap) {
+            super(notMap);
+
+            notMap.getter = this::get;
+            notMap.setter = this::set;
 
             this.element = element;
         }
 
-        @Nullable
-        @Override
-        public NbtElement get(String key) {
-            return element;
+        public static FakeNbtCompound of(NbtElement element){
+            return new FakeNbtCompound(element, new FakeMap<>());
         }
 
-        @Nullable
-        @Override
-        public NbtElement put(String key, NbtElement element) {
-            this.element = element;
-
-            return null;
-        }
-
-        @Override
         public NbtElement get() {
             return this.element;
+        }
+
+        public void set(NbtElement element) {
+            this.element = element;
+        }
+
+        //Cursed as fuck work around ngl
+        private static class FakeMap<K, V> implements Map<K, V>{
+            public Supplier<V> getter = () -> null;
+            public Consumer<V> setter = v -> {};
+
+            public FakeMap(){}
+
+            @Override
+            public V get(Object key) {
+                return this.getter.get();
+            }
+
+            @Nullable
+            @Override
+            public V put(K key, V value) {
+                this.setter.accept(value);
+
+                return null;
+            }
+
+            @Override public int size() { return 0; }
+            @Override public boolean isEmpty() { return false; }
+            @Override public boolean containsKey(Object key) { return false; }
+            @Override public boolean containsValue(Object value) { return false; }
+            @Override public V remove(Object key) { return null; }
+            @Override public void putAll(@NotNull Map<? extends K, ? extends V> m) {}
+            @Override public void clear() {}
+            @NotNull @Override public Set<K> keySet() { return null; }
+            @NotNull @Override public Collection<V> values() { return null; }
+            @NotNull @Override public Set<Entry<K, V>> entrySet() { return null; }
         }
     }
 }
