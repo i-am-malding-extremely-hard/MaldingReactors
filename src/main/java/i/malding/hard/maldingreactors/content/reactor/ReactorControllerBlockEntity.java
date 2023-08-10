@@ -34,7 +34,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @SuppressWarnings("UnstableApiUsage")
-public class ReactorControllerBlockEntity extends BlockEntity implements ReactorMultiblock, NamedScreenHandlerFactory {
+public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity implements ReactorMultiblock, NamedScreenHandlerFactory {
 
     //Droplets per tick
     private static final int reactionRate = 1;
@@ -59,8 +59,10 @@ public class ReactorControllerBlockEntity extends BlockEntity implements Reactor
         super(MaldingBlockEntities.REACTOR_CONTROLLER, pos, state);
     }
 
+    @Override
     public void clientTick() {}
 
+    @Override
     public void serverTick() {
         if (validator == null) {
             validator = new ReactorValidator(this.world, this.pos);
