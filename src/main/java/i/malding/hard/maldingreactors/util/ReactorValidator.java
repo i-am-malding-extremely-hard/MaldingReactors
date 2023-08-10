@@ -100,12 +100,18 @@ public class ReactorValidator {
 
     //----------------------------------------------------------------------------------------------------------------
 
-    private int findDirectionalBound(BlockPos.Mutable pos, Direction direction) {
-        int i = 1;
+    private int findDirectionalBound(BlockPos startingPos, Direction direction) {
+        BlockPos.Mutable endPos = startingPos.mutableCopy();
 
-        while (isReactorBlock(world.getBlockState(pos.mutableCopy().move(direction, i)))) i++;
+        while(isReactorBlock(world.getBlockState(endPos.move(direction))));
 
-        return i - 1;
+        int diff = switch (direction.getAxis()){
+            case X -> startingPos.getX() - endPos.getX();
+            case Y -> startingPos.getY() - endPos.getY();
+            case Z -> startingPos.getZ() - endPos.getZ();
+        };
+
+        return Math.abs(diff) - 1;
     }
 
     //----------------------------------------------------------------------------------------------------------------
@@ -130,7 +136,7 @@ public class ReactorValidator {
         return (side1Check && side2Check && side3Check && side4Check && side5Check && side6Check);
     }
 
-    public boolean validateSide(int maxA, Direction aDirection, int maxB, Direction bDirection, BlockPos.Mutable startPos) {
+    public boolean validateSide(int maxA, Direction aDirection, int maxB, Direction bDirection, BlockPos startPos) {
         BlockPos.Mutable pos = startPos.mutableCopy();
 
         for (int a = 0; a < maxA; a++) {
