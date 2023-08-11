@@ -30,11 +30,4 @@ public class ReactorGlassBlock extends GlassBlock implements BlockEntityProvider
         BlockEntity blockEntity = world.getBlockEntity(pos);
         return blockEntity == null ? false : blockEntity.onSyncedBlockEvent(type, data);
     }
-
-    @Nullable
-    @Override
-    public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory) blockEntity : null;
-    }
 }

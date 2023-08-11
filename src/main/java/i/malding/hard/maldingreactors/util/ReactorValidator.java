@@ -3,6 +3,7 @@ package i.malding.hard.maldingreactors.util;
 import i.malding.hard.maldingreactors.content.MaldingBlocks;
 import i.malding.hard.maldingreactors.content.reactor.ReactorBaseBlockEntity;
 import i.malding.hard.maldingreactors.data.MaldingTags;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.state.property.Properties;
@@ -83,13 +84,15 @@ public class ReactorValidator {
 
         this.bounds = bounds;
 
-        bounds.forEachVertex(blockPos -> {
-            System.out.println(blockPos);
-            world.setBlockState(blockPos, Blocks.REDSTONE_BLOCK.getDefaultState());
-        });
+        if(FabricLoader.getInstance().isDevelopmentEnvironment()) {
+            bounds.forEachVertex(blockPos -> {
+                System.out.println(blockPos);
+                world.setBlockState(blockPos, Blocks.REDSTONE_BLOCK.getDefaultState());
+            });
 
-        world.setBlockState(new BlockPos(bounds.getMinX(), bounds.getMinY(), bounds.getMinZ()), Blocks.GOLD_BLOCK.getDefaultState());
-        world.setBlockState(new BlockPos(bounds.getMaxX(), bounds.getMaxY(), bounds.getMaxZ()), Blocks.DIAMOND_BLOCK.getDefaultState());
+            world.setBlockState(new BlockPos(bounds.getMinX(), bounds.getMinY(), bounds.getMinZ()), Blocks.GOLD_BLOCK.getDefaultState());
+            world.setBlockState(new BlockPos(bounds.getMaxX(), bounds.getMaxY(), bounds.getMaxZ()), Blocks.DIAMOND_BLOCK.getDefaultState());
+        }
 
         return true;
     }
@@ -106,12 +109,12 @@ public class ReactorValidator {
         while(isReactorBlock(world.getBlockState(endPos.move(direction))));
 
         int diff = switch (direction.getAxis()){
-            case X -> startingPos.getX() - endPos.getX();
-            case Y -> startingPos.getY() - endPos.getY();
-            case Z -> startingPos.getZ() - endPos.getZ();
+            case X -> endPos.getX() - startingPos.getX();
+            case Y -> endPos.getY() - startingPos.getY();
+            case Z -> endPos.getZ() - startingPos.getZ();
         };
 
-        return Math.abs(diff) - 1;
+        return (diff * direction.getDirection().offset()) - 1;
     }
 
     //----------------------------------------------------------------------------------------------------------------
@@ -177,7 +180,7 @@ public class ReactorValidator {
 
 
     public boolean isCasing(BlockPos pos, BlockState state) {
-        if (!state.isOf(MaldingBlocks.REACTOR_CASING)) {
+        if (FabricLoader.getInstance().isDevelopmentEnvironment() && !state.isOf(MaldingBlocks.REACTOR_CASING)) {
             return state.isOf(Blocks.REDSTONE_BLOCK) || state.isOf(Blocks.GOLD_BLOCK) || state.isOf(Blocks.DIAMOND_BLOCK) || state.isOf(Blocks.ANCIENT_DEBRIS);
         }
 

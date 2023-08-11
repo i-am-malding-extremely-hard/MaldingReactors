@@ -27,13 +27,7 @@ import org.jetbrains.annotations.Nullable;
 public class ReactorItemPortBlock extends ReactorSingleFaceBlock {
 
     public ReactorItemPortBlock(Settings settings) {
-        super(settings);
-    }
-
-    @Nullable
-    @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new ReactorItemPortBlockEntity(pos, state);
+        super(settings, ReactorItemPortBlockEntity::new);
     }
 
     @Override

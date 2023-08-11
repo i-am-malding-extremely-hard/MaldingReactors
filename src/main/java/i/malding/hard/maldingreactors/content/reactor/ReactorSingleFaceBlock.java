@@ -14,8 +14,9 @@ import net.minecraft.util.math.Direction;
 public abstract class ReactorSingleFaceBlock extends ReactorBaseBlock {
     public static final DirectionProperty FACING = Properties.FACING;
 
-    protected ReactorSingleFaceBlock(Settings settings) {
-        super(settings);
+    protected ReactorSingleFaceBlock(Settings settings, BlockEntityFactory factory) {
+        super(settings, factory);
+
         setDefaultState(getDefaultState().with(FACING, Direction.NORTH));
     }
 

@@ -7,6 +7,7 @@ import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.registration.reflect.BlockRegistryContainer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ExperienceDroppingBlock;
 import net.minecraft.item.BlockItem;
@@ -19,10 +20,11 @@ import java.lang.reflect.Field;
 public class MaldingBlocks implements BlockRegistryContainer {
 
     @Tab(0)
-    public static final Block REACTOR_CASING = new ReactorCasingBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
+    public static final Block REACTOR_CASING = new ReactorBaseBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK), BlockEntityFactory.typed(MaldingBlockEntities.REACTOR_CASING, ReactorBaseBlockEntity::new));
     public static final Block REACTOR_GLASS = new ReactorGlassBlock(FabricBlockSettings.copy(Blocks.GLASS));
 
-    public static final Block REACTOR_FUEL_ROD = new ReactorFuelRodBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
+    public static final Block REACTOR_FUEL_ROD = new ReactorBaseBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK), BlockEntityFactory.typed(MaldingBlockEntities.REACTOR_FUEL_ROD, ReactorBaseBlockEntity::new), BlockRenderType.ENTITYBLOCK_ANIMATED);
+
     public static final Block REACTOR_FUEL_ROD_CONTROLLER = new ReactorFuelRodControllerBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
 
     public static final Block REACTOR_CONTROLLER = new ReactorControllerBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));

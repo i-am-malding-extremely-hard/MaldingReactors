@@ -5,23 +5,38 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
-public abstract class ReactorBaseBlock extends BlockWithEntity {
+public class ReactorBaseBlock extends BlockWithEntity {
 
-    private static Logger LOGGER = LogUtils.getLogger();
+    private static final Logger LOGGER = LogUtils.getLogger();
 
-    public ReactorBaseBlock(Settings settings) {
+    private final BlockEntityFactory factory;
+    private final BlockRenderType renderType;
+
+    public ReactorBaseBlock(Settings settings, BlockEntityFactory factory) {
+        this(settings, factory, BlockRenderType.MODEL);
+    }
+
+    public ReactorBaseBlock(Settings settings, BlockEntityFactory factory, BlockRenderType type) {
         super(settings);
+
+        this.renderType = type;
+        this.factory = factory;
     }
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+        return renderType;
+    }
+
+    @Nullable
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return this.factory.createBlockEntity(pos, state);
     }
 
     @Override
@@ -40,4 +55,5 @@ public abstract class ReactorBaseBlock extends BlockWithEntity {
 
         blockEntity.onRemoval(pos);
     }
+
 }

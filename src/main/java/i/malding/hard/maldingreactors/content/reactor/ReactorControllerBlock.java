@@ -22,13 +22,7 @@ import java.util.Set;
 public class ReactorControllerBlock extends ReactorSingleFaceBlock {
 
     public ReactorControllerBlock(Settings settings) {
-        super(settings);
-    }
-
-    @Nullable
-    @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new ReactorControllerBlockEntity(pos, state);
+        super(settings, ReactorControllerBlockEntity::new);
     }
 
     @Override
