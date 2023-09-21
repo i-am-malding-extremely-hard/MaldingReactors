@@ -17,7 +17,7 @@ public class MaldingFeatures implements SimpleFieldProcessingSubject<OreEntry> {
 
     @Override
     public void processField(OreEntry entry, String identifier, Field field) {
-        entry.register(MaldingReactors.asResource(identifier));
+        entry.register(MaldingReactors.id(identifier));
     }
 
     @Override

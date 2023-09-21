@@ -1,0 +1,17 @@
+{
+  "malding-reactors:test": {
+    "neutron": {
+      "reflectivity": 0.2,
+      "absorption": 0.3,
+      "conversion": 0.5,
+      "emission": 0.001
+    },
+    "gamma_ray":{
+      "reflectivity": 0.01,
+      "absorption": 0.2,
+      "conversion": 0.15,
+      "emission": 0.001
+    },
+    "conductivity": 0.8
+  }
+}

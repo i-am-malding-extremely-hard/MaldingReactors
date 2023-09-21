@@ -54,10 +54,14 @@ public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity impleme
     protected final EnergyStorage energyStorage = new SimpleEnergyStorage(4000 * 50, Long.MAX_VALUE, Long.MAX_VALUE);
     private int coreHeat, casingHeat;
 
-    private static final CollectionNbtKey<BlockPos, Set<BlockPos>> FUEL_RODS_KEY = new CollectionNbtKey<>("ConnectedRods", BLOCK_POS, LinkedHashSet::new);
+    private static final CollectionNbtKey<BlockPos, Set<BlockPos>> FUEL_RODS_KEY = new CollectionNbtKey<>("FuelRods", BLOCK_POS, LinkedHashSet::new);
+    private static final CollectionNbtKey<BlockPos, Set<BlockPos>> FUEL_RODS_CONTROLLERS_KEY = new CollectionNbtKey<>("FuelRodControllers", BLOCK_POS, LinkedHashSet::new);
 
-    public Set<BlockPos> rodControllers = new HashSet<>();
+    private static final CollectionNbtKey<BlockPos, Set<BlockPos>> ITEM_PORTS_KEY = new CollectionNbtKey<>("ItemPorts", BLOCK_POS, LinkedHashSet::new);
+    private static final CollectionNbtKey<BlockPos, Set<BlockPos>> POWER_PORTS_KEY = new CollectionNbtKey<>("PowerPorts", BLOCK_POS, LinkedHashSet::new);
+
     public Set<BlockPos> fuelRods = new HashSet<>();
+    public Set<BlockPos> rodControllers = new HashSet<>();
 
     public Set<BlockPos> itemPorts = new HashSet<>();
     public Set<BlockPos> powerPorts = new HashSet<>();
@@ -190,6 +194,12 @@ public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity impleme
 
     @Override
     public void readNbt(NbtCompound nbt) {
+        fuelRods = FUEL_RODS_KEY.getCollection(nbt);
+        rodControllers = FUEL_RODS_CONTROLLERS_KEY.getCollection(nbt);
+
+        itemPorts = ITEM_PORTS_KEY.getCollection(nbt);
+        powerPorts = POWER_PORTS_KEY.getCollection(nbt);
+
         fuelTank.fromNbt(nbt, "FuelTank");
         wasteTank.fromNbt(nbt, "WasteTank");
 
@@ -199,6 +209,12 @@ public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity impleme
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
+        FUEL_RODS_KEY.putCollection(nbt, fuelRods);
+        FUEL_RODS_CONTROLLERS_KEY.putCollection(nbt, rodControllers);
+
+        ITEM_PORTS_KEY.putCollection(nbt, itemPorts);
+        POWER_PORTS_KEY.putCollection(nbt, powerPorts);
+
         fuelTank.toNbt(nbt, "FuelTank");
         wasteTank.toNbt(nbt, "WasteTank");
 

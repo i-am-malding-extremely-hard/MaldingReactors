@@ -25,6 +25,6 @@ public class MaldingFluids implements SimpleFieldProcessingSubject<FluidInfo> {
 
     @Override
     public void processField(FluidInfo value, String identifier, Field field) {
-        value.register(MaldingReactors.asResource(identifier));
+        value.register(MaldingReactors.id(identifier));
     }
 }

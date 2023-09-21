@@ -20,10 +20,10 @@ import java.lang.reflect.Field;
 public class MaldingBlocks implements BlockRegistryContainer {
 
     @Tab(0)
-    public static final Block REACTOR_CASING = new ReactorBaseBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK), BlockEntityFactory.typed(MaldingBlockEntities.REACTOR_CASING, ReactorBaseBlockEntity::new));
+    public static final Block REACTOR_CASING = new ReactorBaseBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK), BlockEntityFactory.typed(() -> MaldingBlockEntities.REACTOR_CASING, ReactorBaseBlockEntity::new));
     public static final Block REACTOR_GLASS = new ReactorGlassBlock(FabricBlockSettings.copy(Blocks.GLASS));
 
-    public static final Block REACTOR_FUEL_ROD = new ReactorBaseBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK), BlockEntityFactory.typed(MaldingBlockEntities.REACTOR_FUEL_ROD, ReactorBaseBlockEntity::new), BlockRenderType.ENTITYBLOCK_ANIMATED);
+    public static final Block REACTOR_FUEL_ROD = new ReactorBaseBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK), BlockEntityFactory.typed(() -> MaldingBlockEntities.REACTOR_FUEL_ROD, ReactorBaseBlockEntity::new), BlockRenderType.ENTITYBLOCK_ANIMATED);
 
     public static final Block REACTOR_FUEL_ROD_CONTROLLER = new ReactorFuelRodControllerBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
 

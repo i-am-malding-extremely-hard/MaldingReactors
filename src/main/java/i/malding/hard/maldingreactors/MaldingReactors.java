@@ -5,12 +5,18 @@ import i.malding.hard.maldingreactors.content.MaldingBlocks;
 import i.malding.hard.maldingreactors.content.MaldingFluids;
 import i.malding.hard.maldingreactors.content.MaldingItems;
 import i.malding.hard.maldingreactors.content.handlers.MaldingScreenHandlers;
+import i.malding.hard.maldingreactors.data.MediumLinksLoader;
+import i.malding.hard.maldingreactors.data.MediumPropertiesLoader;
 import io.wispforest.owo.itemgroup.Icon;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.network.OwoNetChannel;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.impl.resource.loader.ResourceManagerHelperImpl;
 import net.minecraft.item.ItemStack;
+import net.minecraft.resource.*;
 import net.minecraft.util.Identifier;
 import team.reborn.energy.api.EnergyStorage;
 
@@ -26,7 +32,7 @@ public class MaldingReactors implements ModInitializer {
                 group.addTab(Icon.of(MaldingItems.COPIUM_INGOT), "resources", null, false);
             }).build();
 
-    public static final OwoNetChannel CHANNEL = OwoNetChannel.create(asResource("main"));
+    public static final OwoNetChannel CHANNEL = OwoNetChannel.create(id("main"));
 
     @Override
     public void onInitialize() {
@@ -41,13 +47,26 @@ public class MaldingReactors implements ModInitializer {
 
         registerNetworkPackets();
         registerEnergyStuff();
+
+        var helper = ResourceManagerHelper.get(ResourceType.SERVER_DATA);
+
+        helper.registerReloadListener(new MediumPropertiesLoader());
+        helper.registerReloadListener(new MediumLinksLoader());
+
+        ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> {
+
+        });
+
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+
+        });
     }
 
     public void registerEnergyStuff() {
         EnergyStorage.SIDED.registerSelf(MaldingBlockEntities.REACTOR_POWER_PORT);
     }
 
-    public static Identifier asResource(String path) {
+    public static Identifier id(String path) {
         return new Identifier(MOD_ID, path.toLowerCase(Locale.ROOT).replace(' ', '_'));
     }
 

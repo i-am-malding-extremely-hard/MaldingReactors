@@ -7,13 +7,15 @@ import net.minecraft.util.math.BlockPos;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Supplier;
+
 @FunctionalInterface
 public interface BlockEntityFactory {
 
     @Nullable
     BlockEntity createBlockEntity(BlockPos pos, BlockState state);
 
-    static BlockEntityFactory typed(BlockEntityType<?> type, TriFunction<BlockEntityType<?>, BlockPos, BlockState, BlockEntity> typeFactory){
-        return (pos, state) -> typeFactory.apply(type, pos, state);
+    static BlockEntityFactory typed(Supplier<BlockEntityType<?>> type, TriFunction<BlockEntityType<?>, BlockPos, BlockState, BlockEntity> typeFactory){
+        return (pos, state) -> typeFactory.apply(type.get(), pos, state);
     }
 }

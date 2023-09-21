@@ -1,0 +1,6 @@
+{
+  "malding-reactors:test": [
+    "#minecraft:wool",
+    "minecraft:stone"
+  ]
+}

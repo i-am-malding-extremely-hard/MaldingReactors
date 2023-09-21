@@ -21,7 +21,7 @@ public class MaldingTags {
     //-------------------------------------------
 
     private static TagKey<Block> createMaldingBlockTag(String path) {
-        return createBlockTag(MaldingReactors.asResource(path));
+        return createBlockTag(MaldingReactors.id(path));
     }
 
     private static TagKey<Block> createBlockTag(Identifier identifier) {
@@ -35,7 +35,7 @@ public class MaldingTags {
     //-------------------------------------------
 
     private static TagKey<Item> createMaldingItemTag(String path) {
-        return createItemTag(MaldingReactors.asResource(path));
+        return createItemTag(MaldingReactors.id(path));
     }
 
     private static TagKey<Item> createItemTag(Identifier identifier) {
