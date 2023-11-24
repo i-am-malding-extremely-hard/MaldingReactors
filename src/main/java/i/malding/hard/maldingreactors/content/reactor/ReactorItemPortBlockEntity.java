@@ -3,6 +3,8 @@ package i.malding.hard.maldingreactors.content.reactor;
 import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import i.malding.hard.maldingreactors.content.handlers.ReactorItemPortScreenHandler;
 import io.wispforest.owo.nbt.NbtKey;
+import io.wispforest.owo.serialization.BuiltInEndecs;
+import io.wispforest.owo.serialization.impl.KeyedEndec;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -18,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class ReactorItemPortBlockEntity extends ReactorBaseBlockEntity implements NamedScreenHandlerFactory {
 
-    public static final NbtKey<ItemStack> FUEL_SLOT_KEY = new NbtKey<>("FuelSlot", NbtKey.Type.ITEM_STACK);
-    public static final NbtKey<ItemStack> WASTE_SLOT_KEY = new NbtKey<>("WasteSlot", NbtKey.Type.ITEM_STACK);
+    public static final KeyedEndec<ItemStack> FUEL_SLOT_KEY = BuiltInEndecs.ITEM_STACK.keyed("FuelSlot", ItemStack.EMPTY);
+    public static final KeyedEndec<ItemStack> WASTE_SLOT_KEY = BuiltInEndecs.ITEM_STACK.keyed("WasteSlot", ItemStack.EMPTY);
 
     public final SimpleInventory fuelSlot = new SimpleInventory(1);
     public final SimpleInventory wasteSlot = new SimpleInventory(1);

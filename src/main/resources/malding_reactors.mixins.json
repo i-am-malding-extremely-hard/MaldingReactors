@@ -3,9 +3,7 @@
   "minVersion": "0.8",
   "package": "i.malding.hard.maldingreactors.mixins",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "NbtKey$TypeAccessor"
-  ],
+  "mixins": [],
   "client": [],
   "injectors": {
     "defaultRequire": 1

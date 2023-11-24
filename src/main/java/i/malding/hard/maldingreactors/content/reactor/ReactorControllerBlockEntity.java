@@ -4,11 +4,12 @@ import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import i.malding.hard.maldingreactors.content.MaldingFluids;
 import i.malding.hard.maldingreactors.content.handlers.ReactorScreenHandler;
 import i.malding.hard.maldingreactors.multiblock.ReactorMultiblock;
-import i.malding.hard.maldingreactors.util.CollectionNbtKey;
 import i.malding.hard.maldingreactors.util.ReactorValidator;
-import io.wispforest.owo.nbt.NbtKey;
 import io.wispforest.owo.ops.WorldOps;
-import me.alphamode.star.transfer.FluidTank;
+import io.wispforest.owo.serialization.BuiltInEndecs;
+import io.wispforest.owo.serialization.Endec;
+import io.wispforest.owo.serialization.impl.KeyedEndec;
+import i.malding.hard.maldingreactors.content.fluids.FluidTank;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -32,15 +33,22 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @SuppressWarnings("UnstableApiUsage")
 public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity implements ReactorMultiblock, NamedScreenHandlerFactory {
 
-    public static final NbtKey.Type<BlockPos> BLOCK_POS = NbtKey.Type.LONG.then(BlockPos::fromLong, BlockPos::asLong);
+    //TODO: Use BuiltinEndec version when fixed
+    public static final Endec<List<BlockPos>> BLOCK_POS_LIST = Endec.INT.listOf().xmap(
+            ints -> new BlockPos(ints.get(0), ints.get(1), ints.get(2)),
+            blockpos -> List.of(blockpos.getX(), blockpos.getY(), blockpos.getZ())
+    ).listOf();
+
+    public static final KeyedEndec<List<BlockPos>> FUEL_RODS_KEY = BLOCK_POS_LIST.keyed("FuelRods", new ArrayList<>());
+    public static final KeyedEndec<List<BlockPos>> FUEL_RODS_CONTROLLERS_KEY = BLOCK_POS_LIST.keyed("FuelRodControllers", new ArrayList<>());
+
+    public static final KeyedEndec<List<BlockPos>> ITEM_PORTS_KEY = BLOCK_POS_LIST.keyed("ItemPorts", new ArrayList<>());
+    public static final KeyedEndec<List<BlockPos>> POWER_PORTS_KEY = BLOCK_POS_LIST.keyed("PowerPorts", new ArrayList<>());
 
     //Droplets per tick
     private static final int reactionRate = 1;
@@ -54,17 +62,11 @@ public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity impleme
     protected final EnergyStorage energyStorage = new SimpleEnergyStorage(4000 * 50, Long.MAX_VALUE, Long.MAX_VALUE);
     private int coreHeat, casingHeat;
 
-    private static final CollectionNbtKey<BlockPos, Set<BlockPos>> FUEL_RODS_KEY = new CollectionNbtKey<>("FuelRods", BLOCK_POS, LinkedHashSet::new);
-    private static final CollectionNbtKey<BlockPos, Set<BlockPos>> FUEL_RODS_CONTROLLERS_KEY = new CollectionNbtKey<>("FuelRodControllers", BLOCK_POS, LinkedHashSet::new);
+    public List<BlockPos> fuelRods = new ArrayList<>();
+    public List<BlockPos> rodControllers = new ArrayList<>();
 
-    private static final CollectionNbtKey<BlockPos, Set<BlockPos>> ITEM_PORTS_KEY = new CollectionNbtKey<>("ItemPorts", BLOCK_POS, LinkedHashSet::new);
-    private static final CollectionNbtKey<BlockPos, Set<BlockPos>> POWER_PORTS_KEY = new CollectionNbtKey<>("PowerPorts", BLOCK_POS, LinkedHashSet::new);
-
-    public Set<BlockPos> fuelRods = new HashSet<>();
-    public Set<BlockPos> rodControllers = new HashSet<>();
-
-    public Set<BlockPos> itemPorts = new HashSet<>();
-    public Set<BlockPos> powerPorts = new HashSet<>();
+    public List<BlockPos> itemPorts = new ArrayList<>();
+    public List<BlockPos> powerPorts = new ArrayList<>();
 
     private ReactorValidator validator = null;
     private boolean isMultiBlock = false;
@@ -154,7 +156,7 @@ public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity impleme
         return this.validator;
     }
 
-    public void setRodControllers(Set<BlockPos> reactorRods) {
+    public void setRodControllers(List<BlockPos> reactorRods) {
         this.rodControllers = reactorRods;
     }
 
@@ -194,11 +196,11 @@ public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity impleme
 
     @Override
     public void readNbt(NbtCompound nbt) {
-        fuelRods = FUEL_RODS_KEY.getCollection(nbt);
-        rodControllers = FUEL_RODS_CONTROLLERS_KEY.getCollection(nbt);
+        fuelRods = nbt.get(FUEL_RODS_KEY);
+        rodControllers = nbt.get(FUEL_RODS_CONTROLLERS_KEY);
 
-        itemPorts = ITEM_PORTS_KEY.getCollection(nbt);
-        powerPorts = POWER_PORTS_KEY.getCollection(nbt);
+        itemPorts = nbt.get(ITEM_PORTS_KEY);
+        powerPorts = nbt.get(POWER_PORTS_KEY);
 
         fuelTank.fromNbt(nbt, "FuelTank");
         wasteTank.fromNbt(nbt, "WasteTank");
@@ -209,11 +211,11 @@ public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity impleme
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
-        FUEL_RODS_KEY.putCollection(nbt, fuelRods);
-        FUEL_RODS_CONTROLLERS_KEY.putCollection(nbt, rodControllers);
+        nbt.put(FUEL_RODS_KEY, fuelRods);
+        nbt.put(FUEL_RODS_CONTROLLERS_KEY, rodControllers);
 
-        ITEM_PORTS_KEY.putCollection(nbt, itemPorts);
-        POWER_PORTS_KEY.putCollection(nbt, powerPorts);
+        nbt.put(ITEM_PORTS_KEY, itemPorts);
+        nbt.put(POWER_PORTS_KEY, powerPorts);
 
         fuelTank.toNbt(nbt, "FuelTank");
         wasteTank.toNbt(nbt, "WasteTank");

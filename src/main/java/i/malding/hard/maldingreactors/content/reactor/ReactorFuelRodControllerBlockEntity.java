@@ -3,6 +3,8 @@ package i.malding.hard.maldingreactors.content.reactor;
 import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import i.malding.hard.maldingreactors.content.handlers.ReactorFuelRodControllerScreenHandler;
 import io.wispforest.owo.nbt.NbtKey;
+import io.wispforest.owo.serialization.Endec;
+import io.wispforest.owo.serialization.impl.KeyedEndec;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -16,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity implements NamedScreenHandlerFactory {
 
-    public static final NbtKey<Integer> REACTION_RATE_KEY = new NbtKey<>("ReactionRate", NbtKey.Type.INT);
+    public static final KeyedEndec<Integer> REACTION_RATE_KEY = Endec.INT.keyed("ReactionRate", 0);
 
     public int reactionRate = 0;
 

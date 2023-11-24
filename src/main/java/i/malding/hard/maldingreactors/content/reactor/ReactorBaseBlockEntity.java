@@ -2,6 +2,8 @@ package i.malding.hard.maldingreactors.content.reactor;
 
 import io.wispforest.owo.nbt.NbtKey;
 import io.wispforest.owo.ops.WorldOps;
+import io.wispforest.owo.serialization.Endec;
+import io.wispforest.owo.serialization.impl.KeyedEndec;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -17,7 +19,7 @@ public class ReactorBaseBlockEntity extends BlockEntity {
 
     public BlockPos controllerPos = null;
 
-    public static final NbtKey<Long> CONTROLLER_POS_KEY = new NbtKey<>("ControllerPos", NbtKey.Type.LONG);
+    public static final KeyedEndec<Long> CONTROLLER_POS_KEY = Endec.LONG.keyed("ControllerPos", 0L);
 
     public ReactorBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);

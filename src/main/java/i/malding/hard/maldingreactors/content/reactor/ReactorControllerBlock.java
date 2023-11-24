@@ -17,6 +17,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class ReactorControllerBlock extends ReactorSingleFaceBlock {
@@ -35,11 +37,11 @@ public class ReactorControllerBlock extends ReactorSingleFaceBlock {
             boolean isMultipart = controllerBlockEntity.getValidator().validateReactor(state);
 
             if(isMultipart){
-                controllerBlockEntity.rodControllers = Set.copyOf(validator.rodControllers);
-                controllerBlockEntity.fuelRods = Set.copyOf(validator.fuelRods);
+                controllerBlockEntity.rodControllers = new ArrayList<>(validator.rodControllers);
+                controllerBlockEntity.fuelRods = new ArrayList<>(validator.fuelRods);
 
-                controllerBlockEntity.itemPorts = Set.copyOf(validator.itemPorts);
-                controllerBlockEntity.powerPorts = Set.copyOf(validator.powerPorts);
+                controllerBlockEntity.itemPorts = new ArrayList<>(validator.itemPorts);
+                controllerBlockEntity.powerPorts = new ArrayList<>(validator.powerPorts);
             } else {
                 controllerBlockEntity.rodControllers.clear();
                 controllerBlockEntity.fuelRods.clear();

@@ -6,7 +6,7 @@ import i.malding.hard.maldingreactors.client.ui.screen.ReactorScreen;
 import i.malding.hard.maldingreactors.content.MaldingBlocks;
 import i.malding.hard.maldingreactors.content.MaldingFluids;
 import i.malding.hard.maldingreactors.content.handlers.MaldingScreenHandlers;
-import me.alphamode.star.client.renderers.UpsideDownFluidRenderer;
+//import me.alphamode.star.client.renderers.UpsideDownFluidRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -22,8 +22,8 @@ public class MaldingReactorsClient implements ClientModInitializer {
     public void onInitializeClient() {
         registerScreens();
 
-        FluidRenderHandlerRegistry.INSTANCE.register(MaldingFluids.COOLANT.still(), MaldingFluids.COOLANT.flowing(), new UpsideDownFluidRenderer(0x00FFFF));
-        FluidRenderHandlerRegistry.INSTANCE.register(MaldingFluids.STEAM.still(), MaldingFluids.STEAM.flowing(), new UpsideDownFluidRenderer(0xFFFFFF));
+        FluidRenderHandlerRegistry.INSTANCE.register(MaldingFluids.COOLANT.still(), MaldingFluids.COOLANT.flowing(), SimpleFluidRenderHandler.coloredWater(0x00FFFF) /*new UpsideDownFluidRenderer(0x00FFFF)*/);
+        FluidRenderHandlerRegistry.INSTANCE.register(MaldingFluids.STEAM.still(), MaldingFluids.STEAM.flowing(), SimpleFluidRenderHandler.coloredWater(0xFFFFFF) /*new UpsideDownFluidRenderer(0xFFFFFF)*/);
 
         FluidRenderHandlerRegistry.INSTANCE.register(MaldingFluids.COPIUM.still(), MaldingFluids.COPIUM.flowing(), SimpleFluidRenderHandler.coloredWater(0x921c36));
         FluidRenderHandlerRegistry.INSTANCE.register(MaldingFluids.MALDING_COPIUM.still(), MaldingFluids.MALDING_COPIUM.flowing(), SimpleFluidRenderHandler.coloredWater(0x49396d));

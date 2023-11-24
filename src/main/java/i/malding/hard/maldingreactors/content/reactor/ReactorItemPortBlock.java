@@ -4,7 +4,7 @@ import i.malding.hard.maldingreactors.content.MaldingBlockEntities;
 import i.malding.hard.maldingreactors.content.MaldingFluids;
 import i.malding.hard.maldingreactors.content.MaldingItems;
 import i.malding.hard.maldingreactors.data.MaldingTags;
-import me.alphamode.star.transfer.FluidTank;
+import i.malding.hard.maldingreactors.content.fluids.FluidTank;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
