@@ -16,17 +16,17 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "i.malding.hard.maldingreactors.client.MaldingReactorsClient"
+      "im.malding.maldingreactors.client.MaldingReactorsClient"
     ],
     "main": [
-      "i.malding.hard.maldingreactors.MaldingReactors"
+      "im.malding.maldingreactors.MaldingReactors"
     ],
     "fabric-datagen": [
-        "i.malding.hard.maldingreactors.data.gen.MaldingDataGenerator"
+      "im.malding.maldingreactors.data.gen.MaldingDataGenerator"
     ]
   },
   "mixins": [
-    "malding_reactors.mixins.json"
+    "malding-reactors.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.14.22",
