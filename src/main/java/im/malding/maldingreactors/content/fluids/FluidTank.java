@@ -16,10 +16,27 @@ public class FluidTank extends SingleVariantStorage<FluidVariant> {
 
     public static final String DEFAULT_KEY = "tank";
 
-    private final long capacity;
+    private long capacity;
+
+    private Runnable onCommitAction = () -> {};
+
+    public FluidTank(long capacity, Runnable onCommitAction) {
+        this(capacity);
+
+        this.onCommitAction = onCommitAction;
+    }
 
     public FluidTank(long capacity) {
         this.capacity = capacity;
+    }
+
+    public FluidTank adjustCapacity(long newCapacity, boolean reduceAmount){
+        if(reduceAmount) this.amount = Math.min(newCapacity, amount);
+        this.capacity = newCapacity;
+
+        this.onCommitAction.run();
+
+        return this;
     }
 
     @Override
@@ -28,7 +45,12 @@ public class FluidTank extends SingleVariantStorage<FluidVariant> {
     }
 
     @Override
-    protected long getCapacity(FluidVariant variant) {
+    public long getCapacity(FluidVariant variant) {
+        return getCapacity();
+    }
+
+    @Override
+    public long getCapacity() {
         return capacity;
     }
 
@@ -46,5 +68,10 @@ public class FluidTank extends SingleVariantStorage<FluidVariant> {
 
         variant = tank.get(FLUID_VARIANT_KEY);
         amount = tank.get(AMOUNT_KEY);
+    }
+
+    @Override
+    protected void onFinalCommit() {
+        onCommitAction.run();
     }
 }

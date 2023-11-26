@@ -1,17 +1,24 @@
 package im.malding.maldingreactors.content.reactor;
 
+import im.malding.maldingreactors.content.MaldingBlockEntities;
 import im.malding.maldingreactors.content.MaldingFluids;
 import im.malding.maldingreactors.content.MaldingItems;
 import im.malding.maldingreactors.data.MaldingTags;
 import im.malding.maldingreactors.content.fluids.FluidTank;
+import im.malding.maldingreactors.util.BlockEntityUtils;
+import im.malding.maldingreactors.util.GuiUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -36,12 +43,19 @@ public class ReactorItemPortBlock extends ReactorSingleFaceBlock {
 
             if (player.shouldCancelInteraction()) {
                 return extractWasteAmount(world, controllerPos, player);
-            } else {
-                return insertFuelAmount(world, portBlockEntity.getControllerPos(), player, hand);
             }
+            /*else {
+                return insertFuelAmount(world, portBlockEntity.getControllerPos(), player, hand);
+            }*/
         }
 
-        return ActionResult.PASS;
+        final var factory = state.createScreenHandlerFactory(world, pos);
+
+        if (player instanceof ServerPlayerEntity serverPlayer) {
+            GuiUtil.openGui(serverPlayer, factory, (buf -> buf.writeBlockPos(pos)));
+        }
+
+        return ActionResult.SUCCESS;
     }
 
     @Nullable
@@ -128,5 +142,14 @@ public class ReactorItemPortBlock extends ReactorSingleFaceBlock {
         }
 
         return ActionResult.SUCCESS;
+    }
+
+    public <T extends BlockEntity> BlockEntityType<T> getType() {
+        return (BlockEntityType<T>) MaldingBlockEntities.REACTOR_ITEM_PORT;
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return (BlockEntityTicker<T>) BlockEntityUtils.createBlockEntityTicker(this::getType, type);
     }
 }

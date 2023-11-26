@@ -10,8 +10,8 @@ import net.minecraft.screen.ScreenHandlerType;
 public class MaldingScreenHandlers implements AutoRegistryContainer<ScreenHandlerType<?>> {
 
     public static final ScreenHandlerType<ReactorScreenHandler> REACTOR_CONTROLLER = new ExtendedScreenHandlerType<>(ReactorScreenHandler::new);
-    public static final ScreenHandlerType<ReactorItemPortScreenHandler> REACTOR_ITEM_PORT = new ScreenHandlerType<>(ReactorItemPortScreenHandler::new, FeatureFlags.DEFAULT_ENABLED_FEATURES);
-    public static final ScreenHandlerType<ReactorFuelRodControllerScreenHandler> REACTOR_ROD_CONTROLLER = new ScreenHandlerType<>(ReactorFuelRodControllerScreenHandler::new, FeatureFlags.DEFAULT_ENABLED_FEATURES);
+    public static final ScreenHandlerType<ReactorItemPortScreenHandler> REACTOR_ITEM_PORT = new ExtendedScreenHandlerType<>(ReactorItemPortScreenHandler::new);
+    public static final ScreenHandlerType<ReactorFuelRodControllerScreenHandler> REACTOR_ROD_CONTROLLER = new ExtendedScreenHandlerType<>(ReactorFuelRodControllerScreenHandler::new);
 
     @Override
     public Registry<ScreenHandlerType<?>> getRegistry() {

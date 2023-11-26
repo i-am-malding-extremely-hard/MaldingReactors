@@ -11,6 +11,7 @@ import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.util.ScissorStack;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
@@ -57,7 +58,7 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
                                         ).child(
                                                 Containers.horizontalFlow(Sizing.fixed(30), Sizing.content())
                                                         .child(
-                                                                Components.label(Text.of("Off"))
+                                                                Components.label(Text.of(isReactorActive ? "On" : "Off"))
                                                                         .margins(Insets.vertical(5))
                                                                         .id("power_label")
                                                         )
@@ -91,6 +92,8 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
                         .surface(Surface.PANEL)
                         .padding(Insets.of(6))
         );
+
+        rootComponent.surface(Surface.VANILLA_TRANSLUCENT);
     }
 
     private final Set<Consumer<FlowLayout>> onTickHandlers = new HashSet<>();
@@ -101,8 +104,10 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
 
         onTickHandlers.forEach(consumer -> consumer.accept(rootComponent));
 
-        if(isReactorActive != handler.reactorControllerBlockEntity.isReactorActive()){
-            isReactorActive = handler.reactorControllerBlockEntity.isReactorActive();
+        var controller = handler.reactorControllerBlockEntity;
+
+        if(isReactorActive != controller.isReactorActive()){
+            isReactorActive = controller.isReactorActive();
 
             var label = rootComponent.childById(LabelComponent.class, "power_label");
 
@@ -130,21 +135,30 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
 
                     Color color;
 
-                    if(percentage > 66){
-                        color = Color.GREEN;
-                    } else if(percentage > 33){
-                        color = Color.ofDye(DyeColor.YELLOW);
+                    var yellow = Color.ofDye(DyeColor.YELLOW);
+
+                    if(percentage > 0.66){
+                        var delta = (float) ((percentage - 0.66) / 0.33f);
+
+                        color = Color.GREEN.interpolate(yellow, 1.0f - Math.min(delta, 1.0f));
+                    } else if(percentage > 0.33){
+                        var delta = (float) ((percentage - 0.33) / 0.33f);
+
+                        color = yellow.interpolate(Color.RED, 1.0f - Math.min(delta, 1.0f));
                     } else {
-                        color = Color.GREEN;
+                        color = Color.RED;
                     }
 
                     int offset = MathHelper.floor((component.width() - (percentage * component.width())));
 
-                    ScissorStack.push(component.x() + offset, component.y(), component.width(), component.height(), context.getMatrixStack());
+                    ScissorStack.push(component.x() + 1, component.y() + 1, component.width() - offset - 2, component.height() - 2, context.getMatrixStack());
 
-                    context.drawRectOutline(component.x(), component.y(), component.width(), component.height(), color.argb());
+                    context.drawRectOutline(component.x() + 1, component.y() + 1, component.width() - 2, component.height() - 2, color.argb());
+                    context.drawRectOutline(component.x() + 2, component.y() + 2, component.width() - 4, component.height() - 4, color.argb());
 
                     ScissorStack.pop();
-                });
+
+                    context.drawRectOutline(component.x(), component.y(), component.width(), component.height(), Color.BLACK.argb());
+                }).padding(Insets.of(4));
     }
 }

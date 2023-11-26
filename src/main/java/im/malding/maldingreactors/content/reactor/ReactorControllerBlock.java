@@ -1,8 +1,9 @@
 package im.malding.maldingreactors.content.reactor;
 
 import im.malding.maldingreactors.content.MaldingBlockEntities;
+import im.malding.maldingreactors.util.BlockEntityUtils;
 import im.malding.maldingreactors.util.GuiUtil;
-import im.malding.maldingreactors.util.ReactorValidator;
+import im.malding.maldingreactors.content.logic.ReactorValidator;
 import io.wispforest.owo.network.ClientAccess;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -31,7 +32,7 @@ public class ReactorControllerBlock extends ReactorSingleFaceBlock {
         if (!world.isClient && hand == Hand.MAIN_HAND && !controllerBlockEntity.isValid()) {
             ReactorValidator validator = controllerBlockEntity.getValidator();
 
-            boolean isMultipart = controllerBlockEntity.getValidator().validateReactor(state);
+            boolean isMultipart = validator.validateReactor(state);
 
             if(isMultipart){
                 controllerBlockEntity.rodControllers = new ArrayList<>(validator.rodControllers);
@@ -66,15 +67,7 @@ public class ReactorControllerBlock extends ReactorSingleFaceBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if(getType() != type) return null;
-
-        return ((world1, pos, state1, blockEntity) -> {
-            if (world1.isClient) {
-                ((ReactorControllerBlockEntity) blockEntity).clientTick();
-            } else {
-                ((ReactorControllerBlockEntity) blockEntity).serverTick();
-            }
-        });
+        return (BlockEntityTicker<T>) BlockEntityUtils.createBlockEntityTicker(this::getType, type);
     }
 
     public record MultiBlockUpdatePacket(BlockPos pos, boolean isMultiPart) {

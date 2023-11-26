@@ -4,10 +4,12 @@ import im.malding.maldingreactors.content.MaldingBlockEntities;
 import im.malding.maldingreactors.content.handlers.ReactorFuelRodControllerScreenHandler;
 import io.wispforest.owo.serialization.Endec;
 import io.wispforest.owo.serialization.impl.KeyedEndec;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -23,6 +25,12 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity 
 
     public ReactorFuelRodControllerBlockEntity(BlockPos pos, BlockState state) {
         super(MaldingBlockEntities.REACTOR_FUEL_ROD_CONTROLLER, pos, state);
+    }
+
+    public void setReactionRate(int reactionRate){
+        this.reactionRate = reactionRate;
+
+        this.markDirty();
     }
 
     @Override
@@ -47,7 +55,9 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity 
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new ReactorFuelRodControllerScreenHandler(syncId, ScreenHandlerContext.create(this.world, this.pos));
+        PacketByteBuf openingData = PacketByteBufs.create();
+        openingData.writeBlockPos(pos);
+        return new ReactorFuelRodControllerScreenHandler(syncId, ScreenHandlerContext.create(this.world, this.pos), player.getInventory(), openingData);
     }
 
     //-------------------------------------------------------------------------------

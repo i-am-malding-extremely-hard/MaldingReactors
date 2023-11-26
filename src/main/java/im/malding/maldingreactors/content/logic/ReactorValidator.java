@@ -1,4 +1,4 @@
-package im.malding.maldingreactors.util;
+package im.malding.maldingreactors.content.logic;
 
 import im.malding.maldingreactors.content.MaldingBlocks;
 import im.malding.maldingreactors.content.reactor.ReactorBaseBlockEntity;
@@ -24,8 +24,7 @@ public class ReactorValidator {
     public final BlockPos controllerPos;
     public final World world;
 
-    @Nullable
-    private BlockBox bounds;
+    public BlockBox bounds = null;
 
     public Set<BlockPos> rodControllers = new HashSet<>();
     public Set<BlockPos> fuelRods = new HashSet<>();
@@ -39,6 +38,14 @@ public class ReactorValidator {
     }
 
     public boolean validateReactor(BlockState controllerState) {
+        this.rodControllers.clear();
+        this.fuelRods.clear();
+
+        this.itemPorts.clear();
+        this.powerPorts.clear();
+
+        this.bounds = null;
+
         Direction facing = controllerState.get(Properties.FACING);
         BlockPos.Mutable pos = new BlockPos.Mutable(controllerPos.getX(), controllerPos.getY(), controllerPos.getZ());
 
@@ -87,11 +94,11 @@ public class ReactorValidator {
         if(FabricLoader.getInstance().isDevelopmentEnvironment()) {
             bounds.forEachVertex(blockPos -> {
                 System.out.println(blockPos);
-                world.setBlockState(blockPos, Blocks.REDSTONE_BLOCK.getDefaultState());
+                this.world.setBlockState(blockPos, Blocks.REDSTONE_BLOCK.getDefaultState());
             });
 
-            world.setBlockState(new BlockPos(bounds.getMinX(), bounds.getMinY(), bounds.getMinZ()), Blocks.GOLD_BLOCK.getDefaultState());
-            world.setBlockState(new BlockPos(bounds.getMaxX(), bounds.getMaxY(), bounds.getMaxZ()), Blocks.DIAMOND_BLOCK.getDefaultState());
+            this.world.setBlockState(new BlockPos(bounds.getMinX(), bounds.getMinY(), bounds.getMinZ()), Blocks.GOLD_BLOCK.getDefaultState());
+            this.world.setBlockState(new BlockPos(bounds.getMaxX(), bounds.getMaxY(), bounds.getMaxZ()), Blocks.DIAMOND_BLOCK.getDefaultState());
         }
 
         return true;
@@ -106,7 +113,7 @@ public class ReactorValidator {
     private int findDirectionalBound(BlockPos startingPos, Direction direction) {
         BlockPos.Mutable endPos = startingPos.mutableCopy();
 
-        while(isReactorBlock(world.getBlockState(endPos.move(direction))));
+        while(isReactorBlock(this.world.getBlockState(endPos.move(direction))));
 
         int diff = switch (direction.getAxis()){
             case X -> endPos.getX() - startingPos.getX();
@@ -146,8 +153,8 @@ public class ReactorValidator {
             for (int b = 0; b < maxB; b++) {
                 //Checks if we are on the perimeter of the square
                 boolean valid = (a == 0 || b == 0 || a == (maxA - 1) || b == (maxB - 1))
-                        ? isCasing(pos, world.getBlockState(pos))
-                        : isReactorBlock(pos, world.getBlockState(pos));
+                        ? isCasing(pos, this.world.getBlockState(pos))
+                        : isReactorBlock(pos, this.world.getBlockState(pos));
 
                 if(!valid) return false;
 
@@ -169,7 +176,7 @@ public class ReactorValidator {
             for (int i = 1; i <= allowedRodHeight; i++) {
                 BlockPos possibleRod = rodControllerPos.down(i);
 
-                if(!isFuelRod(possibleRod, world.getBlockState(possibleRod))) return false;
+                if(!isFuelRod(possibleRod, this.world.getBlockState(possibleRod))) return false;
             }
         }
 
@@ -184,7 +191,7 @@ public class ReactorValidator {
             return state.isOf(Blocks.REDSTONE_BLOCK) || state.isOf(Blocks.GOLD_BLOCK) || state.isOf(Blocks.DIAMOND_BLOCK) || state.isOf(Blocks.ANCIENT_DEBRIS);
         }
 
-        if (pos != null) ((ReactorBaseBlockEntity) world.getBlockEntity(pos)).setControllerPos(this.controllerPos);
+        if (pos != null) ((ReactorBaseBlockEntity) this.world.getBlockEntity(pos)).setControllerPos(this.controllerPos);
 
         return true;
     }
@@ -202,15 +209,17 @@ public class ReactorValidator {
             //Check if the block is somehow a second controller block
             if (state.isOf(MaldingBlocks.REACTOR_CONTROLLER) && !compareBlockPos(pos, this.controllerPos)) return false;
 
+            var copy = pos.toImmutable();
+
             if (state.isOf(MaldingBlocks.REACTOR_FUEL_ROD_CONTROLLER)) {
-                this.rodControllers.add(pos.toImmutable());
+                this.rodControllers.add(copy);
             } else if(state.isOf(MaldingBlocks.REACTOR_ITEM_PORT)){
-                this.itemPorts.add(pos);
+                this.itemPorts.add(copy);
             } else if(state.isOf(MaldingBlocks.REACTOR_POWER_PORT)){
-                this.powerPorts.add(pos);
+                this.powerPorts.add(copy);
             }
 
-            ((ReactorBaseBlockEntity) world.getBlockEntity(pos)).setControllerPos(this.controllerPos);
+            ((ReactorBaseBlockEntity) this.world.getBlockEntity(pos)).setControllerPos(this.controllerPos);
         }
 
         return true;
@@ -222,7 +231,7 @@ public class ReactorValidator {
         if(isFuelRod){
             this.fuelRods.add(pos);
 
-            ((ReactorBaseBlockEntity) world.getBlockEntity(pos)).setControllerPos(this.controllerPos);
+            ((ReactorBaseBlockEntity) this.world.getBlockEntity(pos)).setControllerPos(this.controllerPos);
         }
 
         return isFuelRod;

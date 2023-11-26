@@ -28,6 +28,10 @@ public class ReactorPowerPortBlockEntity extends ReactorBaseBlockEntity implemen
         ReactorControllerBlockEntity controller = this.getController();
 
         if (controller != null) {
+            transaction.addCloseCallback((transaction1, result) -> {
+                if (result.wasCommitted()) controller.markDirty();
+            });
+
             return controller.energyStorage.extract(maxAmount, transaction);
         }
 
@@ -38,9 +42,7 @@ public class ReactorPowerPortBlockEntity extends ReactorBaseBlockEntity implemen
     public long getAmount() {
         ReactorControllerBlockEntity controller = this.getController();
 
-        if (controller != null) {
-            return controller.energyStorage.getAmount();
-        }
+        if (controller != null) return controller.energyStorage.getAmount();
 
         return 0;
     }
@@ -49,9 +51,7 @@ public class ReactorPowerPortBlockEntity extends ReactorBaseBlockEntity implemen
     public long getCapacity() {
         ReactorControllerBlockEntity controller = this.getController();
 
-        if (controller != null) {
-            return controller.energyStorage.getCapacity();
-        }
+        if (controller != null) return controller.energyStorage.getCapacity();
 
         return 0;
     }
