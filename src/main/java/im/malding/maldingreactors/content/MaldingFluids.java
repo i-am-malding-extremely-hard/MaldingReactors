@@ -5,8 +5,9 @@ import im.malding.maldingreactors.content.fluids.CoolantFluid;
 import im.malding.maldingreactors.content.fluids.CopiumFluid;
 import im.malding.maldingreactors.content.fluids.MaldingCopiumFluid;
 import im.malding.maldingreactors.content.fluids.SteamFluid;
-import im.malding.maldingreactors.util.FluidInfo;
+import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
+import me.alphamode.star.registry.FluidInfo;
 
 import java.lang.reflect.Field;
 
@@ -25,6 +26,6 @@ public class MaldingFluids implements SimpleFieldProcessingSubject<FluidInfo> {
 
     @Override
     public void processField(FluidInfo value, String identifier, Field field) {
-        value.register(MaldingReactors.id(identifier));
+        value.register(MaldingReactors.id(identifier), new OwoItemSettings().group(MaldingReactors.GROUP));
     }
 }

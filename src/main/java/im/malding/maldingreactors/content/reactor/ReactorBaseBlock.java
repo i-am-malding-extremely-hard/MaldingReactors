@@ -1,6 +1,7 @@
 package im.malding.maldingreactors.content.reactor;
 
 import com.mojang.logging.LogUtils;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -26,6 +27,11 @@ public class ReactorBaseBlock extends BlockWithEntity {
 
         this.renderType = type;
         this.factory = factory;
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return null;
     }
 
     @Override

@@ -14,6 +14,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.intprovider.ConstantIntProvider;
 
 import java.lang.reflect.Field;
 
@@ -32,7 +33,7 @@ public class MaldingBlocks implements BlockRegistryContainer {
     public static final Block REACTOR_POWER_PORT = new ReactorPowerPortBlock(FabricBlockSettings.copy(Blocks.IRON_BLOCK));
 
     @Tab(1)
-    public static final Block COPIUM_ORE = new ExperienceDroppingBlock(FabricBlockSettings.copy(Blocks.IRON_ORE));
+    public static final Block COPIUM_ORE = new ExperienceDroppingBlock(ConstantIntProvider.create(0), FabricBlockSettings.copy(Blocks.IRON_ORE));
 
     //---------------------------------------------------------------------------------
 

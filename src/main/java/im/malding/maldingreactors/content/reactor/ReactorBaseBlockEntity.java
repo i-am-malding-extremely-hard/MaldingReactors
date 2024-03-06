@@ -2,7 +2,7 @@ package im.malding.maldingreactors.content.reactor;
 
 import io.wispforest.owo.ops.WorldOps;
 import io.wispforest.owo.serialization.Endec;
-import io.wispforest.owo.serialization.impl.KeyedEndec;
+import io.wispforest.owo.serialization.endec.KeyedEndec;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;

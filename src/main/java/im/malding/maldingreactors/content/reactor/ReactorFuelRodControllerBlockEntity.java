@@ -3,7 +3,7 @@ package im.malding.maldingreactors.content.reactor;
 import im.malding.maldingreactors.content.MaldingBlockEntities;
 import im.malding.maldingreactors.content.handlers.ReactorFuelRodControllerScreenHandler;
 import io.wispforest.owo.serialization.Endec;
-import io.wispforest.owo.serialization.impl.KeyedEndec;
+import io.wispforest.owo.serialization.endec.KeyedEndec;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

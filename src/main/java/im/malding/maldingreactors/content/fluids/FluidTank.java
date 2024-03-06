@@ -2,7 +2,7 @@ package im.malding.maldingreactors.content.fluids;
 
 import im.malding.maldingreactors.util.TransferAPIEndecs;
 import io.wispforest.owo.serialization.Endec;
-import io.wispforest.owo.serialization.impl.KeyedEndec;
+import io.wispforest.owo.serialization.endec.KeyedEndec;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.nbt.NbtCompound;

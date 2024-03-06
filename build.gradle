@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.4-SNAPSHOT'
+    id 'fabric-loom' version '1.5-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -30,7 +30,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     modImplementation "io.wispforest:owo-lib:${project.owo_version}"
-    //modImplementation "me.alphamode:Star:${project.star_version}"
+    modImplementation "me.alphamode:Star:${project.star_version}"
 
     include modApi("teamreborn:energy:${project.energy_version}") {
         exclude(group: "net.fabricmc.fabric-api")
@@ -41,9 +41,6 @@ dependencies {
     modLocalRuntime("maven.modrinth:lithium:${project.lithium}")
     //modLocalRuntime ("maven.modrinth:sodium:${project.sodium}")
     modImplementation modLocalRuntime('org.joml:joml:1.10.2')
-    modLocalRuntime("maven.modrinth:starlight:${project.starlight}")
-
-    modLocalRuntime("maven.modrinth:lazydfu:${project.lazydfu}")
 }
 
 sourceSets {

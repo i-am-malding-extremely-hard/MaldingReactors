@@ -19,7 +19,7 @@ public class MaldingButton extends ButtonWidget {
     }
 
     @Override
-    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         final int u = 64;
         int v = this.isHovered() ? 132 : 112;
         if (this.pressed) v = 152;

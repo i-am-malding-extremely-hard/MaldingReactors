@@ -3,13 +3,13 @@ package im.malding.maldingreactors.content.reactor;
 import im.malding.maldingreactors.content.MaldingBlockEntities;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.GlassBlock;
+import net.minecraft.block.TranslucentBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ReactorGlassBlock extends GlassBlock implements BlockEntityProvider {
+public class ReactorGlassBlock extends TranslucentBlock implements BlockEntityProvider {
 
     public ReactorGlassBlock(Settings settings) {
         super(settings);

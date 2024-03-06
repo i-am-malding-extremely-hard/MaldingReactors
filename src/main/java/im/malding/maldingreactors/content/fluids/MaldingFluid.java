@@ -1,57 +1,23 @@
 package im.malding.maldingreactors.content.fluids;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.fluid.FlowableFluid;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.util.math.BlockPos;
+import me.alphamode.star.world.fluids.StarFluid;
+import net.minecraft.entity.Entity;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
 
-public abstract class MaldingFluid extends FlowableFluid {
-    @Override
-    public boolean matchesType(Fluid fluid) {
-        return fluid == getStill() || fluid == getFlowing();
+public abstract class MaldingFluid extends StarFluid {
+    public MaldingFluid() {
+        super(Direction.DOWN);
     }
 
     @Override
-    protected boolean isInfinite(World world) {
-        return false;
+    public ParticleEffect getBubbleParticle(Entity entity) {
+        return ParticleTypes.BUBBLE;
     }
 
     @Override
-    protected void beforeBreakingBlock(WorldAccess world, BlockPos pos, BlockState state) {
-        final BlockEntity blockEntity = state.hasBlockEntity() ? world.getBlockEntity(pos) : null;
-        Block.dropStacks(state, world, pos, blockEntity);
-    }
-
-    @Override
-    protected boolean canBeReplacedWith(FluidState fluidState, BlockView blockView, BlockPos blockPos, Fluid fluid, Direction direction) {
-        return false;
-    }
-
-    @Override
-    protected int getFlowSpeed(WorldView worldView) {
-        return 4;
-    }
-
-    @Override
-    protected int getLevelDecreasePerBlock(WorldView worldView) {
-        return 1;
-    }
-
-    @Override
-    public int getTickRate(WorldView worldView) {
-        return 5;
-    }
-
-    @Override
-    protected float getBlastResistance() {
-        return 100.0F;
+    public ParticleEffect getSplashParticle(Entity entity) {
+        return ParticleTypes.SPLASH;
     }
 }
