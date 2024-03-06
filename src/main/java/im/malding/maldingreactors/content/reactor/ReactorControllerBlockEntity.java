@@ -155,38 +155,38 @@ public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity impleme
             simulation.tick();
         }
 
-        if (isReactorActive) {
-            float totalRodAbsorptionRate = 0f;
-
-            int totalReatorRods = 0;
-            int totalReactorControlRods = 0;
-
-            for (BlockPos rodControllerPos : rodControllers) {
-                Optional<ReactorFuelRodControllerBlockEntity> possibleBlockEntity = world.getBlockEntity(rodControllerPos, MaldingBlockEntities.REACTOR_FUEL_ROD_CONTROLLER);
-
-                if(possibleBlockEntity.isEmpty()) continue;
-
-                ReactorFuelRodControllerBlockEntity rodController = possibleBlockEntity.get();
-
-                totalRodAbsorptionRate += rodController.reactionRate / 100f;
-
-                totalReactorControlRods++;
-            }
-
-            totalReatorRods += this.fuelRods.size();
-
-            long consumedFuel = convertFuelToWaste(MathHelper.floor(reactionRate * (totalRodAbsorptionRate / totalReactorControlRods)) * totalReatorRods);
-
-            if (consumedFuel != 0) {
-                long energyCreated = consumedFuel * energyConversionAmount;
-
-                try (Transaction t = Transaction.openOuter()) {
-                    energyStorage.insert(energyCreated, t);
-
-                    t.commit();
-                }
-            }
-        }
+//        if (isReactorActive) {
+//            float totalRodAbsorptionRate = 0f;
+//
+//            int totalReatorRods = 0;
+//            int totalReactorControlRods = 0;
+//
+//            for (BlockPos rodControllerPos : rodControllers) {
+//                Optional<ReactorFuelRodControllerBlockEntity> possibleBlockEntity = world.getBlockEntity(rodControllerPos, MaldingBlockEntities.REACTOR_FUEL_ROD_CONTROLLER);
+//
+//                if(possibleBlockEntity.isEmpty()) continue;
+//
+//                ReactorFuelRodControllerBlockEntity rodController = possibleBlockEntity.get();
+//
+//                totalRodAbsorptionRate += rodController.reactionRate / 100f;
+//
+//                totalReactorControlRods++;
+//            }
+//
+//            totalReatorRods += this.fuelRods.size();
+//
+//            long consumedFuel = convertFuelToWaste(MathHelper.floor(reactionRate * (totalRodAbsorptionRate / totalReactorControlRods)) * totalReatorRods);
+//
+//            if (consumedFuel != 0) {
+//                long energyCreated = consumedFuel * energyConversionAmount;
+//
+//                try (Transaction t = Transaction.openOuter()) {
+//                    energyStorage.insert(energyCreated, t);
+//
+//                    t.commit();
+//                }
+//            }
+//        }
     }
 
     public long convertFuelToWaste(int maxFuelConsumption) {
@@ -242,6 +242,10 @@ public class ReactorControllerBlockEntity extends ReactorBaseBlockEntity impleme
 
     public ReactorValidator getValidator() {
         return this.validator;
+    }
+
+    public ReactorSimulation getSimulation() {
+        return this.simulation;
     }
 
     public void setRodControllers(List<BlockPos> reactorRods) {

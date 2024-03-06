@@ -21,7 +21,7 @@ public class ReactorFuelRodControllerBlockEntity extends ReactorBaseBlockEntity 
 
     public static final KeyedEndec<Integer> REACTION_RATE_KEY = Endec.INT.keyed("ReactionRate", 0);
 
-    public int reactionRate = 0;
+    public int reactionRate = 100;
 
     public ReactorFuelRodControllerBlockEntity(BlockPos pos, BlockState state) {
         super(MaldingBlockEntities.REACTOR_FUEL_ROD_CONTROLLER, pos, state);

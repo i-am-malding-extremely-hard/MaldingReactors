@@ -17,7 +17,7 @@ public class MaldingBlockEntities implements AutoRegistryContainer<BlockEntityTy
     public static final BlockEntityType<ReactorItemPortBlockEntity> REACTOR_ITEM_PORT = FabricBlockEntityTypeBuilder.create(ReactorItemPortBlockEntity::new, MaldingBlocks.REACTOR_ITEM_PORT).build();
     public static final BlockEntityType<ReactorPowerPortBlockEntity> REACTOR_POWER_PORT = FabricBlockEntityTypeBuilder.create(ReactorPowerPortBlockEntity::new, MaldingBlocks.REACTOR_POWER_PORT).build();
 
-    public static final BlockEntityType<ReactorBaseBlockEntity> REACTOR_FUEL_ROD = FabricBlockEntityTypeBuilder.create((pos, state) -> new ReactorBaseBlockEntity(MaldingBlockEntities.REACTOR_GLASS, pos, state), MaldingBlocks.REACTOR_FUEL_ROD).build();
+    public static final BlockEntityType<ReactorBaseBlockEntity> REACTOR_FUEL_ROD = FabricBlockEntityTypeBuilder.create((pos, state) -> new ReactorBaseBlockEntity(MaldingBlockEntities.REACTOR_FUEL_ROD, pos, state), MaldingBlocks.REACTOR_FUEL_ROD).build();
     public static final BlockEntityType<ReactorFuelRodControllerBlockEntity> REACTOR_FUEL_ROD_CONTROLLER = FabricBlockEntityTypeBuilder.create(ReactorFuelRodControllerBlockEntity::new, MaldingBlocks.REACTOR_FUEL_ROD_CONTROLLER).build();
 
 

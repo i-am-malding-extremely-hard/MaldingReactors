@@ -40,12 +40,16 @@ public class ReactorControllerBlock extends ReactorSingleFaceBlock {
 
                 controllerBlockEntity.itemPorts = new ArrayList<>(validator.itemPorts);
                 controllerBlockEntity.powerPorts = new ArrayList<>(validator.powerPorts);
+
+                controllerBlockEntity.reactorBounds = validator.bounds;
             } else {
                 controllerBlockEntity.rodControllers.clear();
                 controllerBlockEntity.fuelRods.clear();
 
                 controllerBlockEntity.itemPorts.clear();
                 controllerBlockEntity.powerPorts.clear();
+
+                controllerBlockEntity.reactorBounds = null;
             }
 
             controllerBlockEntity.setValid(isMultipart);

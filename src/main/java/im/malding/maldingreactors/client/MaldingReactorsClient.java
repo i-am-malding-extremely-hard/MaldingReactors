@@ -7,6 +7,7 @@ import im.malding.maldingreactors.content.MaldingBlocks;
 import im.malding.maldingreactors.content.MaldingFluids;
 import im.malding.maldingreactors.content.handlers.MaldingScreenHandlers;
 //import me.alphamode.star.client.renderers.UpsideDownFluidRenderer;
+import im.malding.maldingreactors.network.MaldingReactorNetworking;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

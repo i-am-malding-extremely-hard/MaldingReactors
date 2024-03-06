@@ -103,9 +103,9 @@ public class MediumPropertiesLoader extends JsonDataLoader implements Identifiab
         float reflectivity = deserializeFloatField(fundmentalProp,"reflectivity", errorHelper);
         float absorption = deserializeFloatField(fundmentalProp,"absorption", errorHelper);
         float conversion = deserializeFloatField(fundmentalProp,"conversion", errorHelper);
-        float emission = deserializeFloatField(fundmentalProp,"emission", errorHelper);
+//        float emission = deserializeFloatField(fundmentalProp,"emission", errorHelper);
 
-        return new FundamentalProperties(reflectivity, absorption, emission, conversion);
+        return new FundamentalProperties(reflectivity, absorption, conversion);
     }
 
     private float deserializeFloatField(JsonObject jsonObject, String fieldName, CascadeErrorLogger errorHelper){

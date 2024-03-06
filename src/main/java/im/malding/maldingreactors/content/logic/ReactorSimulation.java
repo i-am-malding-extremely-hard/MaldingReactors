@@ -3,122 +3,133 @@ package im.malding.maldingreactors.content.logic;
 import im.malding.maldingreactors.content.MaldingBlockEntities;
 import im.malding.maldingreactors.content.MediumProperties;
 import im.malding.maldingreactors.content.MediumRegistry;
+import im.malding.maldingreactors.content.reactor.ReactorBaseBlockEntity;
 import im.malding.maldingreactors.content.reactor.ReactorControllerBlockEntity;
+import im.malding.maldingreactors.content.reactor.ReactorFuelRodControllerBlockEntity;
+import im.malding.maldingreactors.util.BlockBoxUtils;
 import im.malding.maldingreactors.util.BlockEntityUtils;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.util.Util;
+import im.malding.maldingreactors.util.DirectionUtils;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.EightWayDirection;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 import org.apache.commons.lang3.mutable.MutableDouble;
+import org.apache.commons.lang3.mutable.MutableFloat;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
+@SuppressWarnings("UnstableApiUsage")
 public class ReactorSimulation {
-
-    public static final List<EightWayDirection> EIGHT_WAY_DIRECTIONS = new ArrayList<>(List.of(EightWayDirection.values()));
 
     public static final double BASE_GAMMA_RAY_ENERGY = 10.0;
     public static final double BASE_NEUTRON_ENERGY = 4.0;
 
-    public static final double DISTANCE_DECAY_PERCENTAGE = 0.01;
+    public static final double DISTANCE_DECAY_PERCENTAGE = 0.95;
 
-    public ReactorControllerBlockEntity blockEntity;
+    public ReactorControllerBlockEntity controller;
 
     public boolean isDirty = true;
 
-    public Map<BlockPos, MutableDouble> EM_STATE_LOOKUP = new HashMap<>();
-    public Map<BlockPos.Mutable, List<EMWave>> WAVES_LOOKUP = new HashMap<>();
+    public Map<BlockPos, MutableDouble> positionToHeatEnergy = new HashMap<>();
 
     public Set<EMWave> WAVES = new HashSet<>();
 
+    @Nullable
+    public HeatInformation currentInfo = new HeatInformation(0, 0, 0);
+
     public ReactorSimulation(ReactorControllerBlockEntity blockEntity){
-        this.blockEntity = blockEntity;
-
-        init();
-    }
-
-    public void init(){
-        if(blockEntity.reactorBounds == null) return;
-
-        blockEntity.reactorBounds.forEachVertex(blockPos -> {
-            //MATERIAL_STATE_LOOKUP.put(blockPos, new MaterialState(0.0));
-            EM_STATE_LOOKUP.put(blockPos, new MutableDouble(0.0));
-        });
+        this.controller = blockEntity;
     }
 
     public void tick(){
-        /*if(isDirty){
-            init();
+        if(!this.controller.isReactorActive()) return;
 
-            isDirty = false;
-        }*/
-
-        if(!this.blockEntity.isReactorActive()) return;
-
-        var world = this.blockEntity.getWorld();
+        var world = this.controller.getWorld();
 
         assert world != null;
 
+        if(this.controller.reactorBounds == null) return;
+
         Map<Vector2i, Integer> reactionRates = new HashMap<>();
 
-        getCollection(world, be -> be.rodControllers, MaldingBlockEntities.REACTOR_FUEL_ROD_CONTROLLER)
-                .forEach(fuelRodController -> {
-                    var pos = fuelRodController.getPos();
+        var fuelRodControllers = BlockEntityUtils.getCollection(world, this.controller, be -> be.rodControllers, MaldingBlockEntities.REACTOR_FUEL_ROD_CONTROLLER);
 
-                    reactionRates.put(new Vector2i(pos.getX(), pos.getZ()), fuelRodController.reactionRate);
-                });
+        for (var fuelRodController : fuelRodControllers) {
+            var pos = fuelRodController.getPos();
 
-        var fuelTank = this.blockEntity.getFuelTank();
+            reactionRates.put(new Vector2i(pos.getX(), pos.getZ()), fuelRodController.reactionRate);
+        }
+
+        var fuelTank = this.controller.getFuelTank();
 
         var fuelPercentage = MathHelper.clamp(fuelTank.amount / (double) fuelTank.getCapacity(), 0, 1);
 
         if(fuelPercentage != 0) {
-            getCollection(world, be -> be.fuelRods, MaldingBlockEntities.REACTOR_FUEL_ROD)
-                    .forEach(fuelRod -> {
-                        var pos = fuelRod.getPos();
+            double fuelConsumed = 0;
 
-                        var reactionRate = reactionRates.get(new Vector2i(pos.getX(), pos.getZ()));
+            var fuelRods = BlockEntityUtils.getCollection(world, this.controller, be -> be.fuelRods, MaldingBlockEntities.REACTOR_FUEL_ROD);
 
-                        if(reactionRate == 0) return;
+            for (var fuelRod : fuelRods) {
+                var pos = fuelRod.getPos();
 
-                        var amountOfGammaRays = MathHelper.floor(reactionRate * 4);
-                        var amountOfNeutrons = MathHelper.ceil(reactionRate * 8);
+                var reactionRate = reactionRates.get(new Vector2i(pos.getX(), pos.getZ()));
 
-                        getRandomDirections(world, amountOfGammaRays)
-                                .forEach(direction -> {
-                                    BlockPos.Mutable startPos = pos.mutableCopy();
+                if(reactionRate == 0) return;
 
-                                    direction.getDirections().forEach(startPos::offset);
+                var amountOfGammaRays = MathHelper.floor((reactionRate / 100f) * 4);
+                var amountOfNeutrons = MathHelper.ceil((reactionRate / 100f) * 8);
 
-                                    WAVES.add(new EMWave(startPos, direction, BASE_GAMMA_RAY_ENERGY * fuelPercentage, EMType.GAMMA_RAY));
-                                });
+                var random = world.getRandom();
 
-                        getRandomDirections(world, amountOfNeutrons)
-                                .forEach(direction -> {
-                                    BlockPos.Mutable startPos = pos.mutableCopy();
+                float energyToDroplets = 0.25f;
 
-                                    direction.getDirections().forEach(startPos::offset);
+                double totalEnergyEmitted = 0;
 
-                                    WAVES.add(new EMWave(startPos, direction, BASE_NEUTRON_ENERGY * fuelPercentage, EMType.NEUTRON));
-                                });
-                    });
+                for (var direction : DirectionUtils.getRandomDirections(random, amountOfGammaRays)) {
+                    BlockPos.Mutable startPos = pos.mutableCopy();
+
+                    direction.getDirections().forEach(startPos::offset);
+
+                    double energy = BASE_GAMMA_RAY_ENERGY * fuelPercentage;
+
+                    totalEnergyEmitted += energy;
+
+                    WAVES.add(new EMWave(startPos, direction, energy, EMType.GAMMA_RAY));
+                }
+
+                for (var direction : DirectionUtils.getRandomDirections(random, amountOfNeutrons)) {
+                    BlockPos.Mutable startPos = pos.mutableCopy();
+
+                    direction.getDirections().forEach(startPos::offset);
+
+                    double energy = BASE_NEUTRON_ENERGY * fuelPercentage;
+
+                    totalEnergyEmitted += energy;
+
+                    WAVES.add(new EMWave(startPos, direction, energy, EMType.NEUTRON));
+                }
+
+                fuelConsumed += totalEnergyEmitted * energyToDroplets;
+
+                positionToHeatEnergy.computeIfAbsent(pos, blockPos -> new MutableDouble(0))
+                        .add(totalEnergyEmitted * 0.40);
+            }
+
+            this.controller.convertFuelToWaste(MathHelper.ceil(fuelConsumed));
         }
+
+        // No action to perform if no waves exists.
+        if(WAVES.isEmpty()) return;
 
         // Action: Interact with the given position properties for the type
         for (EMWave wave : WAVES) {
             if(wave.lifeTime == 0 || wave.energy == 0) continue;
 
             var mediumProperties = mediumAtPosition(wave.position);
-            var state = EM_STATE_LOOKUP.get(wave.position);
+            var state = positionToHeatEnergy.computeIfAbsent(wave.position, blockPos -> new MutableDouble(0));
 
             if(wave.type() == EMType.GAMMA_RAY){
                 var fundamentalProp = mediumProperties.gammaRayProps;
@@ -129,17 +140,19 @@ public class ReactorSimulation {
                 var reflectChance = random.nextInt(101);
 
                 if(reflectChance < fundamentalProp.reflectivity() * 100){
-                    wave.direction = reflectedDirection(random, wave.direction);
+                    wave.direction = DirectionUtils.reflectedDirection(random, wave.direction);
                 }
                 //--
 
                 //--
                 var absorptionChance = random.nextInt(101);
 
-                if(absorptionChance < fundamentalProp.reflectivity() * 100){
-                    state.add(wave.energy * fundamentalProp.conversion());
+                if(absorptionChance < fundamentalProp.absorption() * 100){
+                    var collectedEnergy = wave.energy * fundamentalProp.conversion();
 
-                    wave.energy = 0;
+                    state.add(collectedEnergy);
+
+                    wave.energy -= collectedEnergy;
                 }
                 //--
             } else if(wave.type() == EMType.NEUTRON){
@@ -151,97 +164,97 @@ public class ReactorSimulation {
                 var reflectChance = random.nextInt(101);
 
                 if(reflectChance < fundamentalProp.reflectivity() * 100){
-                    wave.direction = reflectedDirection(random, wave.direction);
+                    wave.direction = DirectionUtils.reflectedDirection(random, wave.direction);
                 }
                 //--
 
                 //--
                 var absorptionChance = random.nextInt(101);
 
-                if(absorptionChance < fundamentalProp.reflectivity() * 100){
-                    state.add(wave.energy * fundamentalProp.conversion());
+                if(absorptionChance < fundamentalProp.absorption() * 100){
+                    var collectedEnergy = wave.energy * fundamentalProp.conversion();
 
-                    wave.energy = 0;
+                    state.add(collectedEnergy);
+
+                    wave.energy -= collectedEnergy;
                 }
                 //--
             } else {
-                state.add(wave.energy * mediumProperties.conductivity());
+                state.add(wave.energy);
 
                 wave.energy = 0;
             }
         }
 
-        WAVES.removeIf(emWave -> emWave.energy == 0);
+        WAVES.removeIf(emWave -> emWave.energy == 0 || !controller.reactorBounds.contains(emWave.position));
         //--
 
         // Condition: If energy level is above 0, or wasn't
         // Action: Then move in the direction of the given wave
 
-        WAVES.forEach(emWave -> {
-            emWave.direction.getDirections().forEach(emWave.position::offset);
+        for (EMWave emWave : WAVES) {
+            emWave.direction.getDirections().forEach(emWave.position::move);
             emWave.energy *= DISTANCE_DECAY_PERCENTAGE;
-        });
+
+            emWave.lifeTime += 1;
+        }
 
         //--
 
-        EM_STATE_LOOKUP.forEach((blockPos, mutableDouble) -> {
-            var energyAmount = mutableDouble.getValue();
+        for (var entry : positionToHeatEnergy.entrySet()) {
+            var energyState = entry.getValue();
 
-            for (EightWayDirection direction : EIGHT_WAY_DIRECTIONS) {
+            if(energyState.getValue() <= 0) return;
+
+            var random = world.getRandom();
+
+            //--
+            var blockPos = entry.getKey();
+
+            var materialProp = mediumAtPosition(blockPos);
+
+            var conductChance = random.nextInt(101);
+
+            if(conductChance > materialProp.conductivity() * 100) return;
+
+            for (EightWayDirection direction : DirectionUtils.EIGHT_WAY_DIRECTIONS) {
+                var conductedEnergy = energyState.getValue() * materialProp.conductivity();
+
+                energyState.subtract(conductedEnergy);
+
                 var position = blockPos.mutableCopy();
 
                 direction.getDirections().forEach(position::offset);
 
-                WAVES.add(new EMWave(position, direction, energyAmount / 8, EMType.HEAT));
+                WAVES.add(new EMWave(position, direction, conductedEnergy / 8, EMType.HEAT));
             }
+        }
 
-            mutableDouble.setValue(0);
+        MutableFloat collectedEnergy = new MutableFloat(0);
+
+        BlockBoxUtils.surfaceAreaAction(controller.reactorBounds, (pos, isEdge) -> {
+            if(isEdge) return;
+
+            for (EMWave wave : wavesAtPosition(pos)) {
+                if(wave.type != EMType.HEAT) continue;
+
+                collectedEnergy.add(wave.energy * 0.10);
+
+                wave.energy = 0;
+            }
         });
-    }
 
-    public EightWayDirection reflectedDirection(Random random, EightWayDirection direction){
-        int leftIndex = direction.ordinal() - 1;
-        int rightIndex = direction.ordinal() + 1;
+        try (Transaction t = Transaction.openOuter()) {
+            this.controller.getEnergyStorage().insert(MathHelper.ceil(collectedEnergy.getValue()), t);
 
-        if(leftIndex < 0) leftIndex = 7;
-        if(rightIndex > 7) leftIndex = 0;
-
-        var possibleDirections = new EightWayDirection[]{EIGHT_WAY_DIRECTIONS.get(leftIndex), direction, EIGHT_WAY_DIRECTIONS.get(rightIndex)};
-
-        return oppositeDirection(Util.getRandom(possibleDirections, random));
-    }
-
-    @Nullable
-    public EightWayDirection oppositeDirection(EightWayDirection direction){
-        Set<Direction> directions = new HashSet<>();
-
-        direction.getDirections().forEach(axisDir -> directions.add(axisDir.getOpposite()));
-
-        EightWayDirection oppositeDirection = null;
-
-        for (EightWayDirection dir : EIGHT_WAY_DIRECTIONS) {
-            if(dir.getDirections().equals(directions)) oppositeDirection = dir;
+            t.commit();
         }
 
-        return oppositeDirection;
-    }
-
-    public Set<EightWayDirection> getRandomDirections(World world, int amount){
-        Set<EightWayDirection> directions = new HashSet<>();
-
-        var random = world.random;
-
-        while (directions.size() < amount){
-            var direction = Util.getRandom(EightWayDirection.values(), random);
-
-            if (!directions.contains(direction)) directions.add(direction);
-        }
-
-        return directions;
+        currentInfo = new HeatInformation(totalReactorHeatEnergy(), averageReactorHeatEnergy(), highestReactorHeatEnergy());
     }
 
     public MediumProperties mediumAtPosition(BlockPos blockPos){
-        var state = this.blockEntity.getWorld().getBlockState(blockPos);
+        var state = this.controller.getWorld().getBlockState(blockPos);
 
         return MediumRegistry.getProperty(state.getBlock());
     }
@@ -256,8 +269,24 @@ public class ReactorSimulation {
         return waves;
     }
 
-    private <T extends BlockEntity> List<T> getCollection(World world, Function<ReactorControllerBlockEntity, Collection<BlockPos>> getter, BlockEntityType<T> type){
-        return BlockEntityUtils.getCollection(world, this.blockEntity, getter, type);
+    public double totalReactorHeatEnergy(){
+        double total = 0;
+
+        for (var value : this.positionToHeatEnergy.values()) total += value.getValue();
+
+        return total;
+    }
+
+    public double averageReactorHeatEnergy(){
+        return totalReactorHeatEnergy() / this.positionToHeatEnergy.size();
+    }
+
+    public double highestReactorHeatEnergy(){
+        double highestValue = 0;
+
+        for (var value : this.positionToHeatEnergy.values()) highestValue = Math.max(highestValue, value.getValue());
+
+        return highestValue;
     }
 
     public record MaterialState(double energyLevel){} //, double radiationLevel

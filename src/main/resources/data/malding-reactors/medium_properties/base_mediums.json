@@ -1,0 +1,54 @@
+{
+  "malding-reactors:gasses": {
+    "neutron": {
+      "reflectivity": 0.00,
+      "absorption": 0.01,
+      "conversion": 1.0
+    },
+    "gamma_ray":{
+      "reflectivity": 0.00,
+      "absorption": 0.001,
+      "conversion": 1.0
+    },
+    "conductivity": 0.05
+  },
+  "malding-reactors:average_neutron_absorber": {
+    "neutron": {
+      "reflectivity": 0.00,
+      "absorption": 0.80,
+      "conversion": 0.80
+    },
+    "gamma_ray":{
+      "reflectivity": 0.00,
+      "absorption": 0.01,
+      "conversion": 0.001
+    },
+    "conductivity": 0.05
+  },
+  "malding-reactors:heavy_metals": {
+    "neutron": {
+      "reflectivity": 0.00,
+      "absorption": 0.10,
+      "conversion": 0.65
+    },
+    "gamma_ray":{
+      "reflectivity": 0.00,
+      "absorption": 0.80,
+      "conversion": 0.80
+    },
+    "conductivity": 0.70
+  },
+  "malding-reactors:light_metals": {
+    "neutron": {
+      "reflectivity": 0.00,
+      "absorption": 0.10,
+      "conversion": 0.65
+    },
+    "gamma_ray":{
+      "reflectivity": 0.00,
+      "absorption": 0.80,
+      "conversion": 0.80
+    },
+    "conductivity": 0.80
+  }
+}
